@@ -1,14 +1,15 @@
-import { useState } from "react";
+import Header from "./components/Header/Header";
+import HomePage from "./pages/home/HomePage";
 import "./App.css";
 
 function App() {
-	const [count, setCount] = useState(0);
-
 	return (
 		<>
-			<p>Image-Gallery</p>
+			<Header />
+			<HomePage />
 		</>
 	);
 }
+59;
 
 export default App;
