@@ -1,0 +1,22 @@
+* {
+	box-sizing: border-box;
+}
+
+.image-gallery-container {
+	display: flex;
+	gap: 7px;
+	max-width: 100%;
+	div {
+		width: 100%;
+		li {
+			list-style-type: none;
+			border-radius: 7px;
+			overflow: hidden;
+			margin: 7px;
+			img {
+				width: 100%;
+				display: block;
+			}
+		}
+	}
+}

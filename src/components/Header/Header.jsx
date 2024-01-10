@@ -1,6 +1,7 @@
 import { CiSearch } from "react-icons/ci";
 import "./Header.scss";
 import NavBar from "../NavBar/NavBar";
+// import PagesLinks from "../../pages/PagesLinks";
 
 function Header() {
 	return (
@@ -19,6 +20,7 @@ function Header() {
 					</button>
 				</div>
 			</div>
+			{/* <PagesLinks /> */}
 		</header>
 	);
 }

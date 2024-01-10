@@ -33,8 +33,17 @@ export async function fetchCuratedImages() {
 	}
 }
 
-// export async function onDownloadImage(url) {
-// 	const response = await axios.get(url);
-// 	console.log(response);
-// 	const url = window.URL.createObjectURL(response);
-// }
+export async function onDownloadImage(imageSrc, downloadName = "my-image.jpeg") {
+	const response = await fetch(imageSrc);
+	const blobImage = await response.blob();
+	const href = URL.createObjectURL(blobImage);
+
+	const anchor = document.createElement("a");
+	anchor.href = href;
+	anchor.download = downloadName;
+
+	document.body.appendChild(anchor);
+	anchor.click();
+	document.body.removeChild(anchor);
+	URL.revokeObjectURL(href);
+}

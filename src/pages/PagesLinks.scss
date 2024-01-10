@@ -1,0 +1,26 @@
+* {
+	box-sizing: border-box;
+}
+
+.pages-links {
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 20px;
+	max-width: 75vw;
+	margin: 0 auto;
+
+	.link {
+		color: inherit;
+		text-decoration: none;
+		padding: 10px 20px;
+		margin-right: 15px;
+		border-radius: 20px;
+	}
+	.selected {
+		background-color: #333;
+		color: #fff;
+		text-decoration: none;
+	}
+}

@@ -1,15 +1,44 @@
-import Header from "./components/Header/Header";
-import HomePage from "./pages/home/HomePage";
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
+import HomePage from "./pages/homepage/HomePage";
+import VideosPage from "./pages/VideosPage";
+import LeaderBoardPage from "./pages/LeaderBoardPage";
+import ChallengesPage from "./pages/ChallengesPage";
 import "./App.css";
+import Layout from "./Layout";
+
+const router = createBrowserRouter(
+	createRoutesFromElements(
+		<>
+			<Route
+				path="/"
+				element={<Layout />}>
+				<Route
+					path=""
+					element={<HomePage />}
+				/>
+				<Route
+					path="/videos"
+					element={<VideosPage />}
+				/>
+				<Route
+					path="/leaderboard"
+					element={<LeaderBoardPage />}
+				/>
+				<Route
+					path="/challenges"
+					element={<ChallengesPage />}
+				/>
+			</Route>
+		</>
+	)
+);
 
 function App() {
 	return (
-		<>
-			<Header />
-			<HomePage />
-		</>
+		<main>
+			<RouterProvider router={router} />
+		</main>
 	);
 }
-59;
 
 export default App;
