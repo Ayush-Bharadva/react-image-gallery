@@ -3,61 +3,123 @@
 }
 li {
 	position: relative;
+	border-radius: 10px;
+	overflow: hidden;
 }
 
-.image-overlay {
+li img {
 	width: 100%;
-	height: 100%;
+	height: auto;
+	display: block;
+}
+
+.overlay {
 	position: absolute;
-	// z-index: 5;
-	// display: flex;
-	// flex-direction: column;
-	// justify-content: space-between;
-	background-color: rgba($color: #000, $alpha: 0.35);
-	transition: all 0.3s ease-in-out;
-	cursor: pointer;
 	top: 0;
 	right: 0;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-end;
 
-	.icon-group {
+	div {
 		display: flex;
-		justify-content: flex-end;
-		padding: 0.5rem;
-		gap: 7px;
-	}
-
-	.image-action {
-		position: absolute;
-		bottom: 0;
-		right: 0;
-		margin: 0 8px 8px 0;
-
-		.download-icon {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			gap: 5px;
-			font-size: 18px;
-			padding: 9px 18px;
-			background-color: #05a081;
-			color: #fff;
-			border-radius: 20px;
-			border: none;
-		}
-	}
-
-	.bookmark-icon {
-		display: block;
-		font-size: 18px;
-		padding: 8px;
-		border-radius: 8px;
-		border: none;
-	}
-	.heart-icon {
-		display: block;
-		font-size: 18px;
-		padding: 8px;
-		border-radius: 8px;
-		border: none;
 	}
 }
+
+// .download-icon {
+// 	display: flex;
+// 	justify-content: space-between;
+// 	align-items: center;
+// 	gap: 5px;
+// 	font-size: 18px;
+// 	padding: 9px 18px;
+// 	background-color: #05a081;
+// 	color: #fff;
+// 	border-radius: 20px;
+// 	border: none;
+// 	margin: 7px 7px 7px 0;
+// }
+
+// .bookmark-icon,
+// .heart-icon {
+// 	display: block;
+// 	font-size: 18px;
+// 	padding: 8px;
+// 	border-radius: 8px;
+// 	border: none;
+// 	margin: 7px 7px 7px 0;
+// }
+
+.download-icon,
+.bookmark-icon,
+.heart-icon {
+	display: block;
+	font-size: 18px;
+	border-radius: 8px;
+	border: none;
+	margin: 7px 7px 7px 0;
+	padding: 8px;
+}
+
+.download-icon {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 18px;
+	gap: 5px;
+	padding: 9px 18px;
+	background-color: #05a081;
+	color: #fff;
+}
+/////////////////////////////////////////////////////////////////
+// .image-container {
+// 	position: relative;
+// 	display: inline-block;
+// 	overflow: hidden;
+// 	border-radius: 15px;
+// }
+
+// .image-container img {
+// 	width: 100%;
+// 	height: auto;
+// 	display: block;
+// }
+
+// .overlay {
+// 	position: absolute;
+// 	top: 0;
+// 	right: 0;
+// 	left: 0;
+// 	bottom: 0;
+// 	background-color: rgba($color: #000, $alpha: 0.5);
+// 	color: #fff;
+// 	opacity: 0;
+// 	display: flex;
+// 	flex-direction: column;
+// 	justify-content: space-between;
+// 	align-items: flex-end;
+// 	padding: 10px;
+// 	transition: opacity 0.3s ease-in-out;
+// }
+
+// .overlay:hover {
+// 	opacity: 1;
+// }
+
+// .bookmark-icon,
+// .heart-icon,
+// .download-icon {
+// 	background-color: #3498db;
+// 	color: #fff;
+// 	padding: 5px 10px;
+// 	margin: 5px;
+// 	cursor: pointer;
+// 	border: none;
+// }
+
+// .download-button {
+// 	background-color: #27ae60;
+// }

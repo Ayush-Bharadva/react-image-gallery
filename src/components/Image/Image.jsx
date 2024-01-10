@@ -21,7 +21,8 @@ function Image({ imgSrc, altText, key }) {
 	const imageOverlay = (
 		<div
 			style={{ display: isHovered ? "block" : "none" }}
-			className="image-overlay">
+			className="image-overlay"
+		>
 			<div className="icon-group">
 				<button className="bookmark-icon">
 					<IoBookmarksOutline />
@@ -40,14 +41,26 @@ function Image({ imgSrc, altText, key }) {
 
 	return (
 		<li
+			className="image-container"
 			key={key}
 			onMouseEnter={onMouseEnter}
-			onMouseLeave={onMouseLeave}>
-			{isHovered && imageOverlay}
-			<img
-				src={imgSrc}
-				alt={altText}
-			/>
+			onMouseLeave={onMouseLeave}
+		>
+			{/* {isHovered && imageOverlay} */}
+			<img src={imgSrc} alt={altText} />
+			<div className="overlay">
+				<div>
+					<button className="bookmark-icon">
+						<IoBookmarksOutline />
+					</button>
+					<button className="heart-icon">
+						<FaRegHeart />
+					</button>
+				</div>
+				<button className="download-icon">
+					<FiDownload /> Download
+				</button>
+			</div>
 		</li>
 	);
 }

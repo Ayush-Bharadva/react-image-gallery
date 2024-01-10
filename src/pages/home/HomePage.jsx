@@ -16,9 +16,11 @@ function HomePage() {
 		if (!isLoading) {
 			try {
 				setIsLoading(true);
-				const { photos, next_page } = await fetchImagesData(nextPageUrl);
+				const { photos, next_page } = await fetchImagesData(
+					nextPageUrl
+				);
 				console.log(photos, next_page);
-				setImages(prevPhotos => [...prevPhotos, ...photos]);
+				setImages((prevPhotos) => [...prevPhotos, ...photos]);
 				setNextPageUrl(next_page);
 				setIsLoading(false);
 			} catch (error) {
@@ -38,17 +40,19 @@ function HomePage() {
 	};
 
 	return (
-		<div className="image-container">
+		<div className="main-container">
 			<InfiniteScroll
 				loadMore={fetchImages}
 				hasMore={hasMore}
-				loader={loader}>
+				loader={loader}
+			>
 				{images.length && (
 					<ul>
 						<Masonry
 							breakpointCols={breakPointts}
 							className="masonry-grid"
-							columnClassName="masonry-grid-column">
+							columnClassName="masonry-grid-column"
+						>
 							{images.map((image, index) => (
 								// <li key={`${image.id}-${index}`}>
 								<Image
