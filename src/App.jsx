@@ -3,8 +3,8 @@ import HomePage from "./pages/homepage/HomePage";
 import VideosPage from "./pages/VideosPage";
 import LeaderBoardPage from "./pages/LeaderBoardPage";
 import ChallengesPage from "./pages/ChallengesPage";
-import "./App.css";
 import Layout from "./Layout";
+import "./App.scss";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(

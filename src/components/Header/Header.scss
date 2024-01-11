@@ -36,20 +36,28 @@
 				height: 100%;
 				padding: 0 1.5rem;
 			}
-			input {
-				border: none;
-				outline: none;
-				font-size: 16px;
-				margin: 0 0.5rem;
-				width: 100%;
+			form {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
 				height: 100%;
-			}
-			.search-icon-btn {
-				font-size: 1.3rem;
-				background: none;
-				outline: none;
-				border: none;
-				padding: 0 0.5rem;
+				width: 100%;
+
+				input {
+					border: none;
+					outline: none;
+					font-size: 16px;
+					margin: 0 0.5rem;
+					width: 100%;
+					height: 100%;
+				}
+				.search-icon-btn {
+					font-size: 1.3rem;
+					background: none;
+					outline: none;
+					border: none;
+					padding: 0 0.5rem;
+				}
 			}
 		}
 	}
@@ -75,4 +83,12 @@ img {
 
 button {
 	cursor: pointer;
+}
+
+@media screen and (max-width: 760px) {
+	#sidebar-container {
+		.close-icon-btn {
+			display: block;
+		}
+	}
 }

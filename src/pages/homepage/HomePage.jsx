@@ -1,17 +1,33 @@
 import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 // import Masonry from "react-masonry-css";
-import { fetchImagesData } from "../../services/services";
-import Image from "../../components/Image/Image";
+import { computeColumnsFromWidth, fetchImagesData } from "../../services/services";
+// import Image from "../../components/Image/Image";
 import "./HomePage.scss";
 import ImageGallery from "../../components/ImageGallery";
+// computeColumnsFromWidth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 3);
 
-const imgUrl = "https://api.pexels.com/v1/search/?page=1&query=nature";
+const imgUrl = "https://api.pexels.com/v1/search/?page=1&query=nature&per_page=5";
 
 function HomePage() {
-	const [images, setImages] = useState({ column1: [], column2: [], column3: [] });
+	const [allFetchedImages, setAllFetchedImages] = useState([]);
+	// const [allImages, setAllImages] = useState({ column1: [], column2: [], column3: [] });
+	// const [allImages, setAllImages] = useState({});
 	const [nextPageUrl, setNextPageUrl] = useState(imgUrl);
 	const [isLoading, setIsLoading] = useState(false);
+	const [columns, setColumns] = useState(1);
+
+	const calculateColumns = () => {
+		// console.log("calc");
+		const windowWidth = window.innerWidth;
+		if (windowWidth >= 300 && windowWidth < 700) {
+			setColumns(1);
+		} else if (windowWidth >= 700 && windowWidth < 1100) {
+			setColumns(2);
+		} else {
+			setColumns(3);
+		}
+	};
 
 	const fetchImages = useCallback(async () => {
 		if (!isLoading) {
@@ -19,49 +35,38 @@ function HomePage() {
 				setIsLoading(true);
 				const { photos, next_page } = await fetchImagesData(nextPageUrl);
 				// console.log(photos, next_page);
-				const { column1, column2, column3 } = photos.reduce(
-					(ans, obj, index) => {
-						if (index % 3 === 0) {
-							ans.column1.push(obj);
-						} else if (index % 3 === 1) {
-							ans.column2.push(obj);
-						} else {
-							ans.column3.push(obj);
-						}
-						return ans;
-					},
-					{ column1: [], column2: [], column3: [] }
-				);
-				setImages(prev => ({ column1: [...prev.column1, ...column1], column2: [...prev.column2, ...column2], column3: [...prev.column3, ...column3] }));
+				setAllFetchedImages(prev => [...prev, ...photos]);
 				setNextPageUrl(next_page);
 				setIsLoading(false);
-
-				//divide images
 			} catch (error) {
 				throw new Error(error);
-				// console.log(error);
 			}
-			// insertImagesInColumns(images);
 		}
 	}, [isLoading, nextPageUrl]);
 
-	// console.log(images.length);
+	const computedImageColumns = computeColumnsFromWidth(allFetchedImages, columns);
+
+	useEffect(() => {
+		calculateColumns();
+		// console.log("effect");
+		window.addEventListener("resize", calculateColumns);
+	}, []);
+
 	const hasMore = !!nextPageUrl;
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
-	// const breakPoints = {
-	// 	default: 3,
-	// 	1100: 2,
-	// 	700: 1,
-	// };
-
 	return (
-		<div className="main-container">
+		<div className="home-container">
 			<InfiniteScroll
+				// key={Math.random.toString()}
 				loadMore={fetchImages}
 				hasMore={hasMore}
-				loader={loader}>
-				<ImageGallery allImages={images} />
+				loader={loader}
+				threshold={400}>
+				<ImageGallery
+					key={Math.random().toString}
+					allImages={computedImageColumns}
+				/>
 			</InfiniteScroll>
 		</div>
 	);
