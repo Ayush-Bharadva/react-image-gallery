@@ -1,4 +1,3 @@
-// import { useRef } from "react";
 import { PropTypes } from "prop-types";
 import { GiHamburgerMenu } from "react-icons/gi";
 import pexelsLogo from "../../assets/images/pexels-logo.jpg";

@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import "./ImageGallery.scss";
-import Image from "./Image/Image";
+import Image from "./Image";
 
 function ImageGallery({ allImages }) {
 	const { column1, column2, column3 } = allImages;

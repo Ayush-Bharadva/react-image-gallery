@@ -5,6 +5,8 @@ import LeaderBoardPage from "./pages/LeaderBoardPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import Layout from "./Layout";
 import "./App.scss";
+import SearchProvider from "./context/SearchProvider";
+import SearchPage from "./components/Common/SearchePage";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -29,6 +31,10 @@ const router = createBrowserRouter(
 					element={<ChallengesPage />}
 				/>
 			</Route>
+			<Route
+				path="search"
+				element={<SearchPage />}
+			/>
 		</>
 	)
 );
@@ -36,7 +42,9 @@ const router = createBrowserRouter(
 function App() {
 	return (
 		<main>
-			<RouterProvider router={router} />
+			<SearchProvider>
+				<RouterProvider router={router} />
+			</SearchProvider>
 		</main>
 	);
 }

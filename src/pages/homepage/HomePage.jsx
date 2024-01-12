@@ -1,19 +1,17 @@
 import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-// import Masonry from "react-masonry-css";
-import { computeColumnsFromWidth, fetchImagesData } from "../../services/services";
-// import Image from "../../components/Image/Image";
+import { computeColumnsFromWidth, fetchCuratedImages } from "../../services/services";
 import "./HomePage.scss";
-import ImageGallery from "../../components/ImageGallery";
+import ImageGallery from "../../components/Common/ImageGallery";
+
 // computeColumnsFromWidth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 3);
 
-const imgUrl = "https://api.pexels.com/v1/search/?page=1&query=nature&per_page=5";
+const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
 function HomePage() {
-	const [allFetchedImages, setAllFetchedImages] = useState([]);
 	// const [allImages, setAllImages] = useState({ column1: [], column2: [], column3: [] });
-	// const [allImages, setAllImages] = useState({});
-	const [nextPageUrl, setNextPageUrl] = useState(imgUrl);
+	const [allFetchedImages, setAllFetchedImages] = useState([]);
+	const [nextPageUrl, setNextPageUrl] = useState(curatedImgUrl);
 	const [isLoading, setIsLoading] = useState(false);
 	const [columns, setColumns] = useState(1);
 
@@ -33,7 +31,7 @@ function HomePage() {
 		if (!isLoading) {
 			try {
 				setIsLoading(true);
-				const { photos, next_page } = await fetchImagesData(nextPageUrl);
+				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
 				// console.log(photos, next_page);
 				setAllFetchedImages(prev => [...prev, ...photos]);
 				setNextPageUrl(next_page);
@@ -48,7 +46,6 @@ function HomePage() {
 
 	useEffect(() => {
 		calculateColumns();
-		// console.log("effect");
 		window.addEventListener("resize", calculateColumns);
 	}, []);
 
@@ -68,6 +65,10 @@ function HomePage() {
 					allImages={computedImageColumns}
 				/>
 			</InfiniteScroll>
+			{/* <Each
+				of={allFetchedImages}
+				render={(item, index) => <li>{`${index} : ${item.title}`}</li>}
+			/> */}
 		</div>
 	);
 }

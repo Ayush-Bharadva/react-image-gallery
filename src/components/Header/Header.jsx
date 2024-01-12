@@ -1,25 +1,31 @@
-import { useState, useRef } from "react";
+import { useRef, useContext } from "react";
 import { CiSearch } from "react-icons/ci";
 import NavBar from "../NavBar/NavBar";
 import { AiOutlineClose } from "react-icons/ai";
 import "./Header.scss";
-import { fetchSearchedImages } from "../../services/services";
+import { SearchContext } from "../../context/searchContext";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
-	const [searchQuery, setSearchQuery] = useState("");
-
-	const onQueryChange = ({ target: { value } }) => {
-		setSearchQuery(value);
-	};
-
+	// const [searchQuery, setSearchQuery] = useState("");
 	const sidebarRef = useRef();
+	const searchInputRef = useRef();
+	const navigate = useNavigate();
+
+	const { setQuery } = useContext(SearchContext);
 
 	const onCloseSidebar = () => {
 		sidebarRef.current.style.width = "0";
 	};
-
 	const onSidebarOpen = () => {
 		sidebarRef.current.style.width = "275px";
+	};
+
+	const onSubmitSearch = event => {
+		event.preventDefault();
+		console.log("searching for :", searchInputRef.current.value);
+		setQuery(() => searchInputRef.current.value);
+		navigate("/search");
 	};
 
 	return (
@@ -30,11 +36,12 @@ function Header() {
 					<h1>The best free stock photos, royalty free images & videos shared by creators</h1>
 					<div className="search-input-container">
 						<button className="option-btn">Photos</button>
-						<form onSubmit={() => fetchSearchedImages(searchQuery)}>
+						<form onSubmit={onSubmitSearch}>
 							<input
 								type="text"
-								value={searchQuery}
-								onChange={onQueryChange}
+								// value={searchQuery}
+								// onChange={onQueryChange}
+								ref={searchInputRef}
 								placeholder="Search for free photos"
 							/>
 							<button className="search-icon-btn">

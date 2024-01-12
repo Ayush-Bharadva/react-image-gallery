@@ -23,7 +23,7 @@ function Image({ image }) {
 				</div>
 				<button
 					className="download-icon"
-					onClick={() => onDownloadImage(image.src.medium, image.alt)}>
+					onClick={() => onDownloadImage(image.src.large, image.alt)}>
 					<FiDownload /> Download
 				</button>
 			</div>
