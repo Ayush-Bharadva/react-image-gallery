@@ -1,6 +1,9 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { SearchContext } from "../context/searchContext";
-import { computeColumnsFromWidth, fetchSearchedImages } from "../services/services";
+import {
+	computeColumnsFromWidth,
+	fetchSearchedImages,
+} from "../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
@@ -9,10 +12,12 @@ import { CiSearch } from "react-icons/ci";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import "../styles/Global.scss";
 import "./SearchPage.scss";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/Global.scss";
 
 function SearchPage() {
+	const loc = useLocation();
+
 	const [searchState, setSearchState] = useState({
 		searchedImagesInfo: [],
 		nextPageLink: null,
@@ -20,6 +25,10 @@ function SearchPage() {
 		isLoading: false,
 	});
 	const { query, onSetQuery } = useContext(SearchContext);
+	useEffect(() => {
+		const temp = loc.pathname.split("/");
+		onSetQuery(temp[temp.length - 1]);
+	}, []);
 	// const [searchQuery, setSearchQuery] = useState(query);
 	const [columns, setColumns] = useState(1);
 	const searchInputRef = useRef();
@@ -27,7 +36,8 @@ function SearchPage() {
 	const navigate = useNavigate();
 	console.log("ctx query :", query); // example "cars"
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
+	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } =
+		searchState;
 
 	const calculateColumns = () => {
 		const windowWidth = window.innerWidth;
@@ -41,11 +51,14 @@ function SearchPage() {
 	};
 
 	const fetchImages = useCallback(async () => {
-		if (!isLoading && hasMore) {
+		if (!isLoading && hasMore && query !== "") {
 			try {
-				setSearchState(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
-				setSearchState(prev => ({
+				setSearchState((prev) => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchSearchedImages(
+					query,
+					nextPageLink
+				);
+				setSearchState((prev) => ({
 					...prev,
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
 					hasMore: !!next_page,
@@ -58,15 +71,23 @@ function SearchPage() {
 		}
 	}, [nextPageLink, isLoading, hasMore, query]);
 
-	const computedLayoutColumns = computeColumnsFromWidth(searchedImagesInfo, columns);
+	const computedLayoutColumns = computeColumnsFromWidth(
+		searchedImagesInfo,
+		columns
+	);
 	// console.log(computedLayoutColumns);
 
-	const onSubmitSearch = event => {
+	const onSubmitSearch = (event) => {
 		event.preventDefault();
+		setSearchState({
+			searchedImagesInfo: [],
+			nextPageLink: null,
+			hasMore: true,
+			isLoading: false,
+		});
 		const query = searchInputRef.current.value;
-		console.log("query :", query);
+		navigate("/search/" + query);
 		onSetQuery(query);
-		navigate(`/search/${query}`);
 	};
 
 	useEffect(() => {
@@ -106,10 +127,7 @@ function SearchPage() {
 			<div id="search-images-container">
 				<div className="nav-bar">
 					<div className="logo">
-						<img
-							src={pexelsLogo}
-							alt="pexels logo"
-						/>
+						<img src={pexelsLogo} alt="pexels logo" />
 					</div>
 					<div className="search-input-container">
 						<button className="option-btn">Photos</button>
@@ -139,9 +157,7 @@ function SearchPage() {
 						</li>
 					</ul>
 				</div>
-				<div
-					className="related-categories"
-					ref={categoriesRef}>
+				<div className="related-categories" ref={categoriesRef}>
 					<FaAngleLeft onClick={translateLeft} />
 					{relatedCategories.map((category, index) => (
 						<li key={index}>
@@ -153,7 +169,8 @@ function SearchPage() {
 				<InfiniteScroll
 					loadMore={fetchImages}
 					hasMore={hasMore}
-					loader={loader}>
+					loader={loader}
+				>
 					<ImageGallery
 						key={Math.random().toString}
 						allImages={computedLayoutColumns}

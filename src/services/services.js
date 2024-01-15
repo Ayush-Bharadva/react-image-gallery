@@ -12,8 +12,10 @@ const axiosInstance = axios.create({
 
 export async function fetchSearchedImages(query, nextPageLink) {
 	try {
-		// console.log("service : fetching searched images");
-		const placeHolder = !nextPageLink ? `https://api.pexels.com/v1/search/?query=${query}` : nextPageLink;
+		console.log("service : fetching searched images======", query);
+		const placeHolder = !nextPageLink
+			? `https://api.pexels.com/v1/search/?query=${query}`
+			: nextPageLink;
 
 		console.log("service query :", query);
 		const response = await axiosInstance.get(placeHolder);
@@ -69,7 +71,10 @@ export const computeColumnsFromWidth = (allImages, columnsCount) => {
 	return columns;
 };
 
-export async function onDownloadImage(imageSrc, downloadName = "my-image.jpeg") {
+export async function onDownloadImage(
+	imageSrc,
+	downloadName = "my-image.jpeg"
+) {
 	const response = await fetch(imageSrc);
 	const blobImage = await response.blob();
 	const href = URL.createObjectURL(blobImage);
