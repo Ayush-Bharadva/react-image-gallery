@@ -1,5 +1,10 @@
 .nav-bar {
 	// background-color: rgba($color: #fff, $alpha: 0.5);
+	// position: absolute;
+	// z-index: 10;
+	// top: 0;
+	// right: 0;
+	// left: 0;
 	color: #fff;
 	display: flex;
 	width: 90%;
@@ -46,7 +51,7 @@
 		}
 
 		button {
-			padding: 0 20px;
+			padding: 0 1.25rem;
 			height: 50px;
 			font-size: 1rem;
 			font-weight: 600;
@@ -61,15 +66,21 @@
 			border: none;
 			font-size: 36px;
 			margin: auto auto;
+			padding: 0.5rem;
 		}
 	}
 }
 
-@media screen and (max-width: 760px) {
+@media screen and (max-width: 900px) {
 	.nav-bar {
+		width: 100%;
 		.nav-items {
+			gap: 1rem;
+			justify-content: flex-start;
 			.sidebar-btn {
 				display: block;
+				font-size: 32px;
+				// padding: 0.5rem;
 			}
 		}
 	}

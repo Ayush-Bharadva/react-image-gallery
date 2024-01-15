@@ -2,7 +2,22 @@
 	position: relative;
 	max-width: 75vw;
 	margin: 0 auto;
-	ul {
-		list-style-type: none;
+
+	.heading {
+		display: flex;
+		justify-content: space-between;
+		padding: 0.5rem;
+
+		button {
+			padding: 0.75rem 1.5rem;
+			background-color: #fff;
+			font-size: 1rem;
+			border: 1px solid lightgray;
+			border-radius: 5px;
+			transition: all 0.2s ease;
+		}
+		button:hover {
+			border-color: #333;
+		}
 	}
 }

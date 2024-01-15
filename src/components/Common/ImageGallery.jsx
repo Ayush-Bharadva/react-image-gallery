@@ -9,7 +9,9 @@ function ImageGallery({ allImages }) {
 	return (
 		<div className="image-gallery-container">
 			{column1 && (
-				<div className="col-1">
+				<div
+					key={crypto.randomUUID()}
+					className="col-1">
 					{column1.map(image => (
 						<Image
 							key={image.id}
@@ -19,7 +21,9 @@ function ImageGallery({ allImages }) {
 				</div>
 			)}
 			{column2 && (
-				<div className="col-2">
+				<div
+					key={crypto.randomUUID()}
+					className="col-2">
 					{column2.map(image => (
 						<Image
 							key={image.id}
@@ -29,7 +33,9 @@ function ImageGallery({ allImages }) {
 				</div>
 			)}
 			{column3 && (
-				<div className="col-3">
+				<div
+					key={crypto.randomUUID()}
+					className="col-3">
 					{column3.map(image => (
 						<Image
 							key={image.id}

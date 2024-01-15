@@ -6,7 +6,7 @@ import ChallengesPage from "./pages/ChallengesPage";
 import Layout from "./Layout";
 import "./App.scss";
 import SearchProvider from "./context/SearchProvider";
-import SearchPage from "./components/Common/SearchePage";
+import SearchPage from "./pages/SearchePage";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -32,7 +32,7 @@ const router = createBrowserRouter(
 				/>
 			</Route>
 			<Route
-				path="search"
+				path="search/:query"
 				element={<SearchPage />}
 			/>
 		</>
@@ -41,11 +41,11 @@ const router = createBrowserRouter(
 
 function App() {
 	return (
-		<main>
-			<SearchProvider>
+		<SearchProvider>
+			<main>
 				<RouterProvider router={router} />
-			</SearchProvider>
-		</main>
+			</main>
+		</SearchProvider>
 	);
 }
 

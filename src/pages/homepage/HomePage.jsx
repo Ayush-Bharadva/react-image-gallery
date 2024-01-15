@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth, fetchCuratedImages } from "../../services/services";
-import "./HomePage.scss";
 import ImageGallery from "../../components/Common/ImageGallery";
+import "./HomePage.scss";
 
 // computeColumnsFromWidth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 3);
 
@@ -54,8 +54,12 @@ function HomePage() {
 
 	return (
 		<div className="home-container">
+			<div className="heading">
+				<h1>Free Stock Photos</h1>
+				<button>Trending</button>
+			</div>
 			<InfiniteScroll
-				// key={Math.random.toString()}
+				key={Math.random.toString()}
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
