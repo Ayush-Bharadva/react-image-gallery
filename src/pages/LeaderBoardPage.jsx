@@ -1,5 +1,5 @@
 function LeaderBoardPage() {
-	return <div>LeaderBoardPage</div>;
+	return <div style={{ textAlign: "center" }}>LeaderBoardPage</div>;
 }
 
 export default LeaderBoardPage;

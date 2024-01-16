@@ -1,5 +1,5 @@
 function VideosPage() {
-	return <div>VideosPage</div>;
+	return <div style={{ textAlign: "center" }}>VideosPage</div>;
 }
 
 export default VideosPage;

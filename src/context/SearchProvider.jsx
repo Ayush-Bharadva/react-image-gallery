@@ -6,7 +6,7 @@ function SearchProvider({ children }) {
 	const [query, setQuery] = useState("");
 
 	const onSetQuery = query => {
-		console.log("ctx onSetQuery :", query);
+		// console.log("ctx onSetQuery :", query);
 		setQuery(query);
 	};
 

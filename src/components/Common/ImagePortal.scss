@@ -1,0 +1,49 @@
+p {
+	color: black;
+}
+.modal {
+	position: fixed;
+	z-index: 20;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	// height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+	overflow: auto;
+
+	.modal-container {
+		background-color: #fefffe;
+		border-radius: 9px;
+		margin: 10% auto;
+		width: 90%;
+		height: 90%;
+		padding: 15px;
+
+		.modal-body {
+			.image-info {
+				width: 100%;
+				padding: 1rem 0;
+				margin-bottom: 1rem;
+				.actions {
+					display: flex;
+					justify-content: flex-end;
+					gap: 9px;
+				}
+			}
+			.image-container {
+				max-width: 50%;
+				margin: 0 auto;
+			}
+			.more-info {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin: 1.2rem 0;
+				.buttons {
+					display: flex;
+					gap: 9px;
+				}
+			}
+		}
+	}
+}

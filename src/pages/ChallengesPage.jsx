@@ -1,5 +1,5 @@
 function ChallengesPage() {
-	return <div>ChallengesPage</div>;
+	return <div style={{ textAlign: "center" }}>ChallengesPage</div>;
 }
 
 export default ChallengesPage;

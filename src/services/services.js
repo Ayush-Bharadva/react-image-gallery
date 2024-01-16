@@ -1,7 +1,5 @@
 import axios from "axios";
 const apiKey = "cIDDhLutgAm2CCVZQKyIElDBsCQ4nqzAzWL7qRRePGd8WmuWlFvHHqNA";
-// const curatedImagesUrl = "https://api.pexels.com/v1/curated";
-// const baseSearchUrl = "https://api.pexels.com/v1/search/?page=1&per_page=5&";
 
 const headers = {
 	Authorization: apiKey,
@@ -12,20 +10,16 @@ const axiosInstance = axios.create({
 
 export async function fetchSearchedImages(query, nextPageLink) {
 	try {
-		console.log("service : fetching searched images======", query);
-		const placeHolder = !nextPageLink
-			? `https://api.pexels.com/v1/search/?query=${query}`
-			: nextPageLink;
+		const apiUrl = nextPageLink || `https://api.pexels.com/v1/search/?query=${query}`;
+		// console.log("Service: Fetching searched images...", query, nextPageLink);
 
-		console.log("service query :", query);
-		const response = await axiosInstance.get(placeHolder);
-		// console.log("response :", response);
+		const response = await axiosInstance.get(apiUrl);
 		if (response.status === 200) {
-			console.log(response.data);
+			// console.log("Service: Images fetched successfully", response.data);
 			return response.data;
 		}
 	} catch (error) {
-		console.error(error);
+		console.error("Service: Error fetching images", error);
 	}
 }
 
@@ -43,7 +37,6 @@ export async function fetchCuratedImages(curatedImgUrl) {
 export async function fetchImagesData(url) {
 	try {
 		const response = await axiosInstance.get(url);
-		// console.log(response.data);
 		if (response.status === 200) {
 			return response.data; // {}
 		}
@@ -67,14 +60,10 @@ export const computeColumnsFromWidth = (allImages, columnsCount) => {
 		const columnIndex = index % columnsCount;
 		columns[`column${columnIndex + 1}`].push(image);
 	});
-	// console.log(columns);
 	return columns;
 };
 
-export async function onDownloadImage(
-	imageSrc,
-	downloadName = "my-image.jpeg"
-) {
+export async function onDownloadImage(imageSrc, downloadName = "image.jpeg") {
 	const response = await fetch(imageSrc);
 	const blobImage = await response.blob();
 	const href = URL.createObjectURL(blobImage);

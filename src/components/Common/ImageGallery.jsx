@@ -2,12 +2,14 @@ import { PropTypes } from "prop-types";
 import "./ImageGallery.scss";
 import Image from "./Image";
 
-function ImageGallery({ allImages }) {
+function ImageGallery({ allImages, onImageSelect }) {
 	const { column1, column2, column3 } = allImages;
 	// console.log(column1, column2, column3);
 
 	return (
-		<div className="image-gallery-container">
+		<div
+			className="image-gallery-container"
+			key={crypto.randomUUID()}>
 			{column1 && (
 				<div
 					key={crypto.randomUUID()}
@@ -16,6 +18,7 @@ function ImageGallery({ allImages }) {
 						<Image
 							key={image.id}
 							image={image}
+							onImageSelect={onImageSelect}
 						/>
 					))}
 				</div>
@@ -28,6 +31,7 @@ function ImageGallery({ allImages }) {
 						<Image
 							key={image.id}
 							image={image}
+							onImageSelect={onImageSelect}
 						/>
 					))}
 				</div>
@@ -40,6 +44,7 @@ function ImageGallery({ allImages }) {
 						<Image
 							key={image.id}
 							image={image}
+							onImageSelect={onImageSelect}
 						/>
 					))}
 				</div>
@@ -50,6 +55,7 @@ function ImageGallery({ allImages }) {
 
 ImageGallery.propTypes = {
 	allImages: PropTypes.object,
+	onImageSelect: PropTypes.func,
 };
 
 export default ImageGallery;

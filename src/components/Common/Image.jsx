@@ -5,9 +5,12 @@ import { PropTypes } from "prop-types";
 import "./Image.scss";
 import { onDownloadImage } from "../../services/services";
 
-function Image({ image }) {
+function Image({ image, onImageSelect }) {
 	return (
-		<li className="image-container">
+		<li
+			className="image-container"
+			key={image.id}
+			onClick={onImageSelect}>
 			<img
 				src={image.src.medium}
 				alt={image.alt}
@@ -23,7 +26,7 @@ function Image({ image }) {
 				</div>
 				<button
 					className="download-icon"
-					onClick={() => onDownloadImage(image.src.large, image.alt)}>
+					onClick={() => onDownloadImage(image.src.large2x, image.alt)}>
 					<FiDownload /> Download
 				</button>
 			</div>
@@ -33,6 +36,7 @@ function Image({ image }) {
 
 Image.propTypes = {
 	image: PropTypes.object,
+	onImageSelect: PropTypes.func,
 };
 
 export default Image;

@@ -1,0 +1,18 @@
+.outlined-button {
+	padding: 0.9rem 1.4rem;
+	border-radius: 5px;
+	background: none;
+	border: 1px solid lightgray;
+	outline: none;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+
+	.icon {
+		font-size: 18px;
+	}
+}

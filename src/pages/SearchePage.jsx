@@ -1,22 +1,23 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/searchContext";
-import {
-	computeColumnsFromWidth,
-	fetchSearchedImages,
-} from "../services/services";
+import { computeColumnsFromWidth, fetchSearchedImages } from "../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { relatedCategories } from "../helper/constants";
+import { calculateColumns } from "../helper/helper";
 import "../styles/Global.scss";
 import "./SearchPage.scss";
-import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/Global.scss";
 
 function SearchPage() {
-	const loc = useLocation();
+	const location = useLocation();
+	const pathname = location.pathname;
+	const navigate = useNavigate();
+	const { query, onSetQuery } = useContext(SearchContext);
 
 	const [searchState, setSearchState] = useState({
 		searchedImagesInfo: [],
@@ -24,41 +25,38 @@ function SearchPage() {
 		hasMore: true,
 		isLoading: false,
 	});
-	const { query, onSetQuery } = useContext(SearchContext);
-	useEffect(() => {
-		const temp = loc.pathname.split("/");
-		onSetQuery(temp[temp.length - 1]);
-	}, []);
-	// const [searchQuery, setSearchQuery] = useState(query);
 	const [columns, setColumns] = useState(1);
 	const searchInputRef = useRef();
+	// console.log("ctx query :", query);
 
-	const navigate = useNavigate();
-	console.log("ctx query :", query); // example "cars"
+	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } =
-		searchState;
+	const onSetPrevQuery = useCallback(() => {
+		setSearchState({
+			searchedImagesInfo: [],
+			nextPageLink: null,
+			hasMore: true,
+			isLoading: false,
+		});
+		const temp = pathname.split("/");
+		const prevQuery = temp[temp.length - 1];
+		searchInputRef.current.value = prevQuery;
+		// console.log("prevQuery :", prevQuery);
+		onSetQuery(prevQuery);
+	}, [pathname, onSetQuery]);
 
-	const calculateColumns = () => {
-		const windowWidth = window.innerWidth;
-		if (windowWidth >= 300 && windowWidth < 700) {
-			setColumns(1);
-		} else if (windowWidth >= 700 && windowWidth < 1100) {
-			setColumns(2);
-		} else {
-			setColumns(3);
-		}
+	const computeColumns = () => {
+		const columnCount = calculateColumns();
+		setColumns(columnCount);
 	};
 
 	const fetchImages = useCallback(async () => {
-		if (!isLoading && hasMore && query !== "") {
+		// console.log("fetchImages cb :", query, isLoading, hasMore);
+		if (!isLoading && hasMore) {
 			try {
-				setSearchState((prev) => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(
-					query,
-					nextPageLink
-				);
-				setSearchState((prev) => ({
+				setSearchState(prev => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
+				setSearchState(prev => ({
 					...prev,
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
 					hasMore: !!next_page,
@@ -69,15 +67,24 @@ function SearchPage() {
 				console.error(error);
 			}
 		}
-	}, [nextPageLink, isLoading, hasMore, query]);
+	}, [query, isLoading, hasMore, nextPageLink]);
 
-	const computedLayoutColumns = computeColumnsFromWidth(
-		searchedImagesInfo,
-		columns
-	);
+	useEffect(() => {
+		onSetPrevQuery();
+	}, [onSetPrevQuery]);
+
+	useEffect(() => {
+		computeColumns();
+		window.addEventListener("resize", computeColumns);
+		return () => {
+			window.removeEventListener("resize", computeColumns);
+		};
+	}, []);
+
+	const computedLayoutColumns = computeColumnsFromWidth(searchedImagesInfo, columns);
 	// console.log(computedLayoutColumns);
 
-	const onSubmitSearch = (event) => {
+	const onSubmitSearch = event => {
 		event.preventDefault();
 		setSearchState({
 			searchedImagesInfo: [],
@@ -85,35 +92,23 @@ function SearchPage() {
 			hasMore: true,
 			isLoading: false,
 		});
-		const query = searchInputRef.current.value;
-		navigate("/search/" + query);
-		onSetQuery(query);
+		const newQuery = searchInputRef.current.value;
+		// console.log(!newQuery.trim());
+		if (!newQuery.trim()) {
+			navigate("/");
+			return;
+		}
+		onSetQuery(newQuery);
+		navigate(`/search/${newQuery}`);
 	};
-
-	useEffect(() => {
-		calculateColumns();
-		window.addEventListener("resize", calculateColumns);
-		return () => {
-			window.removeEventListener("resize", calculateColumns);
-		};
-	}, []);
-
-	const relatedCategories = [
-		"people",
-		"nature",
-		"funny",
-		"art",
-		"dice",
-		"abstract",
-		"background",
-		"photo",
-		"design",
-		"dark",
-		"business",
-	];
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
+	const onNavigateToHome = () => {
+		navigate("/", { replace: true });
+	};
+
+	/*
 	const categoriesRef = useRef();
 	const translateLeft = () => {
 		categoriesRef.current.className += " translateLeft";
@@ -121,13 +116,20 @@ function SearchPage() {
 	const translateRight = () => {
 		categoriesRef.current.className += " translateRight";
 	};
+	*/
 
 	return (
 		<>
 			<div id="search-images-container">
 				<div className="nav-bar">
-					<div className="logo">
-						<img src={pexelsLogo} alt="pexels logo" />
+					<div
+						className="logo"
+						onClick={onNavigateToHome}>
+						<img
+							src={pexelsLogo}
+							alt="pexels logo"
+						/>
+						<span>Pexels</span>
 					</div>
 					<div className="search-input-container">
 						<button className="option-btn">Photos</button>
@@ -157,23 +159,22 @@ function SearchPage() {
 						</li>
 					</ul>
 				</div>
-				<div className="related-categories" ref={categoriesRef}>
-					<FaAngleLeft onClick={translateLeft} />
+				<div className="related-categories">
+					<FaAngleLeft />
 					{relatedCategories.map((category, index) => (
 						<li key={index}>
 							<button>{category}</button>
 						</li>
 					))}
-					<FaAngleRight onClick={translateRight} />
+					<FaAngleRight />
 				</div>
 				<InfiniteScroll
 					loadMore={fetchImages}
 					hasMore={hasMore}
-					loader={loader}
-				>
+					loader={loader}>
 					<ImageGallery
-						key={Math.random().toString}
 						allImages={computedLayoutColumns}
+						// key={}
 					/>
 				</InfiniteScroll>
 			</div>

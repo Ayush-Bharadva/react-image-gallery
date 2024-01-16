@@ -1,63 +1,83 @@
 import { useState, useCallback, useEffect } from "react";
+import ImagePortal from "../../components/Common/ImagePortal";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth, fetchCuratedImages } from "../../services/services";
+import { calculateColumns } from "../../helper/helper";
 import ImageGallery from "../../components/Common/ImageGallery";
+import { GoChevronDown } from "react-icons/go";
 import "./HomePage.scss";
-
-// computeColumnsFromWidth([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], 3);
 
 const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
 function HomePage() {
-	// const [allImages, setAllImages] = useState({ column1: [], column2: [], column3: [] });
-	const [allFetchedImages, setAllFetchedImages] = useState([]);
-	const [nextPageUrl, setNextPageUrl] = useState(curatedImgUrl);
-	const [isLoading, setIsLoading] = useState(false);
+	const [fetchedImagesInfo, setFetchedImagesInfo] = useState({
+		fetchedImages: [],
+		nextPageUrl: curatedImgUrl,
+		hasMore: true,
+		isLoading: false,
+	});
 	const [columns, setColumns] = useState(1);
 
-	const calculateColumns = () => {
-		// console.log("calc");
-		const windowWidth = window.innerWidth;
-		if (windowWidth >= 300 && windowWidth < 700) {
-			setColumns(1);
-		} else if (windowWidth >= 700 && windowWidth < 1100) {
-			setColumns(2);
-		} else {
-			setColumns(3);
-		}
+	const { fetchedImages, nextPageUrl, hasMore, isLoading } = fetchedImagesInfo;
+
+	const computeColumns = () => {
+		const columnsCount = calculateColumns();
+		setColumns(columnsCount);
 	};
 
 	const fetchImages = useCallback(async () => {
-		if (!isLoading) {
+		if (!isLoading && hasMore) {
 			try {
-				setIsLoading(true);
+				setFetchedImagesInfo(prev => ({ ...prev, isLoading: true }));
 				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
 				// console.log(photos, next_page);
-				setAllFetchedImages(prev => [...prev, ...photos]);
-				setNextPageUrl(next_page);
-				setIsLoading(false);
+				setFetchedImagesInfo(prev => ({
+					...prev,
+					fetchedImages: [...prev.fetchedImages, ...photos],
+					nextPageUrl: next_page,
+					isLoading: false,
+					hasMore: !!next_page,
+				}));
 			} catch (error) {
 				throw new Error(error);
 			}
 		}
-	}, [isLoading, nextPageUrl]);
+	}, [isLoading, nextPageUrl, hasMore]);
 
-	const computedImageColumns = computeColumnsFromWidth(allFetchedImages, columns);
+	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columns);
 
 	useEffect(() => {
-		calculateColumns();
-		window.addEventListener("resize", calculateColumns);
+		computeColumns();
+		window.addEventListener("resize", computeColumns);
+		return () => {
+			window.removeEventListener("resize", computeColumns);
+		};
 	}, []);
 
-	const hasMore = !!nextPageUrl;
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
+
+	const onImageSelect = imageObj => {
+		console.log(imageObj);
+	};
+
+	const [showModal, setShowModal] = useState(false);
+
+	const imageObj = {
+		src: {
+			large: "https://images.pexels.com/photos/19802127/pexels-photo-19802127.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+		},
+		alt: "temp",
+	};
 
 	return (
 		<div className="home-container">
 			<div className="heading">
 				<h1>Free Stock Photos</h1>
-				<button>Trending</button>
+				<button>
+					Trending <GoChevronDown />{" "}
+				</button>
 			</div>
+			<button onClick={() => setShowModal(true)}>Open Model</button>
 			<InfiniteScroll
 				key={Math.random.toString()}
 				loadMore={fetchImages}
@@ -67,8 +87,14 @@ function HomePage() {
 				<ImageGallery
 					key={Math.random().toString}
 					allImages={computedImageColumns}
+					onImageSelect={onImageSelect}
 				/>
 			</InfiniteScroll>
+			<ImagePortal
+				imgObj={imageObj}
+				isOpen={showModal}
+				onClose={() => setShowModal(false)}
+			/>
 			{/* <Each
 				of={allFetchedImages}
 				render={(item, index) => <li>{`${index} : ${item.title}`}</li>}
