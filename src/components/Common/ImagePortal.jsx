@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import Button from "../../UI/Button";
 import { GoChevronDown } from "react-icons/go";
@@ -11,18 +11,21 @@ import "../../styles/Global.scss";
 import { useContext } from "react";
 import { SearchContext } from "../../context/SearchProvider";
 
-function ImagePortal({ onClose }) {
-	const { modalImageObj, onCloseModal } = useContext(SearchContext);
-	// if (!isOpen) {
-	// 	return null;
-	// }
+function ImagePortal() {
+	const { showModal, modalImageInfo, setShowModal } =
+		useContext(SearchContext);
+	// console.log(modalImageInfo);
+
+	if (!modalImageInfo || Object.keys(modalImageInfo).length === 0) {
+		return null;
+	}
 
 	return createPortal(
 		<div className="modal">
 			<div className="modal-container">
 				<div className="modal-body">
 					<p>Sample Modal</p>
-					<button onClick={onCloseModal}>Close</button>
+					<button onClick={() => setShowModal(false)}>Close</button>
 					<div className="image-info">
 						<div className="profile"></div>
 						<div className="actions">
@@ -42,14 +45,16 @@ function ImagePortal({ onClose }) {
 					</div>
 					<div className="image-container">
 						<img
-							src={modalImageObj.src.large}
-							alt={modalImageObj.alt}
+							src={modalImageInfo.src.large}
+							alt={modalImageInfo.alt}
 						/>
 					</div>
 					<div className="more-info">
 						<p>
 							<span>Free to use</span>
-							<span>West Killbride, Scotland, United Kingdom</span>
+							<span>
+								West Killbride, Scotland, United Kingdom
+							</span>
 						</p>
 						<div className="buttons">
 							<Button>
@@ -67,10 +72,10 @@ function ImagePortal({ onClose }) {
 	);
 }
 
-ImagePortal.propTypes = {
-	isOpen: PropTypes.boolean,
-	onClose: PropTypes.func,
-	imgObj: PropTypes.object,
-};
+// ImagePortal.propTypes = {
+// 	isOpen: PropTypes.boolean,
+// 	onClose: PropTypes.func,
+// 	imgObj: PropTypes.object,
+// };
 
 export default ImagePortal;

@@ -9,23 +9,17 @@ import ImagePortal from "./ImagePortal";
 import "./Image.scss";
 
 function Image({ image }) {
-	const { showModal, modalImageObj, onShowModal, onCloseModal, onImageClick } = useContext(SearchContext);
-
-	const onSelectImage = () => {
-		onShowModal(true);
-		onImageClick(image);
-	};
+	const { showModal, setShowModal, setModalImageInfo } =
+		useContext(SearchContext);
 
 	return (
 		<>
 			<li
-				onClick={onSelectImage}
+				onClick={() => setModalImageInfo(image)}
 				className="image-container"
-				key={image.id}>
-				<img
-					src={image.src.large}
-					alt={image.alt}
-				/>
+				key={image.id}
+			>
+				<img src={image.src.large} alt={image.alt} />
 				<div className="icons-group">
 					<button className="bookmark-icon">
 						<IoBookmarksOutline />
@@ -36,15 +30,12 @@ function Image({ image }) {
 				</div>
 				<button
 					className="download-icon"
-					onClick={() => onDownloadImage(image.src.large, image.alt)}>
+					onClick={() => onDownloadImage(image.src.large, image.alt)}
+				>
 					<FiDownload /> Download
 				</button>
 			</li>
-			<ImagePortal
-				// imgObj={modalImageObj}
-				// isOpen={showModal}
-				onClose={() => onCloseModal(false)}
-			/>
+			{showModal && <ImagePortal onClose={() => setShowModal(false)} />}
 		</>
 	);
 }

@@ -5,11 +5,10 @@ import { createContext } from "react";
 export const SearchContext = createContext({
 	query: "",
 	showModal: false,
-	modalImageObj: {},
+	modalImageInfo: {},
 	onSetQuery: () => {},
-	onShowModal: () => {},
-	onCloseModal: () => {},
-	onImageClick: () => {},
+	setShowModal: () => {},
+	setModalImageInfo: () => {},
 });
 
 function SearchProvider({ children }) {
@@ -17,26 +16,22 @@ function SearchProvider({ children }) {
 	const [showModal, setShowModal] = useState(false);
 	const [modalImageInfo, setModalImageInfo] = useState({});
 
-	const onImageClick = imgObj => {
-		setModalImageInfo(imgObj);
-	};
-
-	const onSetQuery = query => {
+	const onSetQuery = (query) => {
 		// console.log("ctx onSetQuery :", query);
 		setQuery(query);
 	};
 
-	const onShowModal = () => {
-		setShowModal(true);
-	};
-
-	const onCloseModal = () => {
-		setShowModal(false);
-	};
-
 	return (
 		<SearchContext.Provider
-			value={{ query, modalImageInfo, showModal, onSetQuery, onImageClick, onShowModal, onCloseModal }}>
+			value={{
+				query,
+				showModal,
+				modalImageInfo,
+				onSetQuery,
+				setModalImageInfo,
+				setShowModal,
+			}}
+		>
 			{children}
 		</SearchContext.Provider>
 	);
