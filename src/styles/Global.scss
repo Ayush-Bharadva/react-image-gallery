@@ -1,7 +1,3 @@
-.btn-bg-green {
-	background-color: #05a081;
-}
-
 .translateLeft {
 	transform: translateX(50%);
 }
@@ -15,4 +11,10 @@
 
 .text-white {
 	color: #fff;
+}
+
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

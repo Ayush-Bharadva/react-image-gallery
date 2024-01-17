@@ -1,23 +1,27 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../context/searchContext";
+import { SearchContext } from "../context/SearchProvider";
 import { computeColumnsFromWidth, fetchSearchedImages } from "../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { CiSearch } from "react-icons/ci";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+// import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { relatedCategories } from "../helper/constants";
 import { calculateColumns } from "../helper/helper";
+import SearchInput from "../components/Common/SearchInput";
 import "../styles/Global.scss";
 import "./SearchPage.scss";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import ImagePortal from "../components/Common/ImagePortal";
 
 function SearchPage() {
 	const location = useLocation();
 	const pathname = location.pathname;
 	const navigate = useNavigate();
 	const { query, onSetQuery } = useContext(SearchContext);
+
+	const categoriesRef = useRef();
 
 	const [searchState, setSearchState] = useState({
 		searchedImagesInfo: [],
@@ -26,8 +30,10 @@ function SearchPage() {
 		isLoading: false,
 	});
 	const [columns, setColumns] = useState(1);
-	const searchInputRef = useRef();
-	// console.log("ctx query :", query);
+	const [searchString, setSearchString] = useState("");
+	const onSearchStringChange = ({ target: { value } }) => {
+		setSearchString(value);
+	};
 
 	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
@@ -40,8 +46,7 @@ function SearchPage() {
 		});
 		const temp = pathname.split("/");
 		const prevQuery = temp[temp.length - 1];
-		searchInputRef.current.value = prevQuery;
-		// console.log("prevQuery :", prevQuery);
+		setSearchString(prevQuery);
 		onSetQuery(prevQuery);
 	}, [pathname, onSetQuery]);
 
@@ -81,8 +86,19 @@ function SearchPage() {
 		};
 	}, []);
 
+	const fetchCategoryImages = event => {
+		const category = event.target.value;
+		setSearchState({
+			searchedImagesInfo: [],
+			nextPageLink: null,
+			hasMore: true,
+			isLoading: false,
+		});
+		onSetQuery(category);
+		navigate(`/search/${category}`);
+	};
+
 	const computedLayoutColumns = computeColumnsFromWidth(searchedImagesInfo, columns);
-	// console.log(computedLayoutColumns);
 
 	const onSubmitSearch = event => {
 		event.preventDefault();
@@ -92,7 +108,7 @@ function SearchPage() {
 			hasMore: true,
 			isLoading: false,
 		});
-		const newQuery = searchInputRef.current.value;
+		const newQuery = searchString;
 		// console.log(!newQuery.trim());
 		if (!newQuery.trim()) {
 			navigate("/");
@@ -102,26 +118,29 @@ function SearchPage() {
 		navigate(`/search/${newQuery}`);
 	};
 
-	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
+	const onScroll = scrollOffset => {
+		categoriesRef.current.scrollLeft += scrollOffset;
+	};
 
 	const onNavigateToHome = () => {
 		navigate("/", { replace: true });
 	};
 
-	/*
-	const categoriesRef = useRef();
-	const translateLeft = () => {
-		categoriesRef.current.className += " translateLeft";
+	const [showModal, setShowModal] = useState(false);
+
+	const imageObj = {
+		src: {
+			large: "https://images.pexels.com/photos/19802127/pexels-photo-19802127.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+		},
+		alt: "temp",
 	};
-	const translateRight = () => {
-		categoriesRef.current.className += " translateRight";
-	};
-	*/
+
+	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
 	return (
-		<>
-			<div id="search-images-container">
-				<div className="nav-bar">
+		<div id="search-images-container">
+			<div className="nav-bar">
+				<div className="nav-bar-left">
 					<div
 						className="logo"
 						onClick={onNavigateToHome}>
@@ -131,54 +150,68 @@ function SearchPage() {
 						/>
 						<span>Pexels</span>
 					</div>
-					<div className="search-input-container">
-						<button className="option-btn">Photos</button>
-						<form onSubmit={onSubmitSearch}>
-							<input
-								type="text"
-								ref={searchInputRef}
-								// value={searchQuery}
-								// onChange={onQueryChange}
-								placeholder="Search for free photos"
-							/>
-							<button className="search-icon-btn">
-								<CiSearch />
-							</button>
-						</form>
-					</div>
-					<ul className="nav-items">
-						<li>Explore</li>
-						<li>License</li>
-						<li>
-							<button>Upload</button>
-						</li>
-						<li>
-							<button className="sidebar-btn">
-								<GiHamburgerMenu />
-							</button>
-						</li>
-					</ul>
-				</div>
-				<div className="related-categories">
-					<FaAngleLeft />
-					{relatedCategories.map((category, index) => (
-						<li key={index}>
-							<button>{category}</button>
-						</li>
-					))}
-					<FaAngleRight />
-				</div>
-				<InfiniteScroll
-					loadMore={fetchImages}
-					hasMore={hasMore}
-					loader={loader}>
-					<ImageGallery
-						allImages={computedLayoutColumns}
-						// key={}
+					<SearchInput
+						searchString={searchString}
+						onChange={onSearchStringChange}
+						onSubmit={onSubmitSearch}
 					/>
-				</InfiniteScroll>
+				</div>
+				<ul className="nav-items nav-bar-right">
+					<li>Explore</li>
+					<li>License</li>
+					<li>
+						<button>Upload</button>
+					</li>
+					<li>
+						<button className="sidebar-btn">
+							<GiHamburgerMenu />
+						</button>
+					</li>
+				</ul>
+				<button onClick={() => setShowModal(true)}>Open Model</button>
 			</div>
-		</>
+			<div
+				className="related-categories-container"
+				ref={categoriesRef}>
+				<FaAngleLeft
+					className="move-left-icon"
+					onClick={() => onScroll(-100)}
+				/>
+				<div
+					className="related-categories"
+					ref={categoriesRef}>
+					{relatedCategories.map((category, index) => (
+						// <li key={index}>
+						<button
+							key={index}
+							onClick={fetchCategoryImages}
+							value={category}>
+							{category}
+						</button>
+						// </li>
+					))}
+				</div>
+				<FaAngleRight
+					className="move-right-icon"
+					onClick={() => onScroll(100)}
+				/>
+			</div>
+			<InfiniteScroll
+				loadMore={fetchImages}
+				hasMore={hasMore}
+				loader={loader}
+				threshold={500}>
+				<ImageGallery
+					allImages={computedLayoutColumns}
+					// key={}
+				/>
+			</InfiniteScroll>
+			<ImagePortal
+				imgObj={imageObj}
+				isOpen={showModal}
+				onClose={() => setShowModal(false)}
+			/>
+		</div>
 	);
 }
 

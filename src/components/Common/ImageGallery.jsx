@@ -4,7 +4,6 @@ import Image from "./Image";
 
 function ImageGallery({ allImages, onImageSelect }) {
 	const { column1, column2, column3 } = allImages;
-	// console.log(column1, column2, column3);
 
 	return (
 		<div
@@ -18,7 +17,6 @@ function ImageGallery({ allImages, onImageSelect }) {
 						<Image
 							key={image.id}
 							image={image}
-							onImageSelect={onImageSelect}
 						/>
 					))}
 				</div>
@@ -31,7 +29,6 @@ function ImageGallery({ allImages, onImageSelect }) {
 						<Image
 							key={image.id}
 							image={image}
-							onImageSelect={onImageSelect}
 						/>
 					))}
 				</div>

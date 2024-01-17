@@ -42,9 +42,7 @@ const router = createBrowserRouter(
 function App() {
 	return (
 		<SearchProvider>
-			<main>
-				<RouterProvider router={router} />
-			</main>
+			<RouterProvider router={router} />
 		</SearchProvider>
 	);
 }

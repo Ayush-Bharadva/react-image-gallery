@@ -8,17 +8,21 @@ import { BsInfoCircle } from "react-icons/bs";
 import { CiShare1 } from "react-icons/ci";
 import "./ImagePortal.scss";
 import "../../styles/Global.scss";
+import { useContext } from "react";
+import { SearchContext } from "../../context/SearchProvider";
 
-function ImagePortal({ isOpen, onClose, imgObj }) {
-	if (!isOpen) {
-		return null;
-	}
+function ImagePortal({ onClose }) {
+	const { modalImageObj, onCloseModal } = useContext(SearchContext);
+	// if (!isOpen) {
+	// 	return null;
+	// }
 
 	return createPortal(
 		<div className="modal">
 			<div className="modal-container">
 				<div className="modal-body">
 					<p>Sample Modal</p>
+					<button onClick={onCloseModal}>Close</button>
 					<div className="image-info">
 						<div className="profile"></div>
 						<div className="actions">
@@ -38,8 +42,8 @@ function ImagePortal({ isOpen, onClose, imgObj }) {
 					</div>
 					<div className="image-container">
 						<img
-							src={imgObj.src.large}
-							alt={imgObj.alt}
+							src={modalImageObj.src.large}
+							alt={modalImageObj.alt}
 						/>
 					</div>
 					<div className="more-info">
@@ -56,7 +60,6 @@ function ImagePortal({ isOpen, onClose, imgObj }) {
 							</Button>
 						</div>
 					</div>
-					<button onClick={onClose}>Close</button>
 				</div>
 			</div>
 		</div>,

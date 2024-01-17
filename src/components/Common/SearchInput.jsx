@@ -1,31 +1,42 @@
-import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { PropTypes } from "prop-types";
+import { HiOutlinePhotograph } from "react-icons/hi";
+import { GoChevronDown } from "react-icons/go";
+import "./SearchInput.scss";
 
-function SearchInput({ onSearch }) {
-	const [searchString, setSearchString] = useState("");
-
-	const onQueryChange = ({ target: { value } }) => {
-		setSearchString(value);
-	};
-
+function SearchInput({ searchString, onChange, onSubmit, props }) {
 	return (
-		<form onSubmit={onSearch}>
-			<input
-				type="text"
-				value={searchString}
-				onChange={onQueryChange}
-				placeholder="Search for free photos"
-			/>
-			<button className="search-icon-btn">
-				<CiSearch />
+		<div
+			className="search-input-container"
+			{...props}>
+			<button className="option-btn">
+				{" "}
+				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> Photos{" "}
+				<GoChevronDown style={{ fontSize: "1rem" }} />
 			</button>
-		</form>
+			<form
+				onSubmit={onSubmit}
+				className="search-input">
+				<input
+					type="text"
+					value={searchString}
+					onChange={onChange}
+					placeholder="Search for free photos"
+				/>
+				<button className="search-icon-btn">
+					<CiSearch />
+				</button>
+			</form>
+		</div>
 	);
 }
 
 SearchInput.propTypes = {
-	onSearch: PropTypes.func,
+	// className: PropTypes.string,
+	searchString: PropTypes.string,
+	onChange: PropTypes.func,
+	onSubmit: PropTypes.func,
+	props: PropTypes.object,
 };
 
 export default SearchInput;

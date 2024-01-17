@@ -1,32 +1,46 @@
 import { useRef, useContext, useState, useEffect } from "react";
-import { CiSearch } from "react-icons/ci";
 // import NavBar from "../NavBar/NavBar";
 import { AiOutlineClose } from "react-icons/ai";
-import { SearchContext } from "../../context/searchContext";
+import { SearchContext } from "../../context/SearchProvider";
 import { useNavigate } from "react-router-dom";
-import { HiOutlinePhotograph } from "react-icons/hi";
-import { GoChevronDown } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
 import pexelsLogo from "../../assets/images/pexels-logo.jpg";
+import SearchInput from "../Common/SearchInput";
 import "./Header.scss";
 
 function Header() {
 	const sidebarRef = useRef();
-	const searchInputRef = useRef();
+	// const searchInputRef = useRef();
 	const navbarRef = useRef();
 	const navigate = useNavigate();
 	const { onSetQuery } = useContext(SearchContext);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [showSearchInput, setShowSearchInput] = useState(false);
+	const [searchString, setSearchString] = useState("");
 
+	const onSearchStringChange = ({ target: { value } }) => {
+		setSearchString(value);
+	};
+
+	function handleScroll() {
+		const isScrolled = window.scrollY >= 600;
+		setShowSearchInput(isScrolled);
+		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
+
+		if (window.scrollY >= 600) {
+			// console.log("scrolled :", window.scrollY);
+			setShowSearchInput(true);
+			navbarRef.current.className = "main-nav-bar fixed-nav";
+		} else {
+			setShowSearchInput(false);
+			navbarRef.current.className = "main-nav-bar absolute-nav";
+		}
+	}
 	useEffect(() => {
-		window.addEventListener("scroll", () => {
-			if (window.scrollY >= 600) {
-				console.log("scrolled :", window.scrollY);
-				navbarRef.current.className = "nav-bar fixed-nav";
-			} else {
-				navbarRef.current.className = "nav-bar absolute-nav";
-			}
-		});
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
 	}, []);
 
 	const toggleSidebar = () => {
@@ -41,74 +55,58 @@ function Header() {
 
 	const onSubmitSearch = event => {
 		event.preventDefault();
-		const searchQuery = searchInputRef.current.value;
-		// console.log("searching for :", searchQuery);
-		onSetQuery(searchQuery);
-		navigate(`search/${searchQuery}`);
+		onSetQuery(searchString);
+		navigate(`search/${searchString}`);
 	};
 
 	return (
 		<>
 			<div
-				className="nav-bar absolute-nav"
+				className="main-nav-bar absolute-nav"
 				ref={navbarRef}>
-				<div className="logo">
-					<img
-						src={pexelsLogo}
-						alt="pexels logo"
-					/>
-					<span>Pexels</span>
-				</div>
-				<div className="search-input-container">
-					<button className="option-btn">
-						{" "}
-						<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> Photos{" "}
-						<GoChevronDown style={{ fontSize: "1rem" }} />
-					</button>
-					<form onSubmit={onSubmitSearch}>
-						<input
-							type="text"
-							ref={searchInputRef}
-							placeholder="Search for free photos"
+				<div className="left">
+					<div className="logo">
+						<img
+							src={pexelsLogo}
+							alt="pexels logo"
 						/>
-						<button className="search-icon-btn">
-							<CiSearch />
-						</button>
-					</form>
+						<span>Pexels</span>
+					</div>
+
+					{showSearchInput && (
+						<SearchInput
+							searchString={searchString}
+							onChange={onSearchStringChange}
+							onSubmit={onSubmitSearch}
+						/>
+					)}
 				</div>
-				<ul className="nav-items">
-					<li>Explore</li>
-					<li>License</li>
-					<li>
-						<button>Upload</button>
-					</li>
-					<li>
-						<button className="sidebar-btn">
-							<GiHamburgerMenu onClick={toggleSidebar} />
-						</button>
-					</li>
-				</ul>
+				<div className="right">
+					<ul className="nav-items">
+						<li>Explore</li>
+						<li>License</li>
+						<li>
+							<button className="upload-btn">Upload</button>
+						</li>
+						<li>
+							<button className="sidebar-btn">
+								<GiHamburgerMenu onClick={toggleSidebar} />
+							</button>
+						</li>
+					</ul>
+				</div>
 			</div>
 			<header className="main-header">
 				<div className="hero">
-					<h1>The best free stock photos, royalty free images & videos shared by creators</h1>
-					<div className="search-input-container">
-						<button className="option-btn">
-							{" "}
-							<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> Photos{" "}
-							<GoChevronDown style={{ fontSize: "1rem" }} />
-						</button>
-						<form onSubmit={onSubmitSearch}>
-							<input
-								type="text"
-								ref={searchInputRef}
-								placeholder="Search for free photos"
-							/>
-							<button className="search-icon-btn">
-								<CiSearch />
-							</button>
-						</form>
-					</div>
+					<h1 className="heading">
+						The best free stock photos, royalty free images & videos shared by creators
+					</h1>
+					<SearchInput
+						style={{ margin: "15px 0 0 0" }}
+						searchString={searchString}
+						onChange={onSearchStringChange}
+						onSubmit={onSubmitSearch}
+					/>
 				</div>
 			</header>
 			{sidebarOpen && (

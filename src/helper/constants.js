@@ -2,7 +2,7 @@ export const relatedCategories = [
 	"people",
 	"nature",
 	"funny",
-	"art",
+	"sports",
 	"dice",
 	"abstract",
 	"background",
@@ -10,4 +10,8 @@ export const relatedCategories = [
 	"design",
 	"dark",
 	"business",
+	"technology",
+	"coding",
+	"programming",
+	"art",
 ];

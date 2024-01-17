@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 import "./NavBar.scss";
 
-function NavBar({ onSidebarOpen }) {
+function NavBar({ onSidebarOpen, hasSidebarBtn }) {
 	return (
 		<div className="nav-bar">
 			<div className="logo">
@@ -19,11 +19,13 @@ function NavBar({ onSidebarOpen }) {
 				<li>
 					<button>Upload</button>
 				</li>
-				<li>
-					<button className="sidebar-btn">
-						<GiHamburgerMenu onClick={onSidebarOpen} />
-					</button>
-				</li>
+				{hasSidebarBtn && (
+					<li>
+						<button className="sidebar-btn">
+							<GiHamburgerMenu onClick={onSidebarOpen} />
+						</button>
+					</li>
+				)}
 			</ul>
 		</div>
 	);
@@ -31,6 +33,7 @@ function NavBar({ onSidebarOpen }) {
 
 NavBar.propTypes = {
 	onSidebarOpen: PropTypes.func,
+	hasSidebarBtn: PropTypes.bool,
 };
 
 export default NavBar;
