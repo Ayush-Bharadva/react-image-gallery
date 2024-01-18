@@ -223,12 +223,14 @@ button {
 @media screen and (max-width: 900px) {
 	.main-nav-bar {
 		width: 100%;
-		.nav-items {
-			gap: 1rem;
-			justify-content: flex-start;
-			.sidebar-btn {
-				display: block;
-				font-size: 32px;
+		.right {
+			.nav-items {
+				gap: 1rem;
+				justify-content: flex-start;
+				.sidebar-btn {
+					display: block;
+					font-size: 32px;
+				}
 			}
 		}
 	}

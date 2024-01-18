@@ -14,9 +14,9 @@ export const SearchContext = createContext({
 function SearchProvider({ children }) {
 	const [query, setQuery] = useState("");
 	const [showModal, setShowModal] = useState(false);
-	const [modalImageInfo, setModalImageInfo] = useState({});
+	const [modalImageInfo, setModalImageInfo] = useState(null);
 
-	const onSetQuery = (query) => {
+	const onSetQuery = query => {
 		// console.log("ctx onSetQuery :", query);
 		setQuery(query);
 	};
@@ -30,8 +30,7 @@ function SearchProvider({ children }) {
 				onSetQuery,
 				setModalImageInfo,
 				setShowModal,
-			}}
-		>
+			}}>
 			{children}
 		</SearchContext.Provider>
 	);

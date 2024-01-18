@@ -13,8 +13,23 @@
 	color: #fff;
 }
 
+.flex-row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .flex-center {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.text-center-v {
+	display: flex;
+	align-items: center;
+}
+
+.gap-5 {
+	gap: 5px;
 }

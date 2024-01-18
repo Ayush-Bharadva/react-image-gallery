@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import "./Button.scss";
 
-function Button({ props, children, className }) {
+function Button({ children, className, ...props }) {
 	const btnClass = "outlined-button " + className;
 
 	return (

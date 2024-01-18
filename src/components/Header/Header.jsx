@@ -10,7 +10,6 @@ import "./Header.scss";
 
 function Header() {
 	const sidebarRef = useRef();
-	// const searchInputRef = useRef();
 	const navbarRef = useRef();
 	const navigate = useNavigate();
 	const { onSetQuery } = useContext(SearchContext);
@@ -28,7 +27,6 @@ function Header() {
 		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
 
 		if (window.scrollY >= 600) {
-			// console.log("scrolled :", window.scrollY);
 			setShowSearchInput(true);
 			navbarRef.current.className = "main-nav-bar fixed-nav";
 		} else {

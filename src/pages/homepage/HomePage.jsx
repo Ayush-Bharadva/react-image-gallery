@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from "react";
-import ImagePortal from "../../components/Common/ImagePortal";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth, fetchCuratedImages } from "../../services/services";
 import { calculateColumns } from "../../helper/helper";
@@ -56,19 +55,6 @@ function HomePage() {
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
-	const onImageSelect = imageObj => {
-		console.log(imageObj);
-	};
-
-	const [showModal, setShowModal] = useState(false);
-
-	const imageObj = {
-		src: {
-			large: "https://images.pexels.com/photos/19802127/pexels-photo-19802127.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-		},
-		alt: "temp",
-	};
-
 	return (
 		<div className="home-container">
 			<div className="heading">
@@ -77,7 +63,6 @@ function HomePage() {
 					Trending <GoChevronDown />{" "}
 				</button>
 			</div>
-			<button onClick={() => setShowModal(true)}>Open Model</button>
 			<InfiniteScroll
 				key={Math.random.toString()}
 				loadMore={fetchImages}
@@ -87,14 +72,8 @@ function HomePage() {
 				<ImageGallery
 					key={Math.random().toString}
 					allImages={computedImageColumns}
-					onImageSelect={onImageSelect}
 				/>
 			</InfiniteScroll>
-			<ImagePortal
-				imgObj={imageObj}
-				isOpen={showModal}
-				onClose={() => setShowModal(false)}
-			/>
 			{/* <Each
 				of={allFetchedImages}
 				render={(item, index) => <li>{`${index} : ${item.title}`}</li>}

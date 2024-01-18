@@ -5,7 +5,7 @@ import { computeColumnsFromWidth, fetchSearchedImages } from "../services/servic
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
-import { GiHamburgerMenu } from "react-icons/gi";
+// import { GiHamburgerMenu } from "react-icons/gi";
 // import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { relatedCategories } from "../helper/constants";
 import { calculateColumns } from "../helper/helper";
@@ -13,7 +13,7 @@ import SearchInput from "../components/Common/SearchInput";
 import "../styles/Global.scss";
 import "./SearchPage.scss";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import ImagePortal from "../components/Common/ImagePortal";
+// import ImageDialog from "../components/Common/ImageDialog";
 
 function SearchPage() {
 	const location = useLocation();
@@ -126,14 +126,7 @@ function SearchPage() {
 		navigate("/", { replace: true });
 	};
 
-	const [showModal, setShowModal] = useState(false);
-
-	const imageObj = {
-		src: {
-			large: "https://images.pexels.com/photos/19802127/pexels-photo-19802127.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-		},
-		alt: "temp",
-	};
+	// const [showModal, setShowModal] = useState(false);
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
@@ -162,13 +155,7 @@ function SearchPage() {
 					<li>
 						<button>Upload</button>
 					</li>
-					<li>
-						<button className="sidebar-btn">
-							<GiHamburgerMenu />
-						</button>
-					</li>
 				</ul>
-				<button onClick={() => setShowModal(true)}>Open Model</button>
 			</div>
 			<div
 				className="related-categories-container"
@@ -206,11 +193,11 @@ function SearchPage() {
 					// key={}
 				/>
 			</InfiniteScroll>
-			<ImagePortal
-				imgObj={imageObj}
+			{/* <ImageDialog
+				// imgObj={imageObj}
 				isOpen={showModal}
 				onClose={() => setShowModal(false)}
-			/>
+			/> */}
 		</div>
 	);
 }

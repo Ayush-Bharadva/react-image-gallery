@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 
-.image-container {
+.main-image-container {
 	position: relative;
 	border-radius: 10px;
 	overflow: hidden;
@@ -29,7 +29,7 @@
 	}
 }
 
-.image-container:hover {
+.main-image-container:hover {
 	background: rgb(176, 177, 180);
 	filter: opacity(95%);
 }
@@ -59,7 +59,7 @@
 	display: none;
 }
 
-.image-container:hover {
+.main-image-container:hover {
 	.download-icon,
 	.bookmark-icon,
 	.heart-icon {
