@@ -75,30 +75,6 @@
 		.logo:hover {
 			opacity: 0.8;
 		}
-
-		// .search-input-container {
-		// 	background-color: #f7f7f7;
-		// 	width: 100%;
-		// 	height: 50px;
-		// 	border-radius: 6px;
-		// 	padding: 5px;
-		// 	// margin: 0 20px;
-		// 	display: flex;
-		// 	align-items: center;
-		// 	.option-btn {
-		// 		// background-color: #ececee;
-		// 		font-size: 16px;
-		// 		height: 100%;
-		// 		padding: 0 15px;
-		// 		display: flex;
-		// 		align-items: center;
-		// 		justify-content: space-between;
-		// 		gap: 5px;
-		// 		border-radius: 5px;
-		// 		border: 1px solid lightgray;
-		// 		outline: none;
-		// 	}
-		// }
 	}
 	.right {
 		.nav-items {
@@ -123,7 +99,16 @@
 				font-size: 1rem;
 				font-weight: 600;
 				border-radius: 8px;
-				border: 1px solid #dfdfe0;
+				background-color: #fff;
+				border: none;
+				outline: none;
+			}
+
+			.upload-btn {
+				background-color: #111;
+				color: #fff;
+				font-size: 20px;
+				display: none;
 			}
 
 			.sidebar-btn {
@@ -141,7 +126,7 @@
 .main-header {
 	position: relative;
 	min-height: 500px;
-	width: 100%;
+	width: 100vw;
 	background: url("../../assets/images/hero-image.jpeg") top right/auto 100% no-repeat;
 	z-index: 0;
 
@@ -150,14 +135,20 @@
 		max-width: 630px;
 		min-height: 500px;
 		display: flex;
+		flex-wrap: wrap;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		margin: auto;
+		padding: 9px;
 		color: #fff;
 
 		.heading {
 			margin-bottom: 20px;
+		}
+
+		.search-input-container {
+			height: 50px;
 		}
 	}
 }
@@ -220,13 +211,50 @@ button {
 	cursor: pointer;
 }
 
+@media screen and (max-width: 375px) {
+	.main-nav-bar {
+		.right {
+			.nav-items {
+				button {
+					padding: 0 1rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.main-nav-bar {
+		.right {
+			.nav-items {
+				.upload-btn {
+					display: block;
+				}
+			}
+		}
+	}
+}
+
 @media screen and (max-width: 900px) {
 	.main-nav-bar {
 		width: 100%;
+		.left {
+			.logo {
+				span {
+					display: none;
+				}
+			}
+		}
+
 		.right {
 			.nav-items {
-				gap: 1rem;
+				gap: 0.5rem;
 				justify-content: flex-start;
+
+				li {
+					display: none;
+				}
+
 				.sidebar-btn {
 					display: block;
 					font-size: 32px;
@@ -234,6 +262,12 @@ button {
 			}
 		}
 	}
+}
+
+@media screen and (max-width: 1400px) {
+}
+
+@media screen and (min-width: 1401px) {
 }
 
 @media screen and (max-width: 760px) {

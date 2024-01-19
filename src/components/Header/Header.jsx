@@ -1,8 +1,9 @@
 import { useRef, useContext, useState, useEffect } from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import { SearchContext } from "../../context/SearchProvider";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FiUpload } from "react-icons/fi";
 import SearchInput from "../Common/SearchInput";
 import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 import "./Header.scss";
@@ -23,9 +24,7 @@ function Header() {
 	function handleScroll() {
 		const isScrolled = window.scrollY >= 600;
 		setShowSearchInput(isScrolled);
-		navbarRef.current.className = `main-nav-bar ${
-			isScrolled ? "fixed-nav" : "absolute-nav"
-		}`;
+		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
 	}
 
 	useEffect(() => {
@@ -36,7 +35,7 @@ function Header() {
 	}, []);
 
 	const toggleSidebar = () => {
-		setSidebarOpen((prev) => !prev);
+		setSidebarOpen(prev => !prev);
 		setSidebarWidth();
 	};
 
@@ -45,7 +44,7 @@ function Header() {
 		sidebarRef.current.style.width = width;
 	};
 
-	const onSubmitSearch = (event) => {
+	const onSubmitSearch = event => {
 		event.preventDefault();
 		setQuery(searchString);
 		navigate(`search/${searchString}`);
@@ -53,10 +52,15 @@ function Header() {
 
 	return (
 		<>
-			<div className="main-nav-bar absolute-nav" ref={navbarRef}>
+			<div
+				className="main-nav-bar absolute-nav"
+				ref={navbarRef}>
 				<div className="left">
 					<div className="logo">
-						<img src={pexelsLogo} alt="pexels logo" />
+						<img
+							src={pexelsLogo}
+							alt="pexels logo"
+						/>
 						<span>Pexels</span>
 					</div>
 					{showSearchInput && (
@@ -71,22 +75,20 @@ function Header() {
 					<ul className="nav-items">
 						<li>Explore</li>
 						<li>License</li>
-						<li>
-							<button className="upload-btn">Upload</button>
-						</li>
-						<li>
-							<button className="sidebar-btn">
-								<GiHamburgerMenu onClick={toggleSidebar} />
-							</button>
-						</li>
+						<button>Upload</button>
+						<button className="upload-btn">
+							<FiUpload />
+						</button>
+						<button className="sidebar-btn">
+							<GiHamburgerMenu onClick={toggleSidebar} />
+						</button>
 					</ul>
 				</div>
 			</div>
 			<header className="main-header">
 				<div className="hero">
 					<h1 className="heading">
-						The best free stock photos, royalty free images & videos
-						shared by creators
+						The best free stock photos, royalty free images & videos shared by creators
 					</h1>
 					<SearchInput
 						style={{ margin: "15px 0 0 0" }}
@@ -97,17 +99,21 @@ function Header() {
 				</div>
 			</header>
 			{sidebarOpen && (
-				<div id="sidebar-container" ref={sidebarRef}>
-					<button className="close-icon-btn" onClick={toggleSidebar}>
+				<div
+					id="sidebar-container"
+					ref={sidebarRef}>
+					<button
+						className="close-icon-btn"
+						onClick={toggleSidebar}>
 						<AiOutlineClose />
 					</button>
-					<button>Home</button>
-					<button>Discover Photos</button>
-					<button>Popular Searches</button>
-					<button>Free Videos</button>
-					<button>Challenges</button>
-					<button>Leaderboard</button>
-					<button>Pexels Blog</button>
+					<button onClick={toggleSidebar}>Home</button>
+					<button onClick={toggleSidebar}>Discover Photos</button>
+					<button onClick={toggleSidebar}>Popular Searches</button>
+					<button onClick={toggleSidebar}>Free Videos</button>
+					<button onClick={toggleSidebar}>Challenges</button>
+					<button onClick={toggleSidebar}>Leaderboard</button>
+					<button onClick={toggleSidebar}>Pexels Blog</button>
 				</div>
 			)}
 		</>

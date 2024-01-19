@@ -1,17 +1,18 @@
-.home-container {
+#home-container {
 	position: relative;
-	max-width: 75vw;
 	margin: 0 auto;
 
 	.heading {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		padding: 0.5rem;
 
 		button {
 			padding: 0.65rem 1.3rem;
 			background-color: #fff;
 			font-size: 1rem;
+
 			border: 1px solid lightgray;
 			border-radius: 5px;
 			display: flex;
@@ -22,5 +23,32 @@
 		button:hover {
 			border-color: #333;
 		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	#home-container {
+		max-width: 95vw;
+		.heading {
+			font-size: 0.75rem;
+		}
+	}
+}
+
+@media screen and (max-width: 900px) {
+	#home-container {
+		max-width: 95vw;
+	}
+}
+
+@media screen and (max-width: 1400px) {
+	#home-container {
+		max-width: 90vw;
+	}
+}
+
+@media screen and (min-width: 1401px) {
+	#home-container {
+		max-width: 80vw;
 	}
 }

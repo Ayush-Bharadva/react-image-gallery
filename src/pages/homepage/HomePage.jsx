@@ -5,6 +5,7 @@ import { calculateColumns } from "../../helper/helper";
 import ImageGallery from "../../components/Common/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./HomePage.scss";
+import "../../styles/Global.scss";
 
 const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
@@ -56,7 +57,7 @@ function HomePage() {
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
 	return (
-		<div className="home-container">
+		<div id="home-container">
 			<div className="heading">
 				<h1>Free Stock Photos</h1>
 				<button>
@@ -64,20 +65,14 @@ function HomePage() {
 				</button>
 			</div>
 			<InfiniteScroll
-				key={Math.random.toString()}
+				className="infinite-scroll-container"
+				key={Math.random().toString()}
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
 				threshold={400}>
-				<ImageGallery
-					key={Math.random().toString}
-					allImages={computedImageColumns}
-				/>
+				<ImageGallery allImages={computedImageColumns} />
 			</InfiniteScroll>
-			{/* <Each
-				of={allFetchedImages}
-				render={(item, index) => <li>{`${index} : ${item.title}`}</li>}
-			/> */}
 		</div>
 	);
 }

@@ -6,15 +6,19 @@ import "./SearchInput.scss";
 
 function SearchInput({ searchString, onChange, onSubmit, props }) {
 	return (
-		<div className="search-input-container" {...props}>
+		<div
+			className="search-input-container"
+			{...props}>
 			<button className="option-btn">
 				{" "}
-				<HiOutlinePhotograph
-					style={{ fontSize: "1.25rem" }}
-				/> Photos <GoChevronDown style={{ fontSize: "1rem" }} />
+				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> <span>Photos</span>{" "}
+				<GoChevronDown style={{ fontSize: "1rem" }} />
 			</button>
-			<form onSubmit={onSubmit} className="search-input">
+			<form
+				onSubmit={onSubmit}
+				className="search-input">
 				<input
+					id="search"
 					type="text"
 					value={searchString}
 					onChange={onChange}

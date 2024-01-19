@@ -12,7 +12,6 @@ const axiosInstance = axios.create({
 export async function fetchSearchedImages(query, nextPageLink) {
 	try {
 		const apiUrl = nextPageLink || `https://api.pexels.com/v1/search/?query=${query}`;
-		// console.log("Service: Fetching searched images...", query, nextPageLink);
 
 		const response = await axiosInstance.get(apiUrl);
 		if (response.status === 200) {

@@ -1,3 +1,30 @@
+.infinite-scroll-container {
+	gap: 7px;
+	max-width: 100%;
+}
+
+.image-gallery-container {
+	display: flex;
+	gap: 9px;
+	padding: 0.5rem;
+	.col-1,
+	.col-2,
+	.col-3 {
+		width: 100%;
+		li {
+			list-style-type: none;
+			border-radius: 7px;
+			overflow: hidden;
+			margin: 7px;
+			cursor: pointer;
+			img {
+				width: 100%;
+				display: block;
+			}
+		}
+	}
+}
+
 .translateLeft {
 	transform: translateX(50%);
 }

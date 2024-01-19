@@ -3,16 +3,14 @@ p {
 }
 
 dialog {
-	// position: fixed;
-	z-index: 20;
 	width: calc(100vw - 300px);
 	height: 100%;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	border: none;
+	outline: none;
 	border-radius: 12px;
-
 	&::backdrop {
 		background-color: rgba($color: #000, $alpha: 0.5);
 	}
@@ -21,9 +19,22 @@ dialog {
 	}
 	&::-webkit-scrollbar-thumb {
 		background-color: #777;
+		border-radius: 9px;
 	}
 	&::-webkit-scrollbar-track {
 		background-color: #f0f0f0;
+		border-radius: 9px;
+	}
+
+	form {
+		.modal-close-btn {
+			position: absolute;
+			background: none;
+			outline: none;
+			border: none;
+			font-size: 24px;
+			display: none;
+		}
 	}
 
 	.dialog-container {
@@ -95,4 +106,21 @@ dialog {
 			}
 		}
 	}
+}
+
+dialog:hover {
+	form {
+		.modal-close-btn {
+			display: block;
+		}
+	}
+}
+
+.close-modal-btn {
+	position: absolute;
+	top: 40px;
+	left: 40px;
+	z-index: 20;
+	background-color: crimson;
+	color: #f0f0f0;
 }

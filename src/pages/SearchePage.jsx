@@ -1,30 +1,25 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/SearchProvider";
-import {
-	computeColumnsFromWidth,
-	fetchSearchedImages,
-} from "../services/services";
+import { computeColumnsFromWidth, fetchSearchedImages } from "../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
-// import { GiHamburgerMenu } from "react-icons/gi";
-// import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { relatedCategories } from "../helper/constants";
 import { calculateColumns } from "../helper/helper";
 import SearchInput from "../components/Common/SearchInput";
-import "../styles/Global.scss";
 import "./SearchPage.scss";
+import "../styles/Global.scss";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-// import ImageDialog from "../components/Common/ImageDialog";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { FiUpload } from "react-icons/fi";
+import { AiOutlineClose } from "react-icons/ai";
+import { PropTypes } from "prop-types";
 
 function SearchPage() {
+	const navigate = useNavigate();
 	const location = useLocation();
 	const pathname = location.pathname;
-	const navigate = useNavigate();
-	const { query, setQuery } = useContext(SearchContext);
-
-	const categoriesRef = useRef();
 
 	const [searchState, setSearchState] = useState({
 		searchedImagesInfo: [],
@@ -34,12 +29,17 @@ function SearchPage() {
 	});
 	const [columns, setColumns] = useState(1);
 	const [searchString, setSearchString] = useState("");
+	const [sidebarOpen, setSidebarOpen] = useState(false);
+
+	const { query, setQuery } = useContext(SearchContext);
+	const categoriesRef = useRef();
+	const sidebarRef = useRef();
+
 	const onSearchStringChange = ({ target: { value } }) => {
 		setSearchString(value);
 	};
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } =
-		searchState;
+	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
 	const onSetPrevQuery = useCallback(() => {
 		setSearchState({
@@ -60,15 +60,11 @@ function SearchPage() {
 	};
 
 	const fetchImages = useCallback(async () => {
-		// console.log("fetchImages cb :", query, isLoading, hasMore);
 		if (!isLoading && hasMore) {
 			try {
-				setSearchState((prev) => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(
-					query,
-					nextPageLink
-				);
-				setSearchState((prev) => ({
+				setSearchState(prev => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
+				setSearchState(prev => ({
 					...prev,
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
 					hasMore: !!next_page,
@@ -93,7 +89,7 @@ function SearchPage() {
 		};
 	}, []);
 
-	const fetchCategoryImages = (event) => {
+	const fetchCategoryImages = event => {
 		const category = event.target.value;
 		setSearchState({
 			searchedImagesInfo: [],
@@ -105,12 +101,9 @@ function SearchPage() {
 		navigate(`/search/${category}`);
 	};
 
-	const computedLayoutColumns = computeColumnsFromWidth(
-		searchedImagesInfo,
-		columns
-	);
+	const computedLayoutColumns = computeColumnsFromWidth(searchedImagesInfo, columns);
 
-	const onSubmitSearch = (event) => {
+	const onSubmitSearch = event => {
 		event.preventDefault();
 		setSearchState({
 			searchedImagesInfo: [],
@@ -119,7 +112,6 @@ function SearchPage() {
 			isLoading: false,
 		});
 		const newQuery = searchString;
-		// console.log(!newQuery.trim());
 		if (!newQuery.trim()) {
 			navigate("/");
 			return;
@@ -128,81 +120,162 @@ function SearchPage() {
 		navigate(`/search/${newQuery}`);
 	};
 
-	const onScroll = (scrollOffset) => {
-		categoriesRef.current.scrollLeft += scrollOffset;
+	const onScroll = scrollOffset => {
+		if (categoriesRef.current) {
+			// categoriesRef.current.style.transition = "scroll-left 0.5s ease-in-out";
+			categoriesRef.current.scrollLeft += scrollOffset;
+		}
 	};
 
 	const onNavigateToHome = () => {
+		if (location.pathname === "/") {
+			console.log(location.pathname);
+			toggleSidebar();
+		}
 		navigate("/", { replace: true });
 	};
 
-	// const [showModal, setShowModal] = useState(false);
+	const toggleSidebar = () => {
+		setSidebarOpen(prev => !prev);
+		setSidebarWidth();
+	};
+
+	const setSidebarWidth = () => {
+		const width = sidebarOpen ? "275px" : "0";
+		sidebarRef.current.style.width = width;
+	};
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
 	return (
 		<div id="search-images-container">
-			<div className="nav-bar">
-				<div className="nav-bar-left">
-					<div className="logo" onClick={onNavigateToHome}>
-						<img src={pexelsLogo} alt="pexels logo" />
-						<span>Pexels</span>
-					</div>
-					<SearchInput
-						searchString={searchString}
-						onChange={onSearchStringChange}
-						onSubmit={onSubmitSearch}
-					/>
-				</div>
-				<ul className="nav-items nav-bar-right">
-					<li>Explore</li>
-					<li>License</li>
-					<li>
-						<button>Upload</button>
-					</li>
-				</ul>
-			</div>
-			<div className="related-categories-container" ref={categoriesRef}>
-				<FaAngleLeft
-					className="move-left-icon"
-					onClick={() => onScroll(-100)}
-				/>
-				<div className="related-categories" ref={categoriesRef}>
-					{relatedCategories.map((category, index) => (
-						// <li key={index}>
-						<button
-							key={index}
-							onClick={fetchCategoryImages}
-							value={category}
-						>
-							{category}
-						</button>
-						// </li>
-					))}
-				</div>
-				<FaAngleRight
-					className="move-right-icon"
-					onClick={() => onScroll(100)}
-				/>
-			</div>
+			<CustomNavBar
+				onNavigateToHome={onNavigateToHome}
+				pexelsLogo={pexelsLogo}
+				searchString={searchString}
+				onSearchStringChange={onSearchStringChange}
+				onSubmitSearch={onSubmitSearch}
+				toggleSidebar={toggleSidebar}
+			/>
+			<RelatedCategories
+				onScroll={onScroll}
+				categoriesRef={categoriesRef}
+				fetchCategoryImages={fetchCategoryImages}
+			/>
 			<InfiniteScroll
+				className="infinite-scroll-container"
+				key={Math.random().toString()}
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
-				threshold={500}
-			>
-				<ImageGallery
-					allImages={computedLayoutColumns}
-					// key={}
-				/>
+				threshold={500}>
+				<ImageGallery allImages={computedLayoutColumns} />
 			</InfiniteScroll>
-			{/* <ImageDialog
-				// imgObj={imageObj}
-				isOpen={showModal}
-				onClose={() => setShowModal(false)}
-			/> */}
+			{sidebarOpen && (
+				<div
+					id="sidebar-container"
+					ref={sidebarRef}>
+					<button
+						className="close-icon-btn"
+						onClick={toggleSidebar}>
+						<AiOutlineClose />
+					</button>
+					<button onClick={onNavigateToHome}>Home</button>
+					<button>Discover Photos</button>
+					<button>Popular Searches</button>
+					<button>Free Videos</button>
+					<button>Challenges</button>
+					<button>Leaderboard</button>
+					<button>Pexels Blog</button>
+				</div>
+			)}
 		</div>
 	);
 }
 
 export default SearchPage;
+
+function CustomNavBar({
+	onNavigateToHome,
+	pexelsLogo,
+	searchString,
+	onSearchStringChange,
+	onSubmitSearch,
+	toggleSidebar,
+}) {
+	return (
+		<div className="nav-bar">
+			<div className="nav-bar-left">
+				<div
+					className="logo"
+					onClick={onNavigateToHome}>
+					<img
+						src={pexelsLogo}
+						alt="pexels logo"
+					/>
+					<span>Pexels</span>
+				</div>
+				<SearchInput
+					searchString={searchString}
+					onChange={onSearchStringChange}
+					onSubmit={onSubmitSearch}
+				/>
+			</div>
+			<ul className="nav-items nav-bar-right">
+				<li>Explore</li>
+				<li>License</li>
+				<li>
+					<button>Upload</button>
+				</li>
+				<button className="upload-btn">
+					<FiUpload />
+				</button>
+				<button className="sidebar-btn">
+					<GiHamburgerMenu onClick={toggleSidebar} />
+				</button>
+			</ul>
+		</div>
+	);
+}
+
+CustomNavBar.propTypes = {
+	onNavigateToHome: PropTypes.func,
+	pexelsLogo: PropTypes.string,
+	searchString: PropTypes.string,
+	onSearchStringChange: PropTypes.func,
+	onSubmitSearch: PropTypes.func,
+	toggleSidebar: PropTypes.func,
+};
+
+function RelatedCategories({ onScroll, categoriesRef, fetchCategoryImages }) {
+	return (
+		<div className="related-categories-container">
+			<FaAngleLeft
+				className="move-left-icon"
+				onClick={() => onScroll(-100)}
+			/>
+			<div
+				className="related-categories"
+				ref={categoriesRef}>
+				{relatedCategories.map((category, index) => (
+					<button
+						key={index}
+						onClick={fetchCategoryImages}
+						value={category}>
+						{category}
+					</button>
+				))}
+			</div>
+			<FaAngleRight
+				className="move-right-icon"
+				onClick={() => onScroll(100)}
+			/>
+		</div>
+	);
+}
+
+RelatedCategories.propTypes = {
+	onScroll: PropTypes.func,
+	categoriesRef: PropTypes.func,
+	fetchCategoryImages: PropTypes.func,
+};

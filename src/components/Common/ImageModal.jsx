@@ -2,21 +2,21 @@ import { forwardRef, useContext, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import Button from "../../UI/Button";
+import { SearchContext } from "../../context/SearchProvider";
 import { GoChevronDown } from "react-icons/go";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
 import { BsInfoCircle } from "react-icons/bs";
 import { CiShare1 } from "react-icons/ci";
-import { SearchContext } from "../../context/SearchProvider";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
 import { SiCanva } from "react-icons/si";
 import { RxCross1 } from "react-icons/rx";
 import { onDownloadImage } from "../../services/services";
-import "./ImageDialog.scss";
+import "./ImageModal.scss";
 import "../../styles/Global.scss";
 
-const ImageDialog = forwardRef(function ImageDialog(props, ref) {
+const ImageModal = forwardRef(function ImageModal(props, ref) {
 	const imageDialog = useRef(null);
 
 	useImperativeHandle(ref, () => {
@@ -28,18 +28,19 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 	});
 
 	const { modalImageInfo } = useContext(SearchContext);
-	// console.log(modalImageInfo);
 
 	const handleDownload = () => {
 		onDownloadImage(modalImageInfo.src.large, modalImageInfo.alt);
 	};
 
 	return createPortal(
-		<dialog {...props} ref={imageDialog}>
+		<dialog
+			{...props}
+			ref={imageDialog}>
 			{modalImageInfo ? (
 				<>
 					<form method="dialog">
-						<button>
+						<button className="modal-close-btn">
 							<RxCross1 />
 						</button>
 					</form>
@@ -54,8 +55,7 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 							</div>
 							<div className="actions">
 								<Button>
-									<IoBookmarksOutline className="icon" />{" "}
-									Collect
+									<IoBookmarksOutline className="icon" /> Collect
 								</Button>
 								<Button>
 									<IoHeartOutline className="icon" /> Like
@@ -65,10 +65,8 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 								</Button>
 								<Button
 									className="download-btn-bg text-white"
-									onClick={handleDownload}
-								>
-									Free Download{" "}
-									<GoChevronDown className="icon" />{" "}
+									onClick={handleDownload}>
+									Free Download <GoChevronDown className="icon" />{" "}
 								</Button>
 							</div>
 						</div>
@@ -104,8 +102,8 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 	);
 });
 
-ImageDialog.propTypes = {
+ImageModal.propTypes = {
 	props: PropTypes.object,
 };
 
-export default ImageDialog;
+export default ImageModal;
