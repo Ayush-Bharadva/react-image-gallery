@@ -1,18 +1,17 @@
 import { useRef, useContext, useState, useEffect } from "react";
-// import NavBar from "../NavBar/NavBar";
 import { AiOutlineClose } from "react-icons/ai";
 import { SearchContext } from "../../context/SearchProvider";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
-import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 import SearchInput from "../Common/SearchInput";
+import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 import "./Header.scss";
 
 function Header() {
 	const sidebarRef = useRef();
 	const navbarRef = useRef();
 	const navigate = useNavigate();
-	const { onSetQuery } = useContext(SearchContext);
+	const { setQuery } = useContext(SearchContext);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [showSearchInput, setShowSearchInput] = useState(false);
 	const [searchString, setSearchString] = useState("");
@@ -24,16 +23,11 @@ function Header() {
 	function handleScroll() {
 		const isScrolled = window.scrollY >= 600;
 		setShowSearchInput(isScrolled);
-		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
-
-		if (window.scrollY >= 600) {
-			setShowSearchInput(true);
-			navbarRef.current.className = "main-nav-bar fixed-nav";
-		} else {
-			setShowSearchInput(false);
-			navbarRef.current.className = "main-nav-bar absolute-nav";
-		}
+		navbarRef.current.className = `main-nav-bar ${
+			isScrolled ? "fixed-nav" : "absolute-nav"
+		}`;
 	}
+
 	useEffect(() => {
 		window.addEventListener("scroll", handleScroll);
 		return () => {
@@ -42,7 +36,7 @@ function Header() {
 	}, []);
 
 	const toggleSidebar = () => {
-		setSidebarOpen(prev => !prev);
+		setSidebarOpen((prev) => !prev);
 		setSidebarWidth();
 	};
 
@@ -51,26 +45,20 @@ function Header() {
 		sidebarRef.current.style.width = width;
 	};
 
-	const onSubmitSearch = event => {
+	const onSubmitSearch = (event) => {
 		event.preventDefault();
-		onSetQuery(searchString);
+		setQuery(searchString);
 		navigate(`search/${searchString}`);
 	};
 
 	return (
 		<>
-			<div
-				className="main-nav-bar absolute-nav"
-				ref={navbarRef}>
+			<div className="main-nav-bar absolute-nav" ref={navbarRef}>
 				<div className="left">
 					<div className="logo">
-						<img
-							src={pexelsLogo}
-							alt="pexels logo"
-						/>
+						<img src={pexelsLogo} alt="pexels logo" />
 						<span>Pexels</span>
 					</div>
-
 					{showSearchInput && (
 						<SearchInput
 							searchString={searchString}
@@ -97,7 +85,8 @@ function Header() {
 			<header className="main-header">
 				<div className="hero">
 					<h1 className="heading">
-						The best free stock photos, royalty free images & videos shared by creators
+						The best free stock photos, royalty free images & videos
+						shared by creators
 					</h1>
 					<SearchInput
 						style={{ margin: "15px 0 0 0" }}
@@ -108,12 +97,8 @@ function Header() {
 				</div>
 			</header>
 			{sidebarOpen && (
-				<div
-					id="sidebar-container"
-					ref={sidebarRef}>
-					<button
-						className="close-icon-btn"
-						onClick={toggleSidebar}>
+				<div id="sidebar-container" ref={sidebarRef}>
+					<button className="close-icon-btn" onClick={toggleSidebar}>
 						<AiOutlineClose />
 					</button>
 					<button>Home</button>

@@ -1,7 +1,10 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../context/SearchProvider";
-import { computeColumnsFromWidth, fetchSearchedImages } from "../services/services";
+import {
+	computeColumnsFromWidth,
+	fetchSearchedImages,
+} from "../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
@@ -19,7 +22,7 @@ function SearchPage() {
 	const location = useLocation();
 	const pathname = location.pathname;
 	const navigate = useNavigate();
-	const { query, onSetQuery } = useContext(SearchContext);
+	const { query, setQuery } = useContext(SearchContext);
 
 	const categoriesRef = useRef();
 
@@ -35,7 +38,8 @@ function SearchPage() {
 		setSearchString(value);
 	};
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
+	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } =
+		searchState;
 
 	const onSetPrevQuery = useCallback(() => {
 		setSearchState({
@@ -47,8 +51,8 @@ function SearchPage() {
 		const temp = pathname.split("/");
 		const prevQuery = temp[temp.length - 1];
 		setSearchString(prevQuery);
-		onSetQuery(prevQuery);
-	}, [pathname, onSetQuery]);
+		setQuery(prevQuery);
+	}, [pathname, setQuery]);
 
 	const computeColumns = () => {
 		const columnCount = calculateColumns();
@@ -59,9 +63,12 @@ function SearchPage() {
 		// console.log("fetchImages cb :", query, isLoading, hasMore);
 		if (!isLoading && hasMore) {
 			try {
-				setSearchState(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
-				setSearchState(prev => ({
+				setSearchState((prev) => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchSearchedImages(
+					query,
+					nextPageLink
+				);
+				setSearchState((prev) => ({
 					...prev,
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
 					hasMore: !!next_page,
@@ -86,7 +93,7 @@ function SearchPage() {
 		};
 	}, []);
 
-	const fetchCategoryImages = event => {
+	const fetchCategoryImages = (event) => {
 		const category = event.target.value;
 		setSearchState({
 			searchedImagesInfo: [],
@@ -94,13 +101,16 @@ function SearchPage() {
 			hasMore: true,
 			isLoading: false,
 		});
-		onSetQuery(category);
+		setQuery(category);
 		navigate(`/search/${category}`);
 	};
 
-	const computedLayoutColumns = computeColumnsFromWidth(searchedImagesInfo, columns);
+	const computedLayoutColumns = computeColumnsFromWidth(
+		searchedImagesInfo,
+		columns
+	);
 
-	const onSubmitSearch = event => {
+	const onSubmitSearch = (event) => {
 		event.preventDefault();
 		setSearchState({
 			searchedImagesInfo: [],
@@ -114,11 +124,11 @@ function SearchPage() {
 			navigate("/");
 			return;
 		}
-		onSetQuery(newQuery);
+		setQuery(newQuery);
 		navigate(`/search/${newQuery}`);
 	};
 
-	const onScroll = scrollOffset => {
+	const onScroll = (scrollOffset) => {
 		categoriesRef.current.scrollLeft += scrollOffset;
 	};
 
@@ -134,13 +144,8 @@ function SearchPage() {
 		<div id="search-images-container">
 			<div className="nav-bar">
 				<div className="nav-bar-left">
-					<div
-						className="logo"
-						onClick={onNavigateToHome}>
-						<img
-							src={pexelsLogo}
-							alt="pexels logo"
-						/>
+					<div className="logo" onClick={onNavigateToHome}>
+						<img src={pexelsLogo} alt="pexels logo" />
 						<span>Pexels</span>
 					</div>
 					<SearchInput
@@ -157,22 +162,19 @@ function SearchPage() {
 					</li>
 				</ul>
 			</div>
-			<div
-				className="related-categories-container"
-				ref={categoriesRef}>
+			<div className="related-categories-container" ref={categoriesRef}>
 				<FaAngleLeft
 					className="move-left-icon"
 					onClick={() => onScroll(-100)}
 				/>
-				<div
-					className="related-categories"
-					ref={categoriesRef}>
+				<div className="related-categories" ref={categoriesRef}>
 					{relatedCategories.map((category, index) => (
 						// <li key={index}>
 						<button
 							key={index}
 							onClick={fetchCategoryImages}
-							value={category}>
+							value={category}
+						>
 							{category}
 						</button>
 						// </li>
@@ -187,7 +189,8 @@ function SearchPage() {
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
-				threshold={500}>
+				threshold={500}
+			>
 				<ImageGallery
 					allImages={computedLayoutColumns}
 					// key={}

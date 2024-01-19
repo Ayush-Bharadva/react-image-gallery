@@ -6,18 +6,8 @@ import { PropTypes } from "prop-types";
 import "./Image.scss";
 
 function Image({ image, onImageClick }) {
-	// const { setModalImageInfo } = useContext(SearchContext);
-
-	// const modal = useRef(null);
-
-	// const onImageClick = () => {
-	// 	console.log("click occur", modal.current);
-	// 	setModalImageInfo(image);
-	// 	modal.current.open();
-	// };
-
-	const onDownload = e => {
-		// e.preventDefault();
+	const onDownload = (e) => {
+		e.preventDefault();
 		onDownloadImage(image.src.large, image.alt);
 		e.stopPropagation();
 	};
@@ -28,11 +18,9 @@ function Image({ image, onImageClick }) {
 				onImageClick(image);
 			}}
 			className="main-image-container"
-			key={image.id}>
-			<img
-				src={image.src.large}
-				alt={image.alt}
-			/>
+			key={image.id}
+		>
+			<img src={image.src.large} alt={image.alt} />
 			<div className="icons-group">
 				<button className="bookmark-icon">
 					<IoBookmarksOutline />
@@ -41,9 +29,7 @@ function Image({ image, onImageClick }) {
 					<FaRegHeart />
 				</button>
 			</div>
-			<button
-				className="download-icon"
-				onClick={onDownload}>
+			<button className="download-icon" onClick={onDownload}>
 				<FiDownload /> Download
 			</button>
 		</li>

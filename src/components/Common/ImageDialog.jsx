@@ -30,17 +30,18 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 	const { modalImageInfo } = useContext(SearchContext);
 	// console.log(modalImageInfo);
 
+	const handleDownload = () => {
+		onDownloadImage(modalImageInfo.src.large, modalImageInfo.alt);
+	};
+
 	return createPortal(
-		<dialog
-			{...props}
-			ref={imageDialog}>
+		<dialog {...props} ref={imageDialog}>
 			{modalImageInfo ? (
 				<>
 					<form method="dialog">
 						<button>
 							<RxCross1 />
 						</button>
-						{/* <button>Close</button> */}
 					</form>
 					<div className="dialog-container">
 						<div className="image-info">
@@ -53,11 +54,10 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 							</div>
 							<div className="actions">
 								<Button>
-									{" "}
-									<IoBookmarksOutline className="icon" /> Collect
+									<IoBookmarksOutline className="icon" />{" "}
+									Collect
 								</Button>
 								<Button>
-									{" "}
 									<IoHeartOutline className="icon" /> Like
 								</Button>
 								<Button>
@@ -65,8 +65,10 @@ const ImageDialog = forwardRef(function ImageDialog(props, ref) {
 								</Button>
 								<Button
 									className="download-btn-bg text-white"
-									onClick={() => onDownloadImage(modalImageInfo.src.large, modalImageInfo.alt)}>
-									Free Download <GoChevronDown className="icon" />{" "}
+									onClick={handleDownload}
+								>
+									Free Download{" "}
+									<GoChevronDown className="icon" />{" "}
 								</Button>
 							</div>
 						</div>

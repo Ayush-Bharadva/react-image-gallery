@@ -1,22 +1,19 @@
-import { CiSearch } from "react-icons/ci";
 import { PropTypes } from "prop-types";
+import { CiSearch } from "react-icons/ci";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
 
 function SearchInput({ searchString, onChange, onSubmit, props }) {
 	return (
-		<div
-			className="search-input-container"
-			{...props}>
+		<div className="search-input-container" {...props}>
 			<button className="option-btn">
 				{" "}
-				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> Photos{" "}
-				<GoChevronDown style={{ fontSize: "1rem" }} />
+				<HiOutlinePhotograph
+					style={{ fontSize: "1.25rem" }}
+				/> Photos <GoChevronDown style={{ fontSize: "1rem" }} />
 			</button>
-			<form
-				onSubmit={onSubmit}
-				className="search-input">
+			<form onSubmit={onSubmit} className="search-input">
 				<input
 					type="text"
 					value={searchString}
@@ -32,7 +29,6 @@ function SearchInput({ searchString, onChange, onSubmit, props }) {
 }
 
 SearchInput.propTypes = {
-	// className: PropTypes.string,
 	searchString: PropTypes.string,
 	onChange: PropTypes.func,
 	onSubmit: PropTypes.func,

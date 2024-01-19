@@ -1,36 +1,28 @@
-import { useState } from "react";
+import { useState, createContext, useMemo } from "react";
 import PropTypes from "prop-types";
-import { createContext } from "react";
 
 export const SearchContext = createContext({
 	query: "",
-	showModal: false,
 	modalImageInfo: {},
-	onSetQuery: () => {},
-	setShowModal: () => {},
+	setQuery: () => {},
 	setModalImageInfo: () => {},
 });
 
 function SearchProvider({ children }) {
 	const [query, setQuery] = useState("");
-	const [showModal, setShowModal] = useState(false);
 	const [modalImageInfo, setModalImageInfo] = useState(null);
 
-	const onSetQuery = query => {
-		// console.log("ctx onSetQuery :", query);
-		setQuery(query);
-	};
+	const contextValue = useMemo(() => {
+		return {
+			query,
+			modalImageInfo,
+			setQuery,
+			setModalImageInfo,
+		};
+	}, [query, modalImageInfo, setQuery, setModalImageInfo]);
 
 	return (
-		<SearchContext.Provider
-			value={{
-				query,
-				showModal,
-				modalImageInfo,
-				onSetQuery,
-				setModalImageInfo,
-				setShowModal,
-			}}>
+		<SearchContext.Provider value={contextValue}>
 			{children}
 		</SearchContext.Provider>
 	);
