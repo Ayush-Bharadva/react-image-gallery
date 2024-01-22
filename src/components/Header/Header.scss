@@ -8,6 +8,14 @@
 	color: #333;
 	background-color: #fff;
 
+	.left {
+		width: 100%;
+		.logo {
+			.search-input-container {
+				flex: 1;
+			}
+		}
+	}
 	.nav-items {
 		.upload-btn {
 			background-color: #05a081;
@@ -45,17 +53,19 @@
 	max-width: 1600px;
 	margin: 0 auto;
 	height: 75px;
-	padding: 0.5rem;
+	padding: 0.75rem;
 	justify-content: space-between;
 	align-items: center;
 	font-weight: bold;
 
 	.left {
 		height: 100%;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 15px;
+		padding: 0 0.5rem;
 
 		.logo {
 			display: flex;
@@ -63,7 +73,6 @@
 			height: 100%;
 			font-size: 1.6rem;
 			gap: 9px;
-			margin-right: 30px;
 			cursor: pointer;
 			transition: all 0.2s ease-in-out;
 
@@ -76,6 +85,7 @@
 			opacity: 0.8;
 		}
 	}
+
 	.right {
 		.nav-items {
 			display: flex;
@@ -95,7 +105,7 @@
 
 			button {
 				padding: 0 1.25rem;
-				height: 50px;
+				height: 45px;
 				font-size: 1rem;
 				font-weight: 600;
 				border-radius: 8px;
@@ -126,7 +136,6 @@
 .main-header {
 	position: relative;
 	min-height: 500px;
-	width: 100vw;
 	background: url("../../assets/images/hero-image.jpeg") top right/auto 100% no-repeat;
 	z-index: 0;
 
@@ -211,28 +220,10 @@ button {
 	cursor: pointer;
 }
 
-@media screen and (max-width: 375px) {
-	.main-nav-bar {
-		.right {
-			.nav-items {
-				button {
-					padding: 0 1rem;
-				}
-			}
-		}
-	}
+@media screen and (min-width: 1401px) {
 }
 
-@media screen and (max-width: 650px) {
-	.main-nav-bar {
-		.right {
-			.nav-items {
-				.upload-btn {
-					display: block;
-				}
-			}
-		}
-	}
+@media screen and (max-width: 1400px) {
 }
 
 @media screen and (max-width: 900px) {
@@ -264,16 +255,92 @@ button {
 	}
 }
 
-@media screen and (max-width: 1400px) {
-}
+@media screen and (max-width: 768px) {
+	.main-nav-bar {
+		height: 70px;
+	}
 
-@media screen and (min-width: 1401px) {
-}
-
-@media screen and (max-width: 760px) {
 	#sidebar-container {
 		.close-icon-btn {
 			display: block;
+		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.main-nav-bar {
+		height: 65px;
+		.left {
+			.option-btn {
+				padding: 0 8px;
+			}
+		}
+		.right {
+			.nav-items {
+				button {
+					padding: 0 0.75rem;
+					height: 40px;
+				}
+				.upload-btn {
+					display: block;
+					padding: 0.4rem 0.8rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 425px) {
+	.main-nav-bar {
+		height: 55px;
+		.left {
+			gap: 10px;
+		}
+		.right {
+			.nav-items {
+				gap: 0.25rem;
+				button {
+					display: none;
+					height: 35px;
+				}
+
+				.upload-btn {
+					font-size: 18px;
+					height: fit-content;
+					padding: 0.35rem;
+				}
+
+				.sidebar-btn {
+					font-size: 20px;
+					padding: 0.4rem;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 375px) {
+	.main-nav-bar {
+		.left {
+			gap: 5px;
+		}
+		.right {
+			.nav-items {
+				gap: 0.25rem;
+				button {
+					padding: 0 1rem;
+				}
+				.upload-btn {
+					font-size: 18px;
+					height: fit-content;
+					padding: 0.25rem 0.4rem;
+				}
+
+				.sidebar-btn {
+					font-size: 20px;
+					padding: 0.25rem;
+				}
+			}
 		}
 	}
 }

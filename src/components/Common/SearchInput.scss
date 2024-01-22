@@ -27,7 +27,6 @@
 		align-items: center;
 		height: 100%;
 		width: 100%;
-		width: 80%;
 		flex: 1 0;
 
 		input {
@@ -51,9 +50,48 @@
 
 @media screen and (max-width: 650px) {
 	.search-input-container {
+		.search-input {
+			input {
+				margin: 0 0.25rem;
+			}
+		}
 		.option-btn {
 			span {
 				display: none;
+				padding: 0 8px;
+			}
+		}
+		.search-icon-btn {
+			padding: 0 0.25rem;
+			font-size: 1rem;
+		}
+	}
+}
+
+@media screen and (max-width: 425px) {
+	.search-input-container {
+		.option-btn {
+			padding: 0 8px;
+		}
+		.search-input {
+			input {
+				margin: 0 0.75rem;
+			}
+		}
+	}
+}
+@media screen and (max-width: 375px) {
+	.search-input-container {
+		.option-btn {
+			padding: 0 8px;
+		}
+		.search-input {
+			input {
+				margin: 0 0.5rem;
+			}
+			.search-icon-btn {
+				padding: 0.2rem;
+				font-size: 1rem;
 			}
 		}
 	}

@@ -7,6 +7,7 @@ import { FiUpload } from "react-icons/fi";
 import SearchInput from "../Common/SearchInput";
 import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 import "./Header.scss";
+import "../../styles/Global.scss";
 
 function Header() {
 	const sidebarRef = useRef();
@@ -46,8 +47,10 @@ function Header() {
 
 	const onSubmitSearch = event => {
 		event.preventDefault();
-		setQuery(searchString);
-		navigate(`search/${searchString}`);
+		if (searchString.trim() !== "") {
+			setQuery(searchString);
+			navigate(`search/${searchString}`);
+		}
 	};
 
 	return (
@@ -65,6 +68,7 @@ function Header() {
 					</div>
 					{showSearchInput && (
 						<SearchInput
+							className="sp-search-input-container"
 							searchString={searchString}
 							onChange={onSearchStringChange}
 							onSubmit={onSubmitSearch}

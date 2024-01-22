@@ -5,16 +5,16 @@ import { computeColumnsFromWidth, fetchSearchedImages } from "../services/servic
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../components/Common/ImageGallery";
 import pexelsLogo from "../assets/images/pexels-logo.jpg";
-import { relatedCategories } from "../helper/constants";
+import { relatedCategories } from "../constants/constants";
 import { calculateColumns } from "../helper/helper";
 import SearchInput from "../components/Common/SearchInput";
-import "./SearchPage.scss";
-import "../styles/Global.scss";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { PropTypes } from "prop-types";
+import "./SearchPage.scss";
+import "../styles/Global.scss";
 
 function SearchPage() {
 	const navigate = useNavigate();
@@ -216,6 +216,7 @@ function CustomNavBar({
 					<span>Pexels</span>
 				</div>
 				<SearchInput
+					className="sp-search-input-container"
 					searchString={searchString}
 					onChange={onSearchStringChange}
 					onSubmit={onSubmitSearch}

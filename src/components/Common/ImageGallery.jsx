@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useContext, useState } from "react";
 import { PropTypes } from "prop-types";
 import { SearchContext } from "../../context/SearchProvider";
 import Image from "./Image";
@@ -7,14 +7,71 @@ import "./ImageGallery.scss";
 
 function ImageGallery({ allImages }) {
 	const { column1, column2, column3 } = allImages;
+	const [showModal, setShowModal] = useState(false);
 	const { setModalImageInfo } = useContext(SearchContext);
-	const modal = useRef(null);
 
 	const onImageClick = image => {
 		setModalImageInfo(image);
-		if (modal.current) {
-			modal.current.open();
-		}
+		setShowModal(true);
+	};
+
+	const onCloseModal = () => {
+		setShowModal(false);
+	};
+
+	const getPreviousImage = () => {
+		setModalImageInfo({
+			id: 19855379,
+			width: 2283,
+			height: 3354,
+			url: "https://www.pexels.com/photo/yellow-fiat-500-on-street-in-switzerland-19855379/",
+			photographer: "Tubanur Dogan",
+			photographer_url: "https://www.pexels.com/@tubiderler",
+			photographer_id: 774847708,
+			avg_color: "#A99795",
+			src: {
+				original: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg",
+				large2x:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+				large: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+				medium: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=350",
+				small: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=130",
+				portrait:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+				landscape:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+				tiny: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280",
+			},
+			liked: false,
+			alt: "Free stock photo of car, peach, result",
+		});
+	};
+	const getNextImage = () => {
+		setModalImageInfo({
+			id: 19869392,
+			width: 11398,
+			height: 7599,
+			url: "https://www.pexels.com/photo/church-in-mountain-valley-19869392/",
+			photographer: "Julien Riedel",
+			photographer_url: "https://www.pexels.com/@julien-riedel-907961520",
+			photographer_id: 907961520,
+			avg_color: "#575755",
+			src: {
+				original: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg",
+				large2x:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+				large: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+				medium: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=350",
+				small: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=130",
+				portrait:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+				landscape:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+				tiny: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280",
+			},
+			liked: false,
+			alt: "Dolomiti",
+		});
 	};
 
 	const renderColumn = column => (
@@ -40,7 +97,14 @@ function ImageGallery({ allImages }) {
 				{column2 && renderColumn(2)}
 				{column3 && renderColumn(3)}
 			</div>
-			<ImageModal ref={modal} />
+			{showModal && (
+				<ImageModal
+					onClose={onCloseModal}
+					showModal={setShowModal}
+					getPreviousImage={getPreviousImage}
+					getNextImage={getNextImage}
+				/>
+			)}
 		</>
 	);
 }

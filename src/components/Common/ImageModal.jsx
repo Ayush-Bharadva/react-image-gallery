@@ -1,4 +1,4 @@
-import { forwardRef, useContext, useImperativeHandle, useRef } from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import Button from "../../UI/Button";
@@ -13,19 +13,12 @@ import { GrLocation } from "react-icons/gr";
 import { SiCanva } from "react-icons/si";
 import { RxCross1 } from "react-icons/rx";
 import { onDownloadImage } from "../../services/services";
-import "./ImageModal.scss";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "../../styles/Global.scss";
+import "./ImageModal.scss";
 
-const ImageModal = forwardRef(function ImageModal(props, ref) {
-	const imageDialog = useRef(null);
-
-	useImperativeHandle(ref, () => {
-		return {
-			open() {
-				imageDialog.current?.showModal();
-			},
-		};
-	});
+function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...props }) {
+	console.log(showModal, onClose);
 
 	const { modalImageInfo } = useContext(SearchContext);
 
@@ -34,17 +27,27 @@ const ImageModal = forwardRef(function ImageModal(props, ref) {
 	};
 
 	return createPortal(
-		<dialog
-			{...props}
-			ref={imageDialog}>
-			{modalImageInfo ? (
-				<>
-					<form method="dialog">
-						<button className="modal-close-btn">
-							<RxCross1 />
-						</button>
-					</form>
-					<div className="dialog-container">
+		<div className="modal-wrapper">
+			<button
+				className="modal-btn modal-close-btn"
+				onClick={onClose}>
+				<RxCross1 />
+			</button>
+			<button
+				className="modal-btn previous-image-btn"
+				onClick={getPreviousImage}>
+				<FaAngleLeft />
+			</button>
+			<button
+				className="modal-btn next-image-btn"
+				onClick={getNextImage}>
+				<FaAngleRight />
+			</button>
+			<div
+				{...props}
+				className="modal-container">
+				{showModal && modalImageInfo ? (
+					<div className="modal-info-container">
 						<div className="image-info">
 							<div className="profile">
 								<div className="profile-img"></div>
@@ -55,18 +58,22 @@ const ImageModal = forwardRef(function ImageModal(props, ref) {
 							</div>
 							<div className="actions">
 								<Button>
-									<IoBookmarksOutline className="icon" /> Collect
+									<IoBookmarksOutline className="icon" />
+									<span>Collect</span>
 								</Button>
 								<Button>
-									<IoHeartOutline className="icon" /> Like
+									<IoHeartOutline className="icon" />
+									<span>Like</span>
 								</Button>
 								<Button>
-									<SiCanva className="icon" /> Edit in Canva
+									<SiCanva className="icon" />
+									<span>Edit in Canva</span>
 								</Button>
 								<Button
 									className="download-btn-bg text-white"
 									onClick={handleDownload}>
-									Free Download <GoChevronDown className="icon" />{" "}
+									<span className="disp-block-imp">Free Download</span>{" "}
+									<GoChevronDown className="icon" />
 								</Button>
 							</div>
 						</div>
@@ -77,7 +84,7 @@ const ImageModal = forwardRef(function ImageModal(props, ref) {
 							/>
 						</div>
 						<div className="more-info">
-							<p className="flex-row gap-5">
+							<p className="flex-row gap-12">
 								<span className="text-center-v">
 									<AiTwotoneCheckCircle /> Free to use
 								</span>
@@ -87,23 +94,27 @@ const ImageModal = forwardRef(function ImageModal(props, ref) {
 							</p>
 							<div className="buttons">
 								<Button>
-									<BsInfoCircle className="icon" /> More Info
+									<BsInfoCircle className="icon" /> <span>More Info</span>
 								</Button>
 								<Button>
-									<CiShare1 className="icon" /> Share
+									<CiShare1 className="icon" /> <span>Share</span>
 								</Button>
 							</div>
 						</div>
 					</div>
-				</>
-			) : null}
-		</dialog>,
+				) : null}
+			</div>
+		</div>,
 		document.getElementById("image-portal")
 	);
-});
+}
 
 ImageModal.propTypes = {
+	showModal: PropTypes.bool,
+	onClose: PropTypes.func,
 	props: PropTypes.object,
+	getPreviousImage: PropTypes.object,
+	getNextImage: PropTypes.object,
 };
 
 export default ImageModal;

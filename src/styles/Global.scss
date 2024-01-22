@@ -11,25 +11,22 @@
 	.col-2,
 	.col-3 {
 		width: 100%;
-		li {
-			list-style-type: none;
-			border-radius: 7px;
-			overflow: hidden;
-			margin: 7px;
-			cursor: pointer;
-			img {
-				width: 100%;
-				display: block;
-			}
-		}
 	}
 }
 
+.sp-search-input-container {
+	flex: 1;
+}
+
+.disp-block-imp {
+	display: block !important;
+}
+
 .translateLeft {
-	transform: translateX(50%);
+	transform: translateX(100%);
 }
 .translateRight {
-	transform: translateX(-50%);
+	transform: translateX(-100%);
 }
 
 .download-btn-bg {
@@ -55,8 +52,9 @@
 .text-center-v {
 	display: flex;
 	align-items: center;
+	gap: 7px;
 }
 
-.gap-5 {
-	gap: 5px;
+.gap-12 {
+	gap: 12px;
 }

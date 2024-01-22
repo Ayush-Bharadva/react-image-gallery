@@ -3,20 +3,27 @@
 }
 
 .page-links-container {
-	height: 75px;
 	position: relative;
+	height: 75px;
+	width: 100%;
 	max-width: 95vw;
 	display: flex;
 	margin: 0 auto;
+	background-color: #fff;
 
 	.page-links {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 0 20px;
-		width: 100%;
+		width: 90%;
 		margin: 1rem auto;
 		overflow-x: auto;
+		transition: all 0.2s ease;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
 
 		.link {
 			color: inherit;
@@ -39,23 +46,13 @@
 	}
 
 	.move-left-icon {
-		top: 35%;
-		left: 10px;
+		top: 32%;
+		left: 5px;
 	}
 
 	.move-right-icon {
-		top: 35%;
-		right: 10px;
-	}
-}
-
-@media screen and (max-width: 425px) {
-	.page-links-container {
-		.move-left-icon,
-		.move-right-icon {
-			position: absolute;
-			display: block;
-		}
+		top: 32%;
+		right: 5px;
 	}
 }
 
@@ -71,6 +68,17 @@
 				padding: 5px 10px;
 				margin-right: 0;
 			}
+		}
+	}
+}
+
+@media screen and (max-width: 425px) {
+	.page-links-container {
+		// max-width: 90%;
+		.move-left-icon,
+		.move-right-icon {
+			position: absolute;
+			display: block;
 		}
 	}
 }
