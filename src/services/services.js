@@ -1,6 +1,6 @@
 import axios from "axios";
-const apiKey = "cIDDhLutgAm2CCVZQKyIElDBsCQ4nqzAzWL7qRRePGd8WmuWlFvHHqNA";
-// const apiKey = "8Q3TvNS14nRNAMnmbWoqRNCjb94REEfQhIf6XvpEhwJtIGuGQ1b93Rlm";
+// const apiKey = "cIDDhLutgAm2CCVZQKyIElDBsCQ4nqzAzWL7qRRePGd8WmuWlFvHHqNA";
+const apiKey = "8Q3TvNS14nRNAMnmbWoqRNCjb94REEfQhIf6XvpEhwJtIGuGQ1b93Rlm";
 
 const headers = {
 	Authorization: apiKey,
@@ -34,46 +34,13 @@ export async function fetchCuratedImages(curatedImgUrl) {
 	}
 }
 
-export async function fetchImagesData(url) {
-	try {
-		const response = await axiosInstance.get(url);
-		if (response.status === 200) {
-			return response.data; // {}
-		}
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-export const computeColumnsFromWidth = (allImages, columnsCount) => {
-	// const columns = {
-	// 	column1: [],
-	// 	column2: [],
-	// 	column3: [],
-	// };
-
-	const columns = {};
-	for (let i = 1; i <= columnsCount; i++) {
-		columns[`column${i}`] = [];
-	}
-	allImages.forEach((image, index) => {
-		const columnIndex = index % columnsCount;
-		columns[`column${columnIndex + 1}`].push(image);
-	});
-	return columns;
-};
-
-export async function onDownloadImage(imageSrc, downloadName = "image.jpeg") {
-	const response = await fetch(imageSrc);
-	const blobImage = await response.blob();
-	const href = URL.createObjectURL(blobImage);
-
-	const anchor = document.createElement("a");
-	anchor.href = href;
-	anchor.download = downloadName;
-
-	document.body.appendChild(anchor);
-	anchor.click();
-	document.body.removeChild(anchor);
-	URL.revokeObjectURL(href);
-}
+// export async function fetchImagesData(url) {
+// 	try {
+// 		const response = await axiosInstance.get(url);
+// 		if (response.status === 200) {
+// 			return response.data; // {}
+// 		}
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// }

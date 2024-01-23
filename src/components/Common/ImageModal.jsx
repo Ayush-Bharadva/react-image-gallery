@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import Button from "../../UI/Button";
 import { SearchContext } from "../../context/SearchProvider";
-import { GoChevronDown } from "react-icons/go";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
 import { BsInfoCircle } from "react-icons/bs";
@@ -12,14 +11,12 @@ import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
 import { SiCanva } from "react-icons/si";
 import { RxCross1 } from "react-icons/rx";
-import { onDownloadImage } from "../../services/services";
+import { onDownloadImage } from "../../helper/utils";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import "../../styles/Global.scss";
+import { FiDownload } from "react-icons/fi";
 import "./ImageModal.scss";
 
 function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...props }) {
-	console.log(showModal, onClose);
-
 	const { modalImageInfo } = useContext(SearchContext);
 
 	const handleDownload = () => {
@@ -72,8 +69,7 @@ function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...pro
 								<Button
 									className="download-btn-bg text-white"
 									onClick={handleDownload}>
-									<span className="disp-block-imp">Free Download</span>{" "}
-									<GoChevronDown className="icon" />
+									<span className="download-text">Free Download</span> <FiDownload className="icon" />
 								</Button>
 							</div>
 						</div>
@@ -84,9 +80,10 @@ function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...pro
 							/>
 						</div>
 						<div className="more-info">
-							<p className="flex-row gap-12">
+							<p className="more-image-info flex-row gap-12">
 								<span className="text-center-v">
-									<AiTwotoneCheckCircle /> Free to use
+									<AiTwotoneCheckCircle />
+									Free to use
 								</span>
 								<span className="text-center-v">
 									<GrLocation /> NewZealand

@@ -1,12 +1,14 @@
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
+import "./styles/Global.scss";
 import HomePage from "./pages/homepage/HomePage";
 import VideosPage from "./pages/VideosPage";
 import LeaderBoardPage from "./pages/LeaderBoardPage";
 import ChallengesPage from "./pages/ChallengesPage";
 import Layout from "./Layout";
-import "./App.scss";
 import SearchProvider from "./context/SearchProvider";
 import SearchPage from "./pages/SearchePage";
+import "./App.scss";
+import Photo from "./pages/Photo";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -34,6 +36,10 @@ const router = createBrowserRouter(
 			<Route
 				path="search/:query"
 				element={<SearchPage />}
+			/>
+			<Route
+				path="photo/:query"
+				element={<Photo />}
 			/>
 		</>
 	)

@@ -7,15 +7,16 @@ function PagesLinks() {
 	const pagesRef = useRef();
 
 	const onScroll = scrollOffset => {
-		pagesRef.current.scrollLeft += scrollOffset;
+		if (pagesRef.current) {
+			pagesRef.current.scrollLeft += scrollOffset;
+		}
 	};
 
 	return (
 		<div className="page-links-container">
-			<FaAngleLeft
-				className="move-left-icon"
-				onClick={() => onScroll(-50)}
-			/>
+			<button className="move-left-icon">
+				<FaAngleLeft onClick={() => onScroll(-100)} />
+			</button>
 			<div
 				className="page-links"
 				ref={pagesRef}>
@@ -40,10 +41,12 @@ function PagesLinks() {
 					Challenges
 				</NavLink>
 			</div>
-			<FaAngleRight
-				className="move-right-icon"
-				onClick={() => onScroll(50)}
-			/>
+			<button className="move-right-icon">
+				<FaAngleRight
+					className=""
+					onClick={() => onScroll(100)}
+				/>
+			</button>
 		</div>
 	);
 }

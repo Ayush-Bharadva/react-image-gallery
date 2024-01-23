@@ -1,37 +1,38 @@
 import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { computeColumnsFromWidth, fetchCuratedImages } from "../../services/services";
+import { computeColumnsFromWidth } from "../../helper/helper";
 import { calculateColumns } from "../../helper/helper";
 import ImageGallery from "../../components/Common/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./HomePage.scss";
-import "../../styles/Global.scss";
+import { fetchCuratedImages } from "../../services/services";
+// import "../../styles/Global.scss";
 
 const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
 function HomePage() {
-	const [fetchedImagesInfo, setFetchedImagesInfo] = useState({
+	const [fetchedImagesState, setFetchedImagesState] = useState({
 		fetchedImages: [],
 		nextPageUrl: curatedImgUrl,
 		hasMore: true,
 		isLoading: false,
 	});
-	const [columns, setColumns] = useState(1);
+	const [columnCount, setColumnCount] = useState(1);
 
-	const { fetchedImages, nextPageUrl, hasMore, isLoading } = fetchedImagesInfo;
+	const { fetchedImages, nextPageUrl, hasMore, isLoading } = fetchedImagesState;
 
 	const computeColumns = () => {
 		const columnsCount = calculateColumns();
-		setColumns(columnsCount);
+		setColumnCount(columnsCount);
 	};
 
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
-				setFetchedImagesInfo(prev => ({ ...prev, isLoading: true }));
+				setFetchedImagesState(prev => ({ ...prev, isLoading: true }));
 				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
 				// console.log(photos, next_page);
-				setFetchedImagesInfo(prev => ({
+				setFetchedImagesState(prev => ({
 					...prev,
 					fetchedImages: [...prev.fetchedImages, ...photos],
 					nextPageUrl: next_page,
@@ -44,7 +45,7 @@ function HomePage() {
 		}
 	}, [isLoading, nextPageUrl, hasMore]);
 
-	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columns);
+	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
 
 	useEffect(() => {
 		computeColumns();
@@ -66,7 +67,6 @@ function HomePage() {
 			</div>
 			<InfiniteScroll
 				className="infinite-scroll-container"
-				key={Math.random().toString()}
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}

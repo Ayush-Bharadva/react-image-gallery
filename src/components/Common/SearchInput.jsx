@@ -3,9 +3,30 @@ import { CiSearch } from "react-icons/ci";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
-import "../../styles/Global.scss";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SearchContext } from "../../context/SearchProvider";
 
-function SearchInput({ searchString, onChange, onSubmit, className, props }) {
+function SearchInput({ className, props }) {
+	const navigate = useNavigate();
+
+	const [searchString, setSearchString] = useState("");
+
+	const { setQuery } = useContext(SearchContext);
+
+	const onChange = ({ target: { value } }) => {
+		setSearchString(value);
+	};
+
+	const onSubmit = event => {
+		event.preventDefault();
+		if (!searchString.trim()) {
+			return;
+		}
+		setQuery(searchString);
+		navigate(`/search/${searchString}`);
+	};
+
 	return (
 		<div
 			className={`search-input-container ${className}`}
