@@ -1,11 +1,11 @@
 import { PropTypes } from "prop-types";
-import SearchInput from "./SearchInput";
+import SearchInput from "../searchinput/SearchInput";
 import { FiUpload } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import Logo from "./Logo";
+import Logo from "../../Header/Logo";
 import { useRef, useState } from "react";
-import "../Header/Header.scss";
-import Sidebar from "./Sidebar";
+import "../../Header/Header.scss";
+import Sidebar from "../sidebar/Sidebar";
 
 function Navbar() {
 	const sidebarRef = useRef();

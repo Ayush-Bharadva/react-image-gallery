@@ -1,14 +1,14 @@
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
 import "./styles/Global.scss";
+import "./App.scss";
 import HomePage from "./pages/homepage/HomePage";
-import VideosPage from "./pages/VideosPage";
-import LeaderBoardPage from "./pages/LeaderBoardPage";
-import ChallengesPage from "./pages/ChallengesPage";
+import VideosPage from "./pages/videospage/VideosPage";
+import LeaderBoardPage from "./pages/leaderboardpage/LeaderBoardPage";
+import ChallengesPage from "./pages/challengespage/ChallengesPage";
 import Layout from "./Layout";
 import SearchProvider from "./context/SearchProvider";
-import SearchPage from "./pages/SearchePage";
-import "./App.scss";
-import Photo from "./pages/Photo";
+import SearchPage from "./pages/searchpage/SearchePage";
+import Photo from "./pages/photo/Photo";
 
 const router = createBrowserRouter(
 	createRoutesFromElements(

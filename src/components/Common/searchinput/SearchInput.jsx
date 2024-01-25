@@ -5,7 +5,7 @@ import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/SearchProvider";
+import { SearchContext } from "../../../context/SearchProvider";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
@@ -33,8 +33,7 @@ function SearchInput({ className, props }) {
 			{...props}>
 			<button className="option-btn">
 				{" "}
-				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> <span>Photos</span>{" "}
-				<GoChevronDown style={{ fontSize: "1rem" }} />
+				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> <span>Photos</span> <GoChevronDown style={{ fontSize: "1rem" }} />
 			</button>
 			<form
 				onSubmit={onSubmit}

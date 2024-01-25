@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
-import SearchInput from "../Common/SearchInput";
+import SearchInput from "../Common/searchinput/SearchInput";
 import "./Header.scss";
-import Logo from "../Common/Logo";
-import Sidebar from "../Common/Sidebar";
+import Logo from "./Logo";
+import Sidebar from "../Common/sidebar/Sidebar";
 
 function Header() {
 	const sidebarRef = useRef();
@@ -60,9 +60,7 @@ function Header() {
 			</div>
 			<header className="main-header">
 				<div className="hero">
-					<h1 className="heading">
-						The best free stock photos, royalty free images & videos shared by creators
-					</h1>
+					<h1 className="heading">The best free stock photos, royalty free images & videos shared by creators</h1>
 					<SearchInput style={{ margin: "15px 0 0 0" }} />
 				</div>
 			</header>

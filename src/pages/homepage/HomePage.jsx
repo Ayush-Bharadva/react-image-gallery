@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth } from "../../helper/helper";
 import { calculateColumns } from "../../helper/helper";
-import ImageGallery from "../../components/Common/ImageGallery";
+import ImageGallery from "../../components/Common/Imagegallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./HomePage.scss";
 import { fetchCuratedImages } from "../../services/services";

@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { PropTypes } from "prop-types";
-import { SearchContext } from "../../context/SearchProvider";
-import Image from "./Image";
-import ImageModal from "./ImageModal";
+import { SearchContext } from "../../../context/SearchProvider";
+import Image from "../Image/Image";
+import ImageModal from "../ImageModal/ImageModal";
 import "./ImageGallery.scss";
 
 function ImageGallery({ allImages }) {
@@ -31,15 +31,12 @@ function ImageGallery({ allImages }) {
 			avg_color: "#A99795",
 			src: {
 				original: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg",
-				large2x:
-					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+				large2x: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 				large: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
 				medium: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=350",
 				small: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=130",
-				portrait:
-					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
-				landscape:
-					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+				portrait: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+				landscape: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
 				tiny: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280",
 			},
 			liked: false,
@@ -58,15 +55,12 @@ function ImageGallery({ allImages }) {
 			avg_color: "#575755",
 			src: {
 				original: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg",
-				large2x:
-					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+				large2x: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 				large: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
 				medium: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=350",
 				small: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=130",
-				portrait:
-					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
-				landscape:
-					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+				portrait: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+				landscape: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
 				tiny: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280",
 			},
 			liked: false,

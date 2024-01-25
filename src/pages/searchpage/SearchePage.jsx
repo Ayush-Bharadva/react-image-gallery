@@ -1,14 +1,14 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../context/SearchProvider";
-import { fetchSearchedImages } from "../services/services";
+import { SearchContext } from "../../context/SearchProvider";
+import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
-import ImageGallery from "../components/Common/ImageGallery";
-import { relatedCategories } from "../constants/constants";
-import { calculateColumns, computeColumnsFromWidth } from "../helper/helper";
+import ImageGallery from "../../components/Common/Imagegallery/ImageGallery";
+import { relatedCategories } from "../../constants/constants";
+import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./SearchPage.scss";
-import Navbar from "../components/Common/Navbar";
+import Navbar from "../../components/Common/navbar/Navbar";
 
 function SearchPage() {
 	const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import { onDownloadImage } from "../../helper/utils.js";
+import { onDownloadImage } from "../../../helper/utils.js";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
