@@ -43,8 +43,15 @@
 	align-items: center;
 }
 
-.flex-center {
+.flex-row-center {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.flex-column-center {
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
@@ -57,4 +64,96 @@
 
 .gap-12 {
 	gap: 12px;
+}
+
+.social-share-modal {
+	height: 100%;
+	width: 100%;
+	max-width: 600px;
+	max-height: 300px;
+	background-color: #fff;
+	text-align: center;
+	padding: 1.5rem;
+	border-radius: 9px;
+	justify-content: space-between;
+
+	.social-icons-container {
+		// background-color: #ccc;
+		width: 100%;
+		// height: 60px;
+		menu {
+			display: flex;
+			justify-content: space-evenly;
+			align-items: center;
+			list-style-type: none;
+			width: 80%;
+			margin: 0 auto;
+
+			.social-icon {
+				height: 60px;
+				width: 60px;
+				border-radius: 50%;
+				padding: 0.5rem;
+				font-size: 2rem;
+				line-height: 55px;
+				cursor: pointer;
+				transition: all 0.2s ease;
+
+				&:hover {
+					opacity: 0.75;
+				}
+			}
+		}
+	}
+
+	.social-link {
+		text-align: left;
+		padding: 0.5rem;
+		width: 100%;
+		color: darkgray;
+		// height: 100%;
+
+		.link-btn {
+			justify-content: space-between;
+			margin-top: 5px;
+			padding: 0.5rem 1rem;
+			font-size: 1rem;
+			height: 50px;
+			width: 100%;
+			border-radius: 7px;
+			color: #666;
+			border: 1.5px solid lightgrey;
+			outline: none;
+		}
+	}
+}
+.pinterest-icon-color {
+	color: #ca2127;
+}
+.pinterest-icon-bg {
+	background-color: #fae8e9;
+}
+.twitter-icon-color {
+	color: #1da1f2;
+}
+.twitter-icon-bg {
+	background-color: #e8f6fe;
+}
+.linkedin-icon-color {
+	color: #1e85bc;
+}
+.linkedin-icon-bg {
+	background-color: #e9f3f9;
+}
+.facebook-icon-color {
+	color: #3c5a9a;
+}
+.facebook-icon-bg {
+	background-color: #eceff5;
+}
+.tumbler-icon-color {
+	color: #303d4d;
+}
+.tumbler-icon-bg {
+	background-color: #eaebed;
 }

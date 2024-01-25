@@ -1,18 +1,24 @@
 import { useContext, useState } from "react";
 import { PropTypes } from "prop-types";
-import { SearchContext } from "../../../context/SearchProvider";
+import { ImageContext } from "../../../context/SearchProvider";
 import Image from "../Image/Image";
 import ImageModal from "../ImageModal/ImageModal";
 import "./ImageGallery.scss";
+import { useNavigate } from "react-router-dom";
 
 function ImageGallery({ allImages }) {
 	const { column1, column2, column3 } = allImages;
+
+	const navigate = useNavigate();
 	const [showModal, setShowModal] = useState(false);
-	const { setModalImageInfo } = useContext(SearchContext);
+	const { setModalImageInfo } = useContext(ImageContext);
 
 	const onImageClick = image => {
-		setModalImageInfo(image);
 		setShowModal(true);
+		setModalImageInfo(image);
+		const { alt } = image;
+		const newAlt = alt.replace(/\s/g, "-");
+		navigate(`/photo/${newAlt}`);
 	};
 
 	const onCloseModal = () => {
@@ -43,6 +49,7 @@ function ImageGallery({ allImages }) {
 			alt: "Free stock photo of car, peach, result",
 		});
 	};
+
 	const getNextImage = () => {
 		setModalImageInfo({
 			id: 19869392,

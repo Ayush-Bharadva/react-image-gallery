@@ -1,0 +1,176 @@
+.nav-bar {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	right: 0;
+	left: 0;
+	color: #fff;
+	background-color: #fff;
+	display: flex;
+	margin: 0 auto;
+	height: 70px;
+	width: 100%;
+	max-width: 1600px;
+	padding: 0.5rem;
+	justify-content: space-between;
+	align-items: center;
+	font-weight: bold;
+
+	.nav-bar-left {
+		display: flex;
+		height: 100%;
+		flex: 1 1 75%;
+		gap: 10px;
+		margin-right: 10px;
+
+		.logo {
+			display: flex;
+			align-items: center;
+			height: 100%;
+			font-size: 1.6rem;
+			gap: 9px;
+			cursor: pointer;
+			transition: all 0.3s ease-in-out;
+
+			img {
+				border-radius: 7px;
+			}
+			span {
+				color: #333;
+			}
+		}
+
+		.logo:hover {
+			opacity: 0.8;
+		}
+	}
+
+	.nav-bar-right {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		flex: 1 0 20%;
+	}
+
+	.nav-items {
+		color: #333;
+		width: 100%;
+
+		li {
+			list-style-type: none;
+			cursor: pointer;
+			transition: all 0.2s ease-in-out;
+		}
+
+		li:hover {
+			opacity: 0.8;
+		}
+
+		button {
+			padding: 0 1.25rem;
+			height: 50px;
+			font-size: 1rem;
+			font-weight: 600;
+			border-radius: 8px;
+			background-color: #05a081;
+			color: #fff;
+			border: none;
+			outline: none;
+		}
+
+		.upload-btn {
+			background-color: #111;
+			color: #fff;
+			font-size: 20px;
+			display: none;
+		}
+
+		.sidebar-btn {
+			display: none;
+			background-color: transparent;
+			color: #fff;
+			border: none;
+			font-size: 28px;
+			padding: 0;
+		}
+	}
+}
+
+@media screen and (min-width: 1401px) {
+	.nav-bar {
+		width: 80vw;
+	}
+}
+
+@media screen and (max-width: 1400px) {
+	.nav-bar {
+		max-width: 90vw;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.nav-bar {
+		max-width: 95vw;
+		height: 60px;
+		.nav-bar-left {
+			.logo {
+				margin: 0;
+				height: 100%;
+				border-radius: 7px;
+				overflow: hidden;
+				span {
+					display: none;
+				}
+			}
+		}
+		.nav-items {
+			button {
+				height: 40px;
+			}
+			.sidebar-btn {
+				display: block;
+				color: #333;
+				font-size: 24px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.nav-bar {
+		width: 100vw;
+		.nav-bar-right {
+			justify-content: space-evenly;
+			gap: 0.5rem;
+		}
+		.nav-items {
+			li {
+				display: none;
+			}
+			.upload-btn {
+				display: block;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 425px) {
+	.nav-bar {
+		.nav-items {
+			.upload-btn {
+				padding: 0 12px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 375px) {
+	.nav-bar {
+		.nav-items {
+			.upload-btn {
+				padding: 0 8px;
+			}
+		}
+	}
+}

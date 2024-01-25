@@ -6,6 +6,7 @@ import Logo from "../../Header/Logo";
 import { useRef, useState } from "react";
 import "../../Header/Header.scss";
 import Sidebar from "../sidebar/Sidebar";
+import "./Navbar.scss";
 
 function Navbar() {
 	const sidebarRef = useRef();

@@ -4,7 +4,7 @@ import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 function Logo() {
 	const navigate = useNavigate();
 	const navigateToHome = () => {
-		navigate("/");
+		navigate("/home");
 	};
 
 	return (

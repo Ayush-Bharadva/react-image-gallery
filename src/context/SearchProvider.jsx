@@ -1,7 +1,7 @@
 import { useState, createContext, useMemo } from "react";
 import PropTypes from "prop-types";
 
-export const SearchContext = createContext({
+export const ImageContext = createContext({
 	query: "",
 	modalImageInfo: {},
 	setQuery: () => {},
@@ -21,11 +21,7 @@ function SearchProvider({ children }) {
 		};
 	}, [query, modalImageInfo, setQuery, setModalImageInfo]);
 
-	return (
-		<SearchContext.Provider value={contextValue}>
-			{children}
-		</SearchContext.Provider>
-	);
+	return <ImageContext.Provider value={contextValue}>{children}</ImageContext.Provider>;
 }
 
 SearchProvider.propTypes = {

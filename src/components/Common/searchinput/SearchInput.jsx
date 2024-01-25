@@ -5,14 +5,14 @@ import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SearchContext } from "../../../context/SearchProvider";
+import { ImageContext } from "../../../context/SearchProvider";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
 
 	const [searchString, setSearchString] = useState("");
 
-	const { setQuery } = useContext(SearchContext);
+	const { setQuery } = useContext(ImageContext);
 
 	const onChange = ({ target: { value } }) => {
 		setSearchString(value);

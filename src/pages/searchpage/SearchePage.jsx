@@ -1,6 +1,6 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../../context/SearchProvider";
+import { ImageContext } from "../../context/SearchProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../../components/Common/Imagegallery/ImageGallery";
@@ -9,6 +9,7 @@ import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./SearchPage.scss";
 import Navbar from "../../components/Common/navbar/Navbar";
+// import Modal from "../../components/Common/modal/Modal";
 
 function SearchPage() {
 	const navigate = useNavigate();
@@ -22,7 +23,7 @@ function SearchPage() {
 		isLoading: false,
 	});
 	const [columns, setColumns] = useState(1);
-	const { query, setQuery } = useContext(SearchContext);
+	const { query, setQuery } = useContext(ImageContext);
 	const categoriesRef = useRef();
 	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
