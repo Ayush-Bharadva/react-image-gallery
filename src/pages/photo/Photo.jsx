@@ -12,21 +12,31 @@ import { GrLocation, GrTumblr } from "react-icons/gr";
 import { BsInfoCircle } from "react-icons/bs";
 import { CiShare1 } from "react-icons/ci";
 import avatar from "../../assets/images/profile-avatar.jpg";
-import Modal from "../../components/Common/modal/Modal";
-import { FaLinkedinIn, FaPinterest, FaTwitter } from "react-icons/fa";
-import { ImFacebook2 } from "react-icons/im";
-import { MdOutlineContentCopy } from "react-icons/md";
-// import ImageModal from "../../components/Common/ImageModal/ImageModal";
+// import Modal from "../../components/Common/modal/Modal";
+// import { FaLinkedinIn, FaPinterest, FaTwitter } from "react-icons/fa";
+// import { ImFacebook2 } from "react-icons/im";
+// import { MdOutlineContentCopy } from "react-icons/md";
+import ImageModal from "../../components/Common/ImageModal/ImageModal";
 
 function Photo() {
-	const [showShareModal, setShowShareModal] = useState(false);
+	// const [showShareModal, setShowShareModal] = useState(true);
+	const [showModal, setShowModal] = useState(true);
 
-	const onShare = () => {
-		setShowShareModal(true);
-	};
+	// const onShare = () => {
+	// 	setShowModal(true);
+	// 	// setShowShareModal(true);
+	// };
 
-	const onCloseShare = () => {
-		setShowShareModal(false);
+	// const onCloseShare = () => {
+	// 	setShowModal(false);
+	// 	// setShowShareModal(false);
+	// };
+
+	// const openModal = () => {
+	// 	setShowModal(true);
+	// };
+	const closeModal = () => {
+		setShowModal(false);
 	};
 
 	const { modalImageInfo } = useContext(ImageContext);
@@ -46,9 +56,9 @@ function Photo() {
 		onDownloadImage(imageUrl, alt);
 	};
 
-	const onCopyToClipBoard = value => {
-		navigator.clipboard.writeText(value);
-	};
+	// const onCopyToClipBoard = (value) => {
+	// 	navigator.clipboard.writeText(value);
+	// };
 
 	// const [showModal, setShowModal] = useState(false);
 	// const onCloseModal = () => {
@@ -63,10 +73,7 @@ function Photo() {
 					<div className="image-info">
 						<div className="profile">
 							<div className="profile-img">
-								<img
-									src={avatar}
-									alt="avatar image"
-								/>
+								<img src={avatar} alt="avatar image" />
 							</div>
 							<div className="profile-name">
 								<p>{photographer}</p>
@@ -88,19 +95,19 @@ function Photo() {
 							</Button>
 							<Button
 								className="download-btn-bg text-white"
-								onClick={handleDownload}>
-								<span className="download-text">Free Download</span> <FiDownload className="icon" />
+								onClick={handleDownload}
+							>
+								<span className="download-text">
+									Free Download
+								</span>{" "}
+								<FiDownload className="icon" />
 							</Button>
 						</div>
 					</div>
 				</div>
 				<div className="middle">
 					<div className="image-container">
-						<img
-							src={imageUrl}
-							alt={alt}
-							className="photo-img"
-						/>
+						<img src={imageUrl} alt={alt} className="photo-img" />
 					</div>
 				</div>
 				<div className="bottom">
@@ -116,20 +123,23 @@ function Photo() {
 						</p>
 						<div className="buttons">
 							<Button>
-								<BsInfoCircle className="icon" /> <span>More Info</span>
+								<BsInfoCircle className="icon" />{" "}
+								<span>More Info</span>
 							</Button>
-							<Button onClick={onShare}>
+							<Button>
 								<CiShare1 className="icon" /> <span>Share</span>
 							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
-			{showShareModal && (
+			{/* {showShareModal && (
 				<Modal>
 					<div className="social-share-modal flex-column-center">
 						<button onClick={onCloseShare}>Close</button>
-						<h1 className="modal-title">Share this with Your Community</h1>
+						<h1 className="modal-title">
+							Share this with Your Community
+						</h1>
 						<div className="social-icons-container">
 							<menu>
 								<li className="social-icon pinterest-icon-bg">
@@ -153,7 +163,8 @@ function Photo() {
 							<p>Set a link back to this photo</p>
 							<button
 								className="link-btn flex-row-center"
-								onClick={() => onCopyToClipBoard(alt)}>
+								onClick={() => onCopyToClipBoard(alt)}
+							>
 								<span>Photo by Kaboompics.com from Pexels</span>
 								<span>
 									<MdOutlineContentCopy />
@@ -162,15 +173,15 @@ function Photo() {
 						</div>
 					</div>
 				</Modal>
-			)}
-			{/* {showModal && (
+			)} */}
+			{showModal && (
 				<ImageModal
-					onClose={onCloseModal}
-					showModal={setShowModal}
+					onClose={closeModal}
+					showModal={showModal}
 					// getPreviousImage={getPreviousImage}
 					// getNextImage={getNextImage}
 				/>
-			)} */}
+			)}
 		</>
 	);
 }

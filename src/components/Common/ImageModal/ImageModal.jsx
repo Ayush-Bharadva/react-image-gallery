@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import "./ImageModal.scss";
 import { createPortal } from "react-dom";
@@ -9,56 +9,63 @@ import { IoHeartOutline } from "react-icons/io5";
 import { BsInfoCircle } from "react-icons/bs";
 import { CiShare1 } from "react-icons/ci";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
-import { GrLocation, GrTumblr } from "react-icons/gr";
+import { GrLocation } from "react-icons/gr";
 import { SiCanva } from "react-icons/si";
 import { RxCross1 } from "react-icons/rx";
 import { onDownloadImage } from "../../../helper/utils";
-import { FaAngleLeft, FaAngleRight, FaLinkedinIn, FaPinterest, FaTwitter } from "react-icons/fa";
+import {
+	FaAngleLeft,
+	FaAngleRight,
+	// FaLinkedinIn,
+	// FaPinterest,
+	// FaTwitter,
+} from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
-import Modal from "../modal/Modal";
-import { ImFacebook2 } from "react-icons/im";
-import { MdOutlineContentCopy } from "react-icons/md";
+// import Modal from "../modal/Modal";
+// import { ImFacebook2 } from "react-icons/im";
+// import { MdOutlineContentCopy } from "react-icons/md";
 
-function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...props }) {
+function ImageModal({
+	onClose,
+	getPreviousImage,
+	getNextImage,
+	showModal,
+	...props
+}) {
 	const { modalImageInfo } = useContext(ImageContext);
-	const [showInfoModal, setShowInfoModal] = useState(false);
+	// const [showInfoModal, setShowInfoModal] = useState(false);
 
 	const handleDownload = () => {
 		onDownloadImage(modalImageInfo.src.large, modalImageInfo.alt);
 	};
 
-	const onShowMoreInfo = () => {
-		setShowInfoModal(true);
-	};
+	// const onShowMoreInfo = () => {
+	// 	setShowInfoModal(true);
+	// };
 
-	const onCloseMoreInfo = () => {
-		setShowInfoModal(false);
-	};
+	// const onCloseMoreInfo = () => {
+	// 	setShowInfoModal(false);
+	// };
 
-	const onCopyToClipBoard = value => {
-		navigator.clipboard.writeText(value);
-	};
+	// const onCopyToClipBoard = (value) => {
+	// 	navigator.clipboard.writeText(value);
+	// };
 
 	return createPortal(
 		<div className="modal-wrapper">
-			<button
-				className="modal-btn modal-close-btn"
-				onClick={onClose}>
+			<button className="modal-btn modal-close-btn" onClick={onClose}>
 				<RxCross1 />
 			</button>
 			<button
 				className="modal-btn previous-image-btn"
-				onClick={getPreviousImage}>
+				onClick={getPreviousImage}
+			>
 				<FaAngleLeft />
 			</button>
-			<button
-				className="modal-btn next-image-btn"
-				onClick={getNextImage}>
+			<button className="modal-btn next-image-btn" onClick={getNextImage}>
 				<FaAngleRight />
 			</button>
-			<div
-				{...props}
-				className="modal-container">
+			<div {...props} className="modal-container">
 				{showModal && modalImageInfo ? (
 					<div className="modal-info-container">
 						<div className="image-info">
@@ -84,8 +91,12 @@ function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...pro
 								</Button>
 								<Button
 									className="download-btn-bg text-white"
-									onClick={handleDownload}>
-									<span className="download-text">Free Download</span> <FiDownload className="icon" />
+									onClick={handleDownload}
+								>
+									<span className="download-text">
+										Free Download
+									</span>{" "}
+									<FiDownload className="icon" />
 								</Button>
 							</div>
 						</div>
@@ -106,18 +117,20 @@ function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...pro
 								</span>
 							</p>
 							<div className="buttons">
-								<Button onClick={onShowMoreInfo}>
-									<BsInfoCircle className="icon" /> <span>More Info</span>
+								<Button>
+									<BsInfoCircle className="icon" />{" "}
+									<span>More Info</span>
 								</Button>
 								<Button>
-									<CiShare1 className="icon" /> <span>Share</span>
+									<CiShare1 className="icon" />{" "}
+									<span>Share</span>
 								</Button>
 							</div>
 						</div>
 					</div>
 				) : null}
 			</div>
-			{showInfoModal && (
+			{/* {showInfoModal && (
 				<Modal>
 					<div className="social-share-modal flex-column-center">
 						<button onClick={onCloseMoreInfo}>Close</button>
@@ -154,7 +167,7 @@ function ImageModal({ onClose, getPreviousImage, getNextImage, showModal, ...pro
 						</div>
 					</div>
 				</Modal>
-			)}
+			)} */}
 		</div>,
 		document.getElementById("image-portal")
 	);

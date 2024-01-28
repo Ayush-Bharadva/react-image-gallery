@@ -4,21 +4,22 @@ import { ImageContext } from "../../../context/SearchProvider";
 import Image from "../Image/Image";
 import ImageModal from "../ImageModal/ImageModal";
 import "./ImageGallery.scss";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function ImageGallery({ allImages }) {
 	const { column1, column2, column3 } = allImages;
 
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const [showModal, setShowModal] = useState(false);
 	const { setModalImageInfo } = useContext(ImageContext);
 
-	const onImageClick = image => {
+	const onImageClick = (image) => {
 		setShowModal(true);
+		console.log(image);
 		setModalImageInfo(image);
-		const { alt } = image;
-		const newAlt = alt.replace(/\s/g, "-");
-		navigate(`/photo/${newAlt}`);
+		// const { alt } = image;
+		// const newAlt = alt.replace(/\s/g, "-");
+		// navigate(`/photo/${newAlt}`);
 	};
 
 	const onCloseModal = () => {
@@ -36,13 +37,17 @@ function ImageGallery({ allImages }) {
 			photographer_id: 774847708,
 			avg_color: "#A99795",
 			src: {
-				original: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg",
-				large2x: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+				original:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg",
+				large2x:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 				large: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
 				medium: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=350",
 				small: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&h=130",
-				portrait: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
-				landscape: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+				portrait:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+				landscape:
+					"https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
 				tiny: "https://images.pexels.com/photos/19855379/pexels-photo-19855379.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280",
 			},
 			liked: false,
@@ -61,13 +66,17 @@ function ImageGallery({ allImages }) {
 			photographer_id: 907961520,
 			avg_color: "#575755",
 			src: {
-				original: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg",
-				large2x: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+				original:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg",
+				large2x:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
 				large: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
 				medium: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=350",
 				small: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&h=130",
-				portrait: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
-				landscape: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
+				portrait:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800",
+				landscape:
+					"https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200",
 				tiny: "https://images.pexels.com/photos/19869392/pexels-photo-19869392.jpeg?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280",
 			},
 			liked: false,
@@ -75,11 +84,9 @@ function ImageGallery({ allImages }) {
 		});
 	};
 
-	const renderColumn = column => (
-		<div
-			key={crypto.randomUUID()}
-			className={`col-${column}`}>
-			{allImages[`column${column}`].map(image => (
+	const renderColumn = (column) => (
+		<div key={crypto.randomUUID()} className={`col-${column}`}>
+			{allImages[`column${column}`].map((image) => (
 				<Image
 					key={image.id}
 					image={image}
@@ -91,9 +98,7 @@ function ImageGallery({ allImages }) {
 
 	return (
 		<>
-			<div
-				className="image-gallery-container"
-				key={crypto.randomUUID()}>
+			<div className="image-gallery-container" key={crypto.randomUUID()}>
 				{column1 && renderColumn(1)}
 				{column2 && renderColumn(2)}
 				{column3 && renderColumn(3)}
