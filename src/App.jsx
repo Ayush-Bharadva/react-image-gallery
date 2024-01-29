@@ -6,7 +6,7 @@ import VideosPage from "./pages/videospage/VideosPage";
 import LeaderBoardPage from "./pages/leaderboardpage/LeaderBoardPage";
 import ChallengesPage from "./pages/challengespage/ChallengesPage";
 import Layout from "./Layout";
-import SearchProvider from "./context/SearchProvider";
+import ImageProvider from "./context/ImageProvider";
 import SearchPage from "./pages/searchpage/SearchePage";
 import Photo from "./pages/photo/Photo";
 
@@ -16,10 +16,6 @@ const router = createBrowserRouter(
 			<Route
 				path="/"
 				element={<Layout />}>
-				{/* <Route
-					path=""
-					element={<Photo />}
-				/> */}
 				<Route
 					path=""
 					element={<HomePage />}
@@ -51,9 +47,9 @@ const router = createBrowserRouter(
 
 function App() {
 	return (
-		<SearchProvider>
+		<ImageProvider>
 			<RouterProvider router={router} />
-		</SearchProvider>
+		</ImageProvider>
 	);
 }
 

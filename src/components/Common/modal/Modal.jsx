@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 import { PropTypes } from "prop-types";
 import "./Modal.scss";
-import { createPortal } from "react-dom";
 
 const Modal = forwardRef(function Modal({ children }, ref) {
 	const modalNode = document.getElementById("modal");
@@ -23,9 +23,6 @@ const Modal = forwardRef(function Modal({ children }, ref) {
 			ref={modalRef}
 			className="container-modal">
 			{children}
-			{/* <form method="dialog">
-				<button>close</button>
-			</form> */}
 		</dialog>,
 		modalNode
 	);

@@ -5,7 +5,7 @@ import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImageContext } from "../../../context/SearchProvider";
+import { ImageContext } from "../../../context/ImageProvider";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();

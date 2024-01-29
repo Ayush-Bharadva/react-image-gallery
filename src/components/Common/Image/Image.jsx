@@ -5,7 +5,7 @@ import { FiDownload } from "react-icons/fi";
 import { PropTypes } from "prop-types";
 import "./Image.scss";
 
-function Image({ image, onImageClick }) {
+function Image({ image, index, column, onImageClick }) {
 	const onDownload = e => {
 		e.preventDefault();
 		onDownloadImage(image.src.large, image.alt);
@@ -15,7 +15,7 @@ function Image({ image, onImageClick }) {
 	return (
 		<li
 			onClick={() => {
-				onImageClick(image);
+				onImageClick(image, index, column);
 			}}
 			className="main-image-container"
 			key={image.id}>
@@ -42,6 +42,8 @@ function Image({ image, onImageClick }) {
 
 Image.propTypes = {
 	image: PropTypes.object,
+	index: PropTypes.number,
+	column: PropTypes.number,
 	onImageClick: PropTypes.func,
 };
 

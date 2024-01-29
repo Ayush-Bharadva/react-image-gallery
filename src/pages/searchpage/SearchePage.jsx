@@ -1,6 +1,6 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ImageContext } from "../../context/SearchProvider";
+import { ImageContext } from "../../context/ImageProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../../components/Common/Imagegallery/ImageGallery";
@@ -9,7 +9,6 @@ import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./SearchPage.scss";
 import Navbar from "../../components/Common/navbar/Navbar";
-// import Modal from "../../components/Common/modal/Modal";
 
 function SearchPage() {
 	const navigate = useNavigate();
@@ -124,7 +123,6 @@ function SearchPage() {
 			</div>
 			<InfiniteScroll
 				className="infinite-scroll-container"
-				key={Math.random().toString()}
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}

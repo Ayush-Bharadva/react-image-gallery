@@ -3,14 +3,23 @@ import PropTypes from "prop-types";
 
 export const ImageContext = createContext({
 	query: "",
-	modalImageInfo: {},
+	modalImageInfo: {
+		image: {},
+		index: undefined,
+		column: undefined,
+	},
+	index: null,
 	setQuery: () => {},
 	setModalImageInfo: () => {},
 });
 
-function SearchProvider({ children }) {
+function ImageProvider({ children }) {
 	const [query, setQuery] = useState("");
-	const [modalImageInfo, setModalImageInfo] = useState(null);
+	const [modalImageInfo, setModalImageInfo] = useState({
+		image: {},
+		index: undefined,
+		column: undefined,
+	});
 
 	const contextValue = useMemo(() => {
 		return {
@@ -24,8 +33,8 @@ function SearchProvider({ children }) {
 	return <ImageContext.Provider value={contextValue}>{children}</ImageContext.Provider>;
 }
 
-SearchProvider.propTypes = {
+ImageProvider.propTypes = {
 	children: PropTypes.element,
 };
 
-export default SearchProvider;
+export default ImageProvider;
