@@ -4,68 +4,53 @@ import "./ImageModal.scss";
 import { createPortal } from "react-dom";
 import Button from "../../UI/button/Button";
 import { ImageContext } from "../../context/ImageProvider";
-import { IoBookmarksOutline } from "react-icons/io5";
-import { IoHeartOutline } from "react-icons/io5";
-import { BsInfoCircle } from "react-icons/bs";
-import { CiShare1 } from "react-icons/ci";
+import { onDownloadImage } from "../../helper/utils";
+import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
-import { SiCanva } from "react-icons/si";
-import { RxCross1 } from "react-icons/rx";
-import { onDownloadImage } from "../../helper/utils";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import avatar from "../../assets/images/profile-avatar.jpg";
-import SocialShareModal from "../modal/SocialShareModal";
-import ImageDetailsModal from "../modal/ImageDetailsModal";
+import SocialShareModal from "./SocialShareModal";
+import ImageDetailsModal from "./ImageDetailsModal";
+import { RxCross1 } from "react-icons/rx";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { SiCanva } from "react-icons/si";
+import { CiShare1 } from "react-icons/ci";
+import { BsInfoCircle } from "react-icons/bs";
 
 function ImageModal({ onImageNavigate, onClose }) {
-	const {
-		modalImageInfo: { image }
-	} = useContext(ImageContext);
-
 	const [showShareModal, setShowShareModal] = useState(false);
 	const [showStatModal, setShowStatModal] = useState(false);
 
 	const {
+		modalImageInfo: { image },
+	} = useContext(ImageContext);
+
+	const {
 		photographer,
 		src: { large: imageUrl },
-		alt
+		alt,
 	} = image;
 
-	const handleDownload = () => {
-		onDownloadImage(imageUrl, alt);
-	};
-
-	const onShowMoreInfo = () => {
-		setShowShareModal(true);
-	};
-
-	const onCloseMoreInfo = () => {
-		setShowShareModal(false);
-	};
-
-	// const onCopyToClipBoard = (value, e) => {
-	// 	console.log(e);
-	// 	console.log(value.innerHTML);
-	// 	navigator.clipboard.writeText(value);
-	// };
+	const handleDownload = () => onDownloadImage(imageUrl, alt);
+	const onShowMoreInfo = () => setShowShareModal(true);
+	const onCloseMoreInfo = () => setShowShareModal(false);
 
 	return createPortal(
 		<div className="modal-wrapper">
-			<button
-				className="modal-btn modal-close-btn"
-				onClick={onClose}>
+			<button className="modal-btn modal-close-btn" onClick={onClose}>
 				<RxCross1 />
 			</button>
 			<button
 				onClick={() => onImageNavigate(-1)}
-				className="modal-btn previous-image-btn">
+				className="modal-btn previous-image-btn"
+			>
 				<FaAngleLeft />
 			</button>
 			<button
 				onClick={() => onImageNavigate(1)}
-				className="modal-btn next-image-btn">
+				className="modal-btn next-image-btn"
+			>
 				<FaAngleRight />
 			</button>
 			<div className="modal-container">
@@ -73,10 +58,7 @@ function ImageModal({ onImageNavigate, onClose }) {
 					<div className="image-info">
 						<div className="profile">
 							<div className="profile-img">
-								<img
-									src={avatar}
-									alt="profile-avatar"
-								/>
+								<img src={avatar} alt="profile-avatar" />
 							</div>
 							<div className="profile-name">
 								<p>{photographer}</p>
@@ -99,16 +81,17 @@ function ImageModal({ onImageNavigate, onClose }) {
 							<Button
 								type="filled-button"
 								className="download-btn-bg text-white"
-								onClick={handleDownload}>
-								<span className="download-text">Free Download</span> <FiDownload className="icon" />
+								onClick={handleDownload}
+							>
+								<span className="download-text">
+									Free Download
+								</span>{" "}
+								<FiDownload className="icon" />
 							</Button>
 						</div>
 					</div>
 					<div className="image-container">
-						<img
-							src={imageUrl}
-							alt={alt}
-						/>
+						<img src={imageUrl} alt={alt} />
 					</div>
 					<div className="more-info">
 						<p className="more-image-info flex-row gap-12">
@@ -123,12 +106,15 @@ function ImageModal({ onImageNavigate, onClose }) {
 						<div className="buttons">
 							<Button
 								type="outlined-button"
-								onClick={() => setShowStatModal(true)}>
-								<BsInfoCircle className="icon" /> <span>More Info</span>
+								onClick={() => setShowStatModal(true)}
+							>
+								<BsInfoCircle className="icon" />{" "}
+								<span>More Info</span>
 							</Button>
 							<Button
 								type="outlined-button"
-								onClick={onShowMoreInfo}>
+								onClick={onShowMoreInfo}
+							>
 								<CiShare1 className="icon" /> <span>Share</span>
 							</Button>
 						</div>
@@ -154,6 +140,6 @@ function ImageModal({ onImageNavigate, onClose }) {
 
 ImageModal.propTypes = {
 	onImageNavigate: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired
+	onClose: PropTypes.func.isRequired,
 };
 export default ImageModal;

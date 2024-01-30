@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { ImageContext } from "../../context/ImageProvider";
 import ImageCard from "../../components/ImageCard/ImageCard";
-import ImageModal from "../ImageModal/ImageModal";
+import ImageModal from "../modal/ImageModal";
 import "./ImageGallery.scss";
 
 function ImageGallery({ allImages }) {
@@ -11,15 +11,24 @@ function ImageGallery({ allImages }) {
 
 	const {
 		modalImageInfo: { index, column },
-		setModalImageInfo
+		setModalImageInfo,
 	} = useContext(ImageContext);
+
+	useEffect(() => {
+		if (showModal) {
+			document.body.classList.add("overflow-hidden");
+		}
+		return () => {
+			document.body.classList.remove("overflow-hidden");
+		};
+	}, [showModal]);
 
 	const onImageSelect = (image, index, column) => {
 		setModalImageInfo({ image, index, column });
 		setShowModal(true);
 	};
 
-	const navigateImage = direction => {
+	const navigateImage = (direction) => {
 		const newIndex = index + direction;
 		let newImage = null;
 
@@ -36,7 +45,7 @@ function ImageGallery({ allImages }) {
 		}
 	};
 
-	const renderColumn = column => (
+	const renderColumn = (column) => (
 		<div className={`col-${column}`}>
 			{allImages[`column${column}`].map((image, index) => (
 				<ImageCard
@@ -71,8 +80,8 @@ ImageGallery.propTypes = {
 	allImages: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object)
-	})
+		column3: PropTypes.arrayOf(PropTypes.object),
+	}),
 };
 
 export default ImageGallery;

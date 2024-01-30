@@ -1,22 +1,16 @@
 import { PropTypes } from "prop-types";
-import { forwardRef } from "react";
+// import { forwardRef } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = forwardRef(function Sidebar({ toggleSidebar }, ref) {
+function Sidebar({ toggleSidebar }) {
 	const navigate = useNavigate();
 
-	const onNavToHome = () => {
-		navigate("/");
-	};
+	const onNavToHome = () => navigate("/");
 
 	return (
-		<div
-			id="sidebar-container"
-			ref={ref}>
-			<button
-				className="close-icon-btn"
-				onClick={toggleSidebar}>
+		<div id="sidebar-container">
+			<button className="close-icon-btn" onClick={toggleSidebar}>
 				<AiOutlineClose />
 			</button>
 			<button onClick={onNavToHome}>Home</button>
@@ -28,7 +22,7 @@ const Sidebar = forwardRef(function Sidebar({ toggleSidebar }, ref) {
 			<button onClick={toggleSidebar}>Pexels Blog</button>
 		</div>
 	);
-});
+}
 
 Sidebar.propTypes = {
 	toggleSidebar: PropTypes.func,

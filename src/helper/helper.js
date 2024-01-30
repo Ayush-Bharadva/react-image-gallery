@@ -10,12 +10,6 @@ export const calculateColumns = () => {
 };
 
 export const computeColumnsFromWidth = (allImages, columnsCount) => {
-	// const columns = {
-	// 	column1: [],
-	// 	column2: [],
-	// 	column3: [],
-	// };
-
 	const columns = {};
 	for (let i = 1; i <= columnsCount; i++) {
 		columns[`column${i}`] = [];

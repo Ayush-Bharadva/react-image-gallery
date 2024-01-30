@@ -1,18 +1,19 @@
 import { PropTypes } from "prop-types";
-import SearchInput from "../searchinput/SearchInput";
-import { FiUpload } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FiUpload } from "react-icons/fi";
+import SearchInput from "../searchinput/SearchInput";
+import "./Navbar.scss";
 import Logo from "../../components/Header/Logo";
 import { useRef, useState } from "react";
-import "../../components/Header/Header.scss";
 import Sidebar from "../sidebar/Sidebar";
-import "./Navbar.scss";
+import "../../components/Header/Header.scss";
 
 function Navbar() {
 	const sidebarRef = useRef();
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const toggleSidebar = () => {
-		setSidebarOpen(prev => !prev);
+		setSidebarOpen((prev) => !prev);
 		setSidebarWidth();
 	};
 
@@ -20,8 +21,6 @@ function Navbar() {
 		const width = sidebarOpen ? "275px" : "0";
 		sidebarRef.current.style.width = width;
 	};
-
-	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	return (
 		<>
@@ -51,6 +50,5 @@ function Navbar() {
 export default Navbar;
 
 Navbar.propTypes = {
-	showSearchInput: PropTypes.bool
-	// toggleSidebar: PropTypes.func
+	showSearchInput: PropTypes.bool,
 };

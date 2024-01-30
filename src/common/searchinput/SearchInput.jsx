@@ -9,16 +9,14 @@ import { ImageContext } from "../../context/ImageProvider";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
-
 	const { setQuery, query } = useContext(ImageContext);
-
 	const [searchString, setSearchString] = useState(query || "");
 
 	const onChange = ({ target: { value } }) => {
 		setSearchString(value);
 	};
 
-	const onSubmit = event => {
+	const onSubmit = (event) => {
 		event.preventDefault();
 		if (!searchString.trim()) {
 			return;
@@ -28,15 +26,13 @@ function SearchInput({ className, props }) {
 	};
 
 	return (
-		<div
-			className={`search-input-container ${className}`}
-			{...props}>
+		<div className={`search-input-container ${className}`} {...props}>
 			<button className="option-btn">
-				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> <span>Photos</span> <GoChevronDown style={{ fontSize: "1rem" }} />
+				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} />{" "}
+				<span>Photos</span>{" "}
+				<GoChevronDown style={{ fontSize: "1rem" }} />
 			</button>
-			<form
-				onSubmit={onSubmit}
-				className="search-input">
+			<form onSubmit={onSubmit} className="search-input">
 				<input
 					id="search"
 					type="text"
@@ -45,7 +41,7 @@ function SearchInput({ className, props }) {
 					onChange={onChange}
 					placeholder="Search for free photos"
 				/>
-				<button className="search-icon-btn">
+				<button type="submit" className="search-icon-btn">
 					<CiSearch />
 				</button>
 			</form>
@@ -58,7 +54,7 @@ SearchInput.propTypes = {
 	onChange: PropTypes.func,
 	onSubmit: PropTypes.func,
 	className: PropTypes.string,
-	props: PropTypes.object
+	props: PropTypes.object,
 };
 
 export default SearchInput;

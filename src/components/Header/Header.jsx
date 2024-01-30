@@ -5,8 +5,6 @@ import SearchInput from "../../common/searchinput/SearchInput";
 import "./Header.scss";
 import Logo from "./Logo";
 import Sidebar from "../../common/sidebar/Sidebar";
-import Navbar from "../../common/navbar/Navbar";
-// import Navbar from "../../common/navbar/Navbar";
 
 function Header() {
 	const sidebarRef = useRef();
@@ -17,7 +15,9 @@ function Header() {
 	function handleScroll() {
 		const isScrolled = window.scrollY >= 600;
 		setShowSearchInput(isScrolled);
-		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
+		navbarRef.current.className = `main-nav-bar ${
+			isScrolled ? "fixed-nav" : "absolute-nav"
+		}`;
 	}
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ function Header() {
 	}, []);
 
 	const toggleSidebar = () => {
-		setSidebarOpen(prev => !prev);
+		setSidebarOpen((prev) => !prev);
 		setSidebarWidth();
 	};
 
@@ -39,35 +39,34 @@ function Header() {
 
 	return (
 		<>
-			{!showSearchInput ? (
-				<div
-					className="main-nav-bar absolute-nav"
-					ref={navbarRef}>
-					<div className="left">
-						<Logo />
-						{/* {showSearchInput && <SearchInput className="sp-search-input-container" />} */}
-					</div>
-					<div className="right">
-						<ul className="nav-items">
-							<li>Explore</li>
-							<li>License</li>
-							<button>Upload</button>
-							<button className="upload-btn">
-								<FiUpload />
-							</button>
-							<button className="sidebar-btn">
-								<GiHamburgerMenu onClick={toggleSidebar} />
-							</button>
-						</ul>
-					</div>
+			<div className="main-nav-bar absolute-nav" ref={navbarRef}>
+				<div className="left">
+					<Logo />
+					{showSearchInput && (
+						<SearchInput className="sp-search-input-container" />
+					)}
 				</div>
-			) : (
-				<Navbar />
-			)}
+				<div className="right">
+					<ul className="nav-items">
+						<li>Explore</li>
+						<li>License</li>
+						<button>Upload</button>
+						<button className="upload-btn">
+							<FiUpload />
+						</button>
+						<button className="sidebar-btn">
+							<GiHamburgerMenu onClick={toggleSidebar} />
+						</button>
+					</ul>
+				</div>
+			</div>
 
 			<header className="main-header">
 				<div className="hero">
-					<h1 className="heading">The best free stock photos, royalty free images & videos shared by creators</h1>
+					<h1 className="heading">
+						The best free stock photos, royalty free images & videos
+						shared by creators
+					</h1>
 					<SearchInput style={{ margin: "15px 0 0 0" }} />
 				</div>
 			</header>

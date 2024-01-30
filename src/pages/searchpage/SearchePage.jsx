@@ -19,21 +19,21 @@ function SearchPage() {
 		searchedImagesInfo: [],
 		nextPageLink: null,
 		hasMore: true,
-		isLoading: false
+		isLoading: false,
 	});
 	const [columns, setColumns] = useState(1);
-	const { query, setQuery } = useContext(ImageContext);
 	const categoriesRef = useRef();
+	const { query, setQuery } = useContext(ImageContext);
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
-	console.log(searchedImagesInfo);
+	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } =
+		searchState;
 
 	const onSetPrevQuery = useCallback(() => {
 		setSearchState({
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
-			isLoading: false
+			isLoading: false,
 		});
 		const temp = pathname.split("/");
 		const prevQuery = temp[temp.length - 1];
@@ -48,14 +48,17 @@ function SearchPage() {
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
-				setSearchState(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
-				setSearchState(prev => ({
+				setSearchState((prev) => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchSearchedImages(
+					query,
+					nextPageLink
+				);
+				setSearchState((prev) => ({
 					...prev,
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
 					hasMore: !!next_page,
 					nextPageLink: next_page,
-					isLoading: false
+					isLoading: false,
 				}));
 			} catch (error) {
 				console.error(error);
@@ -75,31 +78,34 @@ function SearchPage() {
 		};
 	}, []);
 
-	const fetchCategoryImages = event => {
-		const category = event.target.value;
+	const fetchCategoryImages = ({ target: { value } }) => {
+		const category = value;
 		setSearchState({
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
-			isLoading: false
+			isLoading: false,
 		});
 		setQuery(category);
 		navigate(`/search/${category}`);
 	};
 
-	const computedLayoutColumns = computeColumnsFromWidth([...searchedImagesInfo], columns);
+	const computedLayoutColumns = computeColumnsFromWidth(
+		[...searchedImagesInfo],
+		columns
+	);
 
-	const onScroll = scrollOffset => {
+	const onScroll = (scrollOffset) => {
 		if (categoriesRef.current) {
-			categoriesRef.current.style.transition = "scroll-left 0.5s ease-in-out";
+			categoriesRef.current.style.transition =
+				"scroll-left 0.5s ease-in-out";
 			categoriesRef.current.scrollLeft += scrollOffset;
 		}
 	};
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
-	console.log(searchedImagesInfo);
-
+	// console.log(searchedImagesInfo);
 	// if (!searchedImagesInfo.length) {
 	// 	return <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>No results found!!</h1>;
 	// }
@@ -112,14 +118,13 @@ function SearchPage() {
 					className="move-left-icon"
 					onClick={() => onScroll(-500)}
 				/>
-				<div
-					className="related-categories"
-					ref={categoriesRef}>
+				<div className="related-categories" ref={categoriesRef}>
 					{relatedCategories.map((category, index) => (
 						<button
 							key={`${category}-${index}`}
 							onClick={fetchCategoryImages}
-							value={category}>
+							value={category}
+						>
 							{category}
 						</button>
 					))}
@@ -134,7 +139,8 @@ function SearchPage() {
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
-				threshold={500}>
+				threshold={500}
+			>
 				<ImageGallery allImages={computedLayoutColumns} />
 			</InfiniteScroll>
 		</div>

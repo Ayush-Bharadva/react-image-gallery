@@ -14,7 +14,23 @@
 // import { FiUpload } from "react-icons/fi";
 // import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
-export const relatedCategories = ["people", "nature", "funny", "sports", "dice", "abstract", "background", "photo", "design", "dark", "business", "technology", "coding", "programming", "art"];
+export const relatedCategories = [
+	"people",
+	"nature",
+	"funny",
+	"sports",
+	"dice",
+	"abstract",
+	"background",
+	"photo",
+	"design",
+	"dark",
+	"business",
+	"technology",
+	"coding",
+	"programming",
+	"art",
+];
 
 // export const allIcons = {
 // 	BookmarkIcon: <IoBookmarksOutline />,
@@ -32,5 +48,5 @@ export const relatedCategories = ["people", "nature", "funny", "sports", "dice",
 // 	HamburgerMenuIcon: <GiHamburgerMenu />,
 // 	UploadIcon: <FiUpload />,
 // 	AngleLeftIcon: <FaAngleLeft />,
-// 	AngleRightIcon: <FaAngleRight />
+// 	AngleRightIcon: <FaAngleRight />,
 // };

@@ -16,6 +16,7 @@
 			}
 		}
 	}
+
 	.right {
 		.nav-items {
 			.upload-btn {
@@ -140,7 +141,8 @@
 .main-header {
 	position: relative;
 	min-height: 500px;
-	background: url("../../assets/images/hero-image.jpeg") top right/auto 100% no-repeat;
+	background: url("../../assets/images/hero-image.jpeg") top right/auto 100%
+		no-repeat;
 	z-index: 0;
 
 	.hero {

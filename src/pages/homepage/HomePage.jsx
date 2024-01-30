@@ -13,11 +13,12 @@ function HomePage() {
 		fetchedImages: [],
 		nextPageUrl: curatedImgUrl,
 		hasMore: true,
-		isLoading: false
+		isLoading: false,
 	});
 	const [columnCount, setColumnCount] = useState(1);
 
-	const { fetchedImages, nextPageUrl, hasMore, isLoading } = fetchedImagesState;
+	const { fetchedImages, nextPageUrl, hasMore, isLoading } =
+		fetchedImagesState;
 
 	const computeColumns = () => {
 		const columnsCount = calculateColumns();
@@ -27,23 +28,22 @@ function HomePage() {
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
-				setFetchedImagesState(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
-				// console.log(photos, next_page);
-				setFetchedImagesState(prev => ({
+				setFetchedImagesState((prev) => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchCuratedImages(
+					nextPageUrl
+				);
+				setFetchedImagesState((prev) => ({
 					...prev,
 					fetchedImages: [...prev.fetchedImages, ...photos],
 					nextPageUrl: next_page,
 					isLoading: false,
-					hasMore: !!next_page
+					hasMore: !!next_page,
 				}));
 			} catch (error) {
-				throw new Error(error);
+				console.error("Error fetching images:", error);
 			}
 		}
 	}, [isLoading, nextPageUrl, hasMore]);
-
-	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
 
 	useEffect(() => {
 		computeColumns();
@@ -52,6 +52,11 @@ function HomePage() {
 			window.removeEventListener("resize", computeColumns);
 		};
 	}, []);
+
+	const computedImageColumns = computeColumnsFromWidth(
+		fetchedImages,
+		columnCount
+	);
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
@@ -68,7 +73,8 @@ function HomePage() {
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
-				threshold={400}>
+				threshold={400}
+			>
 				<ImageGallery allImages={computedImageColumns} />
 			</InfiniteScroll>
 		</div>
