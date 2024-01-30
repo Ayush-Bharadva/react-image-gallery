@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ImageContext } from "../../context/ImageProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
-import ImageGallery from "../../components/Common/Imagegallery/ImageGallery";
+import ImageGallery from "../../common/Imagegallery/ImageGallery";
 import { relatedCategories } from "../../constants/constants";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./SearchPage.scss";
-import Navbar from "../../components/Common/navbar/Navbar";
+import Navbar from "../../common/navbar/Navbar";
 
 function SearchPage() {
 	const navigate = useNavigate();
@@ -19,19 +19,21 @@ function SearchPage() {
 		searchedImagesInfo: [],
 		nextPageLink: null,
 		hasMore: true,
-		isLoading: false,
+		isLoading: false
 	});
 	const [columns, setColumns] = useState(1);
 	const { query, setQuery } = useContext(ImageContext);
 	const categoriesRef = useRef();
+
 	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
+	console.log(searchedImagesInfo);
 
 	const onSetPrevQuery = useCallback(() => {
 		setSearchState({
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
-			isLoading: false,
+			isLoading: false
 		});
 		const temp = pathname.split("/");
 		const prevQuery = temp[temp.length - 1];
@@ -53,7 +55,7 @@ function SearchPage() {
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
 					hasMore: !!next_page,
 					nextPageLink: next_page,
-					isLoading: false,
+					isLoading: false
 				}));
 			} catch (error) {
 				console.error(error);
@@ -79,13 +81,13 @@ function SearchPage() {
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
-			isLoading: false,
+			isLoading: false
 		});
 		setQuery(category);
 		navigate(`/search/${category}`);
 	};
 
-	const computedLayoutColumns = computeColumnsFromWidth(searchedImagesInfo, columns);
+	const computedLayoutColumns = computeColumnsFromWidth([...searchedImagesInfo], columns);
 
 	const onScroll = scrollOffset => {
 		if (categoriesRef.current) {
@@ -95,6 +97,12 @@ function SearchPage() {
 	};
 
 	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
+
+	console.log(searchedImagesInfo);
+
+	// if (!searchedImagesInfo.length) {
+	// 	return <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>No results found!!</h1>;
+	// }
 
 	return (
 		<div id="search-images-container">

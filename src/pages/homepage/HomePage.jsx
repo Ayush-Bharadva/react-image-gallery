@@ -2,21 +2,10 @@ import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth } from "../../helper/helper";
 import { calculateColumns } from "../../helper/helper";
-import ImageGallery from "../../components/Common/Imagegallery/ImageGallery";
+import ImageGallery from "../../common/Imagegallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./HomePage.scss";
 import { fetchCuratedImages } from "../../services/services";
-/*
-import Modal from "../../components/Common/modal/Modal";
-import { MdOutlineContentCopy } from "react-icons/md";
-import { FaPinterest } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaLinkedinIn } from "react-icons/fa";
-import { ImFacebook2 } from "react-icons/im";
-import { GrTumblr } from "react-icons/gr";
-*/
-// import Photo from "../photo/Photo";
-
 const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
 function HomePage() {
@@ -24,10 +13,9 @@ function HomePage() {
 		fetchedImages: [],
 		nextPageUrl: curatedImgUrl,
 		hasMore: true,
-		isLoading: false,
+		isLoading: false
 	});
 	const [columnCount, setColumnCount] = useState(1);
-	// const modalRef = useRef();
 
 	const { fetchedImages, nextPageUrl, hasMore, isLoading } = fetchedImagesState;
 
@@ -47,7 +35,7 @@ function HomePage() {
 					fetchedImages: [...prev.fetchedImages, ...photos],
 					nextPageUrl: next_page,
 					isLoading: false,
-					hasMore: !!next_page,
+					hasMore: !!next_page
 				}));
 			} catch (error) {
 				throw new Error(error);

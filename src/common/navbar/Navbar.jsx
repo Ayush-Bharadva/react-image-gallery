@@ -2,9 +2,9 @@ import { PropTypes } from "prop-types";
 import SearchInput from "../searchinput/SearchInput";
 import { FiUpload } from "react-icons/fi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import Logo from "../../Header/Logo";
+import Logo from "../../components/Header/Logo";
 import { useRef, useState } from "react";
-import "../../Header/Header.scss";
+import "../../components/Header/Header.scss";
 import Sidebar from "../sidebar/Sidebar";
 import "./Navbar.scss";
 
@@ -48,10 +48,9 @@ function Navbar() {
 		</>
 	);
 }
-
 export default Navbar;
 
 Navbar.propTypes = {
-	showSearchInput: PropTypes.bool,
-	toggleSidebar: PropTypes.func,
+	showSearchInput: PropTypes.bool
+	// toggleSidebar: PropTypes.func
 };

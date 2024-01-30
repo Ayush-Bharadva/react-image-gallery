@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
-import SearchInput from "../Common/searchinput/SearchInput";
+import SearchInput from "../../common/searchinput/SearchInput";
 import "./Header.scss";
 import Logo from "./Logo";
-import Sidebar from "../Common/sidebar/Sidebar";
+import Sidebar from "../../common/sidebar/Sidebar";
+import Navbar from "../../common/navbar/Navbar";
+// import Navbar from "../../common/navbar/Navbar";
 
 function Header() {
 	const sidebarRef = useRef();
@@ -37,27 +39,32 @@ function Header() {
 
 	return (
 		<>
-			<div
-				className="main-nav-bar absolute-nav"
-				ref={navbarRef}>
-				<div className="left">
-					<Logo />
-					{showSearchInput && <SearchInput className="sp-search-input-container" />}
+			{!showSearchInput ? (
+				<div
+					className="main-nav-bar absolute-nav"
+					ref={navbarRef}>
+					<div className="left">
+						<Logo />
+						{/* {showSearchInput && <SearchInput className="sp-search-input-container" />} */}
+					</div>
+					<div className="right">
+						<ul className="nav-items">
+							<li>Explore</li>
+							<li>License</li>
+							<button>Upload</button>
+							<button className="upload-btn">
+								<FiUpload />
+							</button>
+							<button className="sidebar-btn">
+								<GiHamburgerMenu onClick={toggleSidebar} />
+							</button>
+						</ul>
+					</div>
 				</div>
-				<div className="right">
-					<ul className="nav-items">
-						<li>Explore</li>
-						<li>License</li>
-						<button>Upload</button>
-						<button className="upload-btn">
-							<FiUpload />
-						</button>
-						<button className="sidebar-btn">
-							<GiHamburgerMenu onClick={toggleSidebar} />
-						</button>
-					</ul>
-				</div>
-			</div>
+			) : (
+				<Navbar />
+			)}
+
 			<header className="main-header">
 				<div className="hero">
 					<h1 className="heading">The best free stock photos, royalty free images & videos shared by creators</h1>

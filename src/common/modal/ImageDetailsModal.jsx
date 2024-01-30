@@ -1,9 +1,9 @@
 import { PropTypes } from "prop-types";
 import { RxCross1 } from "react-icons/rx";
 import Modal from "./Modal";
-import testImage from "../../../assets/images/forest-img.jpeg";
+// import DialogModal from "../DialogModal/DialogModal";
 
-function ImageDetailsModal({ onCloseModal }) {
+function ImageDetailsModal({ onCloseModal, modalImage }) {
 	return (
 		<Modal>
 			<div className="image-details-modal-container">
@@ -11,7 +11,7 @@ function ImageDetailsModal({ onCloseModal }) {
 					<div className="top-container-header flex-row-center">
 						<div className="image-container">
 							<img
-								src={testImage}
+								src={modalImage}
 								alt=""
 							/>
 						</div>
@@ -20,7 +20,7 @@ function ImageDetailsModal({ onCloseModal }) {
 							<p>Uploaded on December 16th, 2023</p>
 						</div>
 					</div>
-					<div className="statistics flex-row-center">
+					<div className="statistics">
 						<div>
 							<p>Views</p>
 							<p>4.8K</p>
@@ -83,4 +83,5 @@ export default ImageDetailsModal;
 
 ImageDetailsModal.propTypes = {
 	onCloseModal: PropTypes.func.isRequired,
+	modalImage: PropTypes.string.isRequired
 };

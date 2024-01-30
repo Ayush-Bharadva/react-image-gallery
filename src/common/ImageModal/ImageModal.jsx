@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import "./ImageModal.scss";
 import { createPortal } from "react-dom";
-import Button from "../../../UI/button/Button";
-import { ImageContext } from "../../../context/ImageProvider";
+import Button from "../../UI/button/Button";
+import { ImageContext } from "../../context/ImageProvider";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { IoHeartOutline } from "react-icons/io5";
 import { BsInfoCircle } from "react-icons/bs";
@@ -12,19 +12,16 @@ import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
 import { SiCanva } from "react-icons/si";
 import { RxCross1 } from "react-icons/rx";
-import { onDownloadImage } from "../../../helper/utils";
+import { onDownloadImage } from "../../helper/utils";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
-// import { useNavigate } from "react-router-dom";
-import avatar from "../../../assets/images/profile-avatar.jpg";
+import avatar from "../../assets/images/profile-avatar.jpg";
 import SocialShareModal from "../modal/SocialShareModal";
 import ImageDetailsModal from "../modal/ImageDetailsModal";
 
 function ImageModal({ onImageNavigate, onClose }) {
-	// const navigate = useNavigate();
-
 	const {
-		modalImageInfo: { image },
+		modalImageInfo: { image }
 	} = useContext(ImageContext);
 
 	const [showShareModal, setShowShareModal] = useState(false);
@@ -33,7 +30,7 @@ function ImageModal({ onImageNavigate, onClose }) {
 	const {
 		photographer,
 		src: { large: imageUrl },
-		alt,
+		alt
 	} = image;
 
 	const handleDownload = () => {
@@ -48,9 +45,11 @@ function ImageModal({ onImageNavigate, onClose }) {
 		setShowShareModal(false);
 	};
 
-	const onCopyToClipBoard = value => {
-		navigator.clipboard.writeText(value);
-	};
+	// const onCopyToClipBoard = (value, e) => {
+	// 	console.log(e);
+	// 	console.log(value.innerHTML);
+	// 	navigator.clipboard.writeText(value);
+	// };
 
 	return createPortal(
 		<div className="modal-wrapper">
@@ -85,19 +84,20 @@ function ImageModal({ onImageNavigate, onClose }) {
 							</div>
 						</div>
 						<div className="actions">
-							<Button>
+							<Button type="outlined-button">
 								<IoBookmarksOutline className="icon" />
 								<span>Collect</span>
 							</Button>
-							<Button>
+							<Button type="outlined-button">
 								<IoHeartOutline className="icon" />
 								<span>Like</span>
 							</Button>
-							<Button>
+							<Button type="outlined-button">
 								<SiCanva className="icon" />
 								<span>Edit in Canva</span>
 							</Button>
 							<Button
+								type="filled-button"
 								className="download-btn-bg text-white"
 								onClick={handleDownload}>
 								<span className="download-text">Free Download</span> <FiDownload className="icon" />
@@ -121,23 +121,32 @@ function ImageModal({ onImageNavigate, onClose }) {
 							</span>
 						</p>
 						<div className="buttons">
-							<Button onClick={() => setShowStatModal(true)}>
+							<Button
+								type="outlined-button"
+								onClick={() => setShowStatModal(true)}>
 								<BsInfoCircle className="icon" /> <span>More Info</span>
 							</Button>
-							<Button onClick={onShowMoreInfo}>
+							<Button
+								type="outlined-button"
+								onClick={onShowMoreInfo}>
 								<CiShare1 className="icon" /> <span>Share</span>
 							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
-			{showShareModal && (
+			{showShareModal ? (
 				<SocialShareModal
 					onClose={onCloseMoreInfo}
-					onCopy={onCopyToClipBoard}
+					photographer={photographer}
 				/>
-			)}
-			{showStatModal && <ImageDetailsModal onCloseModal={() => setShowStatModal(false)} />}
+			) : null}
+			{showStatModal ? (
+				<ImageDetailsModal
+					onCloseModal={() => setShowStatModal(false)}
+					modalImage={imageUrl}
+				/>
+			) : null}
 		</div>,
 		document.getElementById("image-portal")
 	);
@@ -145,6 +154,6 @@ function ImageModal({ onImageNavigate, onClose }) {
 
 ImageModal.propTypes = {
 	onImageNavigate: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired,
+	onClose: PropTypes.func.isRequired
 };
 export default ImageModal;

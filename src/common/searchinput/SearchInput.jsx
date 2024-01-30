@@ -5,14 +5,14 @@ import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImageContext } from "../../../context/ImageProvider";
+import { ImageContext } from "../../context/ImageProvider";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
 
-	const [searchString, setSearchString] = useState("");
+	const { setQuery, query } = useContext(ImageContext);
 
-	const { setQuery } = useContext(ImageContext);
+	const [searchString, setSearchString] = useState(query || "");
 
 	const onChange = ({ target: { value } }) => {
 		setSearchString(value);
@@ -32,7 +32,6 @@ function SearchInput({ className, props }) {
 			className={`search-input-container ${className}`}
 			{...props}>
 			<button className="option-btn">
-				{" "}
 				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> <span>Photos</span> <GoChevronDown style={{ fontSize: "1rem" }} />
 			</button>
 			<form
@@ -59,7 +58,7 @@ SearchInput.propTypes = {
 	onChange: PropTypes.func,
 	onSubmit: PropTypes.func,
 	className: PropTypes.string,
-	props: PropTypes.object,
+	props: PropTypes.object
 };
 
 export default SearchInput;

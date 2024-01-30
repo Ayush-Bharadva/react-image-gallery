@@ -12,3 +12,7 @@ export async function onDownloadImage(imageSrc, downloadName = "image.jpeg") {
 	document.body.removeChild(anchor);
 	URL.revokeObjectURL(href);
 }
+
+export const onCopyToClipBoard = ({ target: { innerText } }) => {
+	navigator.clipboard.writeText(innerText);
+};

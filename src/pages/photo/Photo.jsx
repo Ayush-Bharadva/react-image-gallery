@@ -1,7 +1,7 @@
 import "./Photo.scss";
 import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
 import Button from "../../UI/button/Button";
-import Navbar from "../../components/Common/navbar/Navbar";
+// import Navbar from "../../components/Common/navbar/Navbar";
 import { SiCanva } from "react-icons/si";
 import { onDownloadImage } from "../../helper/utils";
 import { useContext } from "react";
@@ -40,14 +40,14 @@ function Photo() {
 	// };
 
 	const {
-		modalImageInfo: { image },
+		modalImageInfo: { image }
 	} = useContext(ImageContext);
 	// console.log(modalImageInfo);
 
 	const {
 		photographer,
 		src: { large: imageUrl },
-		alt,
+		alt
 	} = image;
 	// console.log(imageUrl);
 
@@ -69,7 +69,6 @@ function Photo() {
 
 	return (
 		<>
-			<Navbar />
 			<div className="photo-container">
 				<div className="top">
 					<div className="image-info">

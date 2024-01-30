@@ -1,11 +1,11 @@
-import { onDownloadImage } from "../../../helper/utils.js";
+import { onDownloadImage } from "../../helper/utils.js";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { PropTypes } from "prop-types";
-import "./Image.scss";
+import "./ImageCard.scss";
 
-function Image({ image, index, column, onImageClick }) {
+function ImageCard({ image, index, column, onImageClick }) {
 	const onDownload = e => {
 		e.preventDefault();
 		onDownloadImage(image.src.large, image.alt);
@@ -40,11 +40,11 @@ function Image({ image, index, column, onImageClick }) {
 	);
 }
 
-Image.propTypes = {
+ImageCard.propTypes = {
 	image: PropTypes.object,
 	index: PropTypes.number,
 	column: PropTypes.number,
-	onImageClick: PropTypes.func,
+	onImageClick: PropTypes.func
 };
 
-export default Image;
+export default ImageCard;

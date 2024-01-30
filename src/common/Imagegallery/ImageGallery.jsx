@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { PropTypes } from "prop-types";
-import { ImageContext } from "../../../context/ImageProvider";
-import Image from "../Image/Image";
+import { ImageContext } from "../../context/ImageProvider";
+import ImageCard from "../../components/ImageCard/ImageCard";
 import ImageModal from "../ImageModal/ImageModal";
 import "./ImageGallery.scss";
 
@@ -11,17 +11,12 @@ function ImageGallery({ allImages }) {
 
 	const {
 		modalImageInfo: { index, column },
-		setModalImageInfo,
+		setModalImageInfo
 	} = useContext(ImageContext);
 
 	const onImageSelect = (image, index, column) => {
 		setModalImageInfo({ image, index, column });
 		setShowModal(true);
-
-		// const { alt, photographer } = image;
-		// const queryPlaceholder = alt || photographer;
-		// const newQueryPlaceholder = queryPlaceholder.replace(/\s/g, "-");
-		// navigate(`/photo/${newQueryPlaceholder}`);
 	};
 
 	const navigateImage = direction => {
@@ -44,7 +39,7 @@ function ImageGallery({ allImages }) {
 	const renderColumn = column => (
 		<div className={`col-${column}`}>
 			{allImages[`column${column}`].map((image, index) => (
-				<Image
+				<ImageCard
 					key={image.id}
 					image={image}
 					index={index}
@@ -55,13 +50,9 @@ function ImageGallery({ allImages }) {
 		</div>
 	);
 
-	// console.log("showModal, ", showModal);
-
 	return (
 		<>
-			<div
-				className="image-gallery-container"
-				key={crypto.randomUUID()}>
+			<div className="image-gallery-container">
 				{column1 && renderColumn(1)}
 				{column2 && renderColumn(2)}
 				{column3 && renderColumn(3)}
@@ -80,8 +71,8 @@ ImageGallery.propTypes = {
 	allImages: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object),
-	}),
+		column3: PropTypes.arrayOf(PropTypes.object)
+	})
 };
 
 export default ImageGallery;
