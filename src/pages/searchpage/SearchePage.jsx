@@ -13,58 +13,36 @@ import Navbar from "../../common/navbar/Navbar";
 function SearchPage() {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const pathname = location.pathname;
+	const currentPath = location.pathname;
 
 	const [searchState, setSearchState] = useState({
 		searchedImagesInfo: [],
 		nextPageLink: null,
 		hasMore: true,
-		isLoading: false,
+		isLoading: false
 	});
 	const [columns, setColumns] = useState(1);
 	const categoriesRef = useRef();
 	const { query, setQuery } = useContext(ImageContext);
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } =
-		searchState;
+	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
 	const onSetPrevQuery = useCallback(() => {
 		setSearchState({
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
-			isLoading: false,
+			isLoading: false
 		});
-		const temp = pathname.split("/");
-		const prevQuery = temp[temp.length - 1];
+		const path = currentPath.split("/");
+		const prevQuery = path[path.length - 1];
 		setQuery(prevQuery);
-	}, [pathname, setQuery]);
+	}, [currentPath, setQuery]);
 
 	const computeColumns = () => {
 		const columnCount = calculateColumns();
 		setColumns(columnCount);
 	};
-
-	const fetchImages = useCallback(async () => {
-		if (!isLoading && hasMore) {
-			try {
-				setSearchState((prev) => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(
-					query,
-					nextPageLink
-				);
-				setSearchState((prev) => ({
-					...prev,
-					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
-					hasMore: !!next_page,
-					nextPageLink: next_page,
-					isLoading: false,
-				}));
-			} catch (error) {
-				console.error(error);
-			}
-		}
-	}, [query, isLoading, hasMore, nextPageLink]);
 
 	useEffect(() => {
 		onSetPrevQuery();
@@ -78,27 +56,41 @@ function SearchPage() {
 		};
 	}, []);
 
+	const fetchImages = useCallback(async () => {
+		if (!isLoading && hasMore) {
+			try {
+				setSearchState(prev => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
+				setSearchState(prev => ({
+					...prev,
+					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
+					hasMore: !!next_page,
+					nextPageLink: next_page,
+					isLoading: false
+				}));
+			} catch (error) {
+				console.error(error);
+			}
+		}
+	}, [query, isLoading, hasMore, nextPageLink]);
+
 	const fetchCategoryImages = ({ target: { value } }) => {
 		const category = value;
 		setSearchState({
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
-			isLoading: false,
+			isLoading: false
 		});
 		setQuery(category);
 		navigate(`/search/${category}`);
 	};
 
-	const computedLayoutColumns = computeColumnsFromWidth(
-		[...searchedImagesInfo],
-		columns
-	);
+	const computedLayoutColumns = computeColumnsFromWidth([...searchedImagesInfo], columns);
 
-	const onScroll = (scrollOffset) => {
+	const onScroll = scrollOffset => {
 		if (categoriesRef.current) {
-			categoriesRef.current.style.transition =
-				"scroll-left 0.5s ease-in-out";
+			categoriesRef.current.style.transition = "scroll-left 0.5s ease-in-out";
 			categoriesRef.current.scrollLeft += scrollOffset;
 		}
 	};
@@ -109,6 +101,7 @@ function SearchPage() {
 	// if (!searchedImagesInfo.length) {
 	// 	return <h1 style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>No results found!!</h1>;
 	// }
+	console.log("searchedImagesList :", searchedImagesInfo);
 
 	return (
 		<div id="search-images-container">
@@ -118,31 +111,35 @@ function SearchPage() {
 					className="move-left-icon"
 					onClick={() => onScroll(-500)}
 				/>
-				<div className="related-categories" ref={categoriesRef}>
-					{relatedCategories.map((category, index) => (
+				<div
+					className="related-categories"
+					ref={categoriesRef}>
+					{relatedCategories.map(category => (
 						<button
-							key={`${category}-${index}`}
+							key={category}
 							onClick={fetchCategoryImages}
-							value={category}
-						>
+							value={category}>
 							{category}
 						</button>
 					))}
 				</div>
 				<FaAngleRight
 					className="move-right-icon"
-					onClick={() => onScroll(500)}
+					onClick={() => onScroll(300)}
 				/>
 			</div>
+			{/* {searchedImagesInfo?.length > 0 ? ( */}
 			<InfiniteScroll
 				className="infinite-scroll-container"
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={loader}
-				threshold={500}
-			>
+				threshold={500}>
 				<ImageGallery allImages={computedLayoutColumns} />
 			</InfiniteScroll>
+			{/* ) : (
+				<h1>No Images Found!!</h1>
+			)} */}
 		</div>
 	);
 }
