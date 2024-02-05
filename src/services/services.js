@@ -3,10 +3,10 @@ import axios from "axios";
 const apiKey = "8Q3TvNS14nRNAMnmbWoqRNCjb94REEfQhIf6XvpEhwJtIGuGQ1b93Rlm";
 
 const headers = {
-	Authorization: apiKey,
+	Authorization: apiKey
 };
 const axiosInstance = axios.create({
-	headers: headers,
+	headers: headers
 });
 
 export async function fetchSearchedImages(query, nextPageLink) {
@@ -33,14 +33,3 @@ export async function fetchCuratedImages(curatedImgUrl) {
 		throw new Error(error);
 	}
 }
-
-// export async function fetchImagesData(url) {
-// 	try {
-// 		const response = await axiosInstance.get(url);
-// 		if (response.status === 200) {
-// 			return response.data; // {}
-// 		}
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }

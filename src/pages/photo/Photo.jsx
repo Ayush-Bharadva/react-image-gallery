@@ -12,44 +12,17 @@ import { GrLocation } from "react-icons/gr";
 import { BsInfoCircle } from "react-icons/bs";
 import { CiShare1 } from "react-icons/ci";
 import avatar from "../../assets/images/profile-avatar.jpg";
-// import ImageModal from "../../components/Common/ImageModal/ImageModal";
-// import Modal from "../../components/Common/modal/Modal";
-// import { FaLinkedinIn, FaPinterest, FaTwitter } from "react-icons/fa";
-// import { ImFacebook2 } from "react-icons/im";
-// import { MdOutlineContentCopy } from "react-icons/md";
 
 function Photo() {
-	// const [showShareModal, setShowShareModal] = useState(true);
-	// const [showModal, setShowModal] = useState(false);
-
-	// const onShare = () => {
-	// 	setShowModal(true);
-	// 	// setShowShareModal(true);
-	// };
-
-	// const onCloseShare = () => {
-	// 	setShowModal(false);
-	// 	// setShowShareModal(false);
-	// };
-
-	// const openModal = () => {
-	// 	setShowModal(true);
-	// };
-	// const closeModal = () => {
-	// 	setShowModal(false);
-	// };
-
 	const {
 		modalImageInfo: { image }
 	} = useContext(ImageContext);
-	// console.log(modalImageInfo);
 
 	const {
 		photographer,
 		src: { large: imageUrl },
 		alt
 	} = image;
-	// console.log(imageUrl);
 
 	const newAlt = alt.replace(/\s/g, "-");
 	console.log(newAlt);
@@ -57,15 +30,6 @@ function Photo() {
 	const handleDownload = () => {
 		onDownloadImage(imageUrl, alt);
 	};
-
-	// const onCopyToClipBoard = (value) => {
-	// 	navigator.clipboard.writeText(value);
-	// };
-
-	// const [showModal, setShowModal] = useState(false);
-	// const onCloseModal = () => {
-	// 	setShowModal(false);
-	// };
 
 	return (
 		<>
