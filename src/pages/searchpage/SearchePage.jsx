@@ -113,7 +113,6 @@ function SearchPage() {
 			No results found!!
 		</h1>
 	) : null;
-	console.log("searchedImagesList :", searchedImagesInfo);
 
 	return (
 		<div id="search-images-container">

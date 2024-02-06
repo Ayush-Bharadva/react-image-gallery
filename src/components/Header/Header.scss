@@ -52,7 +52,7 @@
 	right: 0;
 	left: 0;
 	display: flex;
-	width: 90%;
+	width: 100%;
 	max-width: 1600px;
 	margin: 0 auto;
 	height: 75px;
@@ -141,8 +141,7 @@
 .main-header {
 	position: relative;
 	min-height: 500px;
-	background: url("../../assets/images/hero-image.jpeg") top right/auto 100%
-		no-repeat;
+	background: url("../../assets/images/hero-image.jpeg") top right/auto 100% no-repeat;
 	z-index: 0;
 
 	.hero {
@@ -182,16 +181,25 @@
 
 #sidebar-container {
 	height: 100%;
-	width: 275px;
+	width: 100%;
 	position: fixed;
 	z-index: 10;
 	top: 0;
 	right: 0;
 	background-color: #111;
-	padding-top: 60px;
+	padding-top: 10px;
 	transition: 0.5s;
 
-	button {
+	.sidebar-nav {
+		height: 50px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 7px;
+		padding: 0 5px;
+	}
+
+	.nav-btn {
 		background-color: transparent;
 		border: none;
 		outline: none;
@@ -208,9 +216,12 @@
 	}
 
 	.close-icon-btn {
-		position: absolute;
-		top: 0;
-		right: 0;
+		// position: absolute;
+		// top: 0;
+		// right: 0;
+		background: none;
+		color: #fff;
+		border: none;
 		font-size: 36px;
 		padding: 8px;
 	}

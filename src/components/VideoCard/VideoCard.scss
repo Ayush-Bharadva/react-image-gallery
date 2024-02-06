@@ -1,4 +1,4 @@
-.main-image-container {
+.main-video-container {
 	list-style-type: none;
 	position: relative;
 	border-radius: 10px;
@@ -28,39 +28,15 @@
 	}
 }
 
-.main-image-container:hover {
-	background: rgb(176, 177, 180);
+.main-video-container:hover {
+	// background: rgb(176, 177, 180);
 	filter: opacity(95%);
 }
-.main-image-container:hover {
+
+.main-video-container:hover {
 	.download-icon,
 	.bookmark-icon,
 	.heart-icon {
 		display: block;
 	}
-}
-
-.download-icon {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-radius: 18px;
-	gap: 5px;
-	padding: 9px 18px;
-	background-color: #05a081;
-	color: #fff;
-}
-
-.download-icon,
-.bookmark-icon,
-.heart-icon {
-	font-size: 18px;
-	border-radius: 8px;
-	border: none;
-	margin: 7px 7px 7px 0;
-	padding: 8px;
-	display: none;
 }

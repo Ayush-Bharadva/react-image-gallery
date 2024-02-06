@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import "./PagesLinks.scss";
+import "./PageNavigationLinks.scss";
 
 function PagesLinks() {
 	return (

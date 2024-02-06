@@ -6,10 +6,13 @@ import "./SearchInput.scss";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../../context/ImageProvider";
+import { RiVideoLine } from "react-icons/ri";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
 	const { setQuery, query } = useContext(ImageContext);
+
+	const [isHovering, setIsHovering] = useState(false);
 	const [searchString, setSearchString] = useState(query || "");
 
 	const onChange = ({ target: { value } }) => {
@@ -25,12 +28,34 @@ function SearchInput({ className, props }) {
 		navigate(`/search/${searchString}`);
 	};
 
+	const handleMouseOver = () => {
+		setIsHovering(true);
+	};
+	const handleMouseOut = () => {
+		setIsHovering(false);
+	};
+
+	const buttonOptions = (
+		<div className="button-options">
+			<button>
+				<HiOutlinePhotograph /> <span>Photos</span>
+			</button>
+			<button>
+				<RiVideoLine /> <span>Videos</span>
+			</button>
+		</div>
+	);
+
 	return (
 		<div
 			className={`search-input-container ${className}`}
 			{...props}>
-			<button className="option-btn">
-				<HiOutlinePhotograph style={{ fontSize: "1.25rem" }} /> <span>Photos</span> <GoChevronDown style={{ fontSize: "1rem" }} />
+			<button
+				className="option-btn"
+				onMouseOver={handleMouseOver}
+				onMouseOut={handleMouseOut}>
+				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
+				{isHovering ? buttonOptions : null}
 			</button>
 			<form
 				onSubmit={onSubmit}

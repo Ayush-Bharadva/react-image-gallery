@@ -4,21 +4,23 @@ import { computeColumnsFromWidth } from "../../helper/helper";
 import { calculateColumns } from "../../helper/helper";
 import ImageGallery from "../../common/Imagegallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
-import "./HomePage.scss";
+import "./Home.scss";
 import { fetchCuratedImages } from "../../services/services";
-const curatedImgUrl = "https://api.pexels.com/v1/curated";
+import { BallsLoader } from "../../components/loader/Loader";
+import { curatedImgUrl } from "../../constants/constants";
+// import { BallsLoader } from "../../components/loader/Loader";
+// const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
-function HomePage() {
-	const [fetchedImagesState, setFetchedImagesState] = useState({
+function Home() {
+	const [curatedImagesInfo, setCuratedImagesInfo] = useState({
 		fetchedImages: [],
 		nextPageUrl: curatedImgUrl,
 		hasMore: true,
-		isLoading: false,
+		isLoading: false
 	});
 	const [columnCount, setColumnCount] = useState(1);
 
-	const { fetchedImages, nextPageUrl, hasMore, isLoading } =
-		fetchedImagesState;
+	const { fetchedImages, nextPageUrl, hasMore, isLoading } = curatedImagesInfo;
 
 	const computeColumns = () => {
 		const columnsCount = calculateColumns();
@@ -28,16 +30,14 @@ function HomePage() {
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
-				setFetchedImagesState((prev) => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchCuratedImages(
-					nextPageUrl
-				);
-				setFetchedImagesState((prev) => ({
+				setCuratedImagesInfo(prev => ({ ...prev, isLoading: true }));
+				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
+				setCuratedImagesInfo(prev => ({
 					...prev,
 					fetchedImages: [...prev.fetchedImages, ...photos],
 					nextPageUrl: next_page,
 					isLoading: false,
-					hasMore: !!next_page,
+					hasMore: !!next_page
 				}));
 			} catch (error) {
 				console.error("Error fetching images:", error);
@@ -53,12 +53,9 @@ function HomePage() {
 		};
 	}, []);
 
-	const computedImageColumns = computeColumnsFromWidth(
-		fetchedImages,
-		columnCount
-	);
+	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
 
-	const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
+	// const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
 
 	return (
 		<div id="home-container">
@@ -68,17 +65,17 @@ function HomePage() {
 					Trending <GoChevronDown />{" "}
 				</button>
 			</div>
+			<BallsLoader />
 			<InfiniteScroll
 				className="infinite-scroll-container"
 				loadMore={fetchImages}
 				hasMore={hasMore}
-				loader={loader}
-				threshold={400}
-			>
+				loader={<BallsLoader />}
+				threshold={400}>
 				<ImageGallery allImages={computedImageColumns} />
 			</InfiniteScroll>
 		</div>
 	);
 }
 
-export default HomePage;
+export default Home;

@@ -1,17 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { ImageContext } from "../../context/ImageProvider";
-import ImageCard from "../../components/ImageCard/ImageCard";
+// import ImageCard from "../../components/ImageCard/ImageCard";
 import ImageModal from "../modal/ImageModal";
 import "./ImageGallery.scss";
+import RenderColumn from "../RenderColumn";
 
-function ImageGallery({ allImages }) {
+function ImageGallery({ allImages, isVideo }) {
 	const [showModal, setShowModal] = useState(false);
 	const { column1, column2, column3 } = allImages;
 
 	const {
 		modalImageInfo: { index, column },
-		setModalImageInfo,
+		setModalImageInfo
 	} = useContext(ImageContext);
 
 	useEffect(() => {
@@ -23,12 +24,16 @@ function ImageGallery({ allImages }) {
 		};
 	}, [showModal]);
 
-	const onImageSelect = (image, index, column) => {
-		setModalImageInfo({ image, index, column });
-		setShowModal(true);
-	};
+	const onImageSelect = useCallback(
+		(image, index, column) => {
+			setModalImageInfo({ image, index, column });
+			setShowModal(true);
+		},
+		[setModalImageInfo]
+	);
 
-	const navigateImage = (direction) => {
+	// refactor this function
+	const navigateImage = direction => {
 		const newIndex = index + direction;
 		let newImage = null;
 
@@ -45,26 +50,47 @@ function ImageGallery({ allImages }) {
 		}
 	};
 
-	const renderColumn = (column) => (
-		<div className={`col-${column}`}>
-			{allImages[`column${column}`].map((image, index) => (
-				<ImageCard
-					key={image.id}
-					image={image}
-					index={index}
-					column={column}
-					onImageClick={onImageSelect}
-				/>
-			))}
-		</div>
-	);
+	// const renderColumn = column => (
+	// 	<div className={`col-${column}`}>
+	// 		{allImages[`column${column}`].map((image, index) => (
+	// 			<ImageCard
+	// 				key={image.id}
+	// 				image={image}
+	// 				index={index}
+	// 				column={column}
+	// 				onImageClick={onImageSelect}
+	// 			/>
+	// 		))}
+	// 	</div>
+	// );
 
 	return (
 		<>
 			<div className="image-gallery-container">
-				{column1 && renderColumn(1)}
-				{column2 && renderColumn(2)}
-				{column3 && renderColumn(3)}
+				{column1 && (
+					<RenderColumn
+						column={1}
+						allItems={allImages}
+						onImageSelect={onImageSelect}
+						isVideo={isVideo}
+					/>
+				)}
+				{column2 && (
+					<RenderColumn
+						column={2}
+						allItems={allImages}
+						onImageSelect={onImageSelect}
+						isVideo={isVideo}
+					/>
+				)}
+				{column3 && (
+					<RenderColumn
+						column={3}
+						allItems={allImages}
+						onImageSelect={onImageSelect}
+						isVideo={false}
+					/>
+				)}
 			</div>
 			{showModal ? (
 				<ImageModal
@@ -80,8 +106,9 @@ ImageGallery.propTypes = {
 	allImages: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object),
+		column3: PropTypes.arrayOf(PropTypes.object)
 	}),
+	isVideo: PropTypes.bool
 };
 
 export default ImageGallery;

@@ -7,13 +7,14 @@ import Logo from "../../components/Header/Logo";
 import { useRef, useState } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import "../../components/Header/Header.scss";
+import { sidebarItems } from "../../constants/constants";
 
 function Navbar() {
 	const sidebarRef = useRef();
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const toggleSidebar = () => {
-		setSidebarOpen((prev) => !prev);
+		setSidebarOpen(prev => !prev);
 		setSidebarWidth();
 	};
 
@@ -30,11 +31,11 @@ function Navbar() {
 					<SearchInput className="sp-search-input-container" />
 				</div>
 				<ul className="nav-items nav-bar-right">
-					<li>Explore</li>
-					<li>License</li>
-					<li>
-						<button>Upload</button>
-					</li>
+					{/* <li>Explore</li>
+					<li>License</li> */}
+					{/* <li> */}
+					<button>Upload</button>
+					{/* </li> */}
 					<button className="upload-btn">
 						<FiUpload />
 					</button>
@@ -43,12 +44,18 @@ function Navbar() {
 					</button>
 				</ul>
 			</div>
-			{sidebarOpen && <Sidebar toggleSidebar={toggleSidebar} />}
+			{sidebarOpen && (
+				<Sidebar
+					toggleSidebar={toggleSidebar}
+					items={sidebarItems}
+					showNavbar={false}
+				/>
+			)}
 		</>
 	);
 }
 export default Navbar;
 
 Navbar.propTypes = {
-	showSearchInput: PropTypes.bool,
+	showSearchInput: PropTypes.bool
 };

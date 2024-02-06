@@ -28,7 +28,7 @@ function ImageProvider({ children }) {
 			setQuery,
 			setModalImageInfo
 		};
-	}, [query, modalImageInfo, setQuery, setModalImageInfo]);
+	}, [query, modalImageInfo]);
 
 	return <ImageContext.Provider value={contextValue}>{children}</ImageContext.Provider>;
 }

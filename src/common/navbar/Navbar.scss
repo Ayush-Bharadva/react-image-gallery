@@ -47,7 +47,8 @@
 
 	.nav-bar-right {
 		display: flex;
-		justify-content: space-between;
+		// justify-content: space-between;
+		justify-content: flex-end;
 		align-items: center;
 		gap: 1rem;
 		flex: 1 0 20%;

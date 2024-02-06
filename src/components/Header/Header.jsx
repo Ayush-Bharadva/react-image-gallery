@@ -5,9 +5,10 @@ import SearchInput from "../../common/searchinput/SearchInput";
 import "./Header.scss";
 import Logo from "./Logo";
 import Sidebar from "../../common/sidebar/Sidebar";
+import { sidebarItems } from "../../constants/constants";
 
 function Header() {
-	const sidebarRef = useRef();
+	// const sidebarRef = useRef();
 	const navbarRef = useRef();
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [showSearchInput, setShowSearchInput] = useState(false);
@@ -15,9 +16,7 @@ function Header() {
 	function handleScroll() {
 		const isScrolled = window.scrollY >= 600;
 		setShowSearchInput(isScrolled);
-		navbarRef.current.className = `main-nav-bar ${
-			isScrolled ? "fixed-nav" : "absolute-nav"
-		}`;
+		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
 	}
 
 	useEffect(() => {
@@ -28,23 +27,23 @@ function Header() {
 	}, []);
 
 	const toggleSidebar = () => {
-		setSidebarOpen((prev) => !prev);
-		setSidebarWidth();
+		setSidebarOpen(prev => !prev);
+		// setSidebarWidth();
 	};
 
-	const setSidebarWidth = () => {
-		const width = sidebarOpen ? "275px" : "0";
-		sidebarRef.current.style.width = width;
-	};
+	// const setSidebarWidth = () => {
+	// 	const width = sidebarOpen ? "275px" : "0";
+	// 	sidebarRef.current.style.width = width;
+	// };
 
 	return (
 		<>
-			<div className="main-nav-bar absolute-nav" ref={navbarRef}>
+			<div
+				className="main-nav-bar absolute-nav"
+				ref={navbarRef}>
 				<div className="left">
 					<Logo />
-					{showSearchInput && (
-						<SearchInput className="sp-search-input-container" />
-					)}
+					{showSearchInput && <SearchInput className="sp-search-input-container" />}
 				</div>
 				<div className="right">
 					<ul className="nav-items">
@@ -63,14 +62,17 @@ function Header() {
 
 			<header className="main-header">
 				<div className="hero">
-					<h1 className="heading">
-						The best free stock photos, royalty free images & videos
-						shared by creators
-					</h1>
-					<SearchInput style={{ margin: "15px 0 0 0" }} />
+					<h1 className="heading">The best free stock photos, royalty free images & videos shared by creators</h1>
+					<SearchInput />
 				</div>
 			</header>
-			{sidebarOpen && <Sidebar toggleSidebar={toggleSidebar} />}
+			{sidebarOpen && (
+				<Sidebar
+					toggleSidebar={toggleSidebar}
+					items={sidebarItems}
+					showNavbar={false}
+				/>
+			)}
 		</>
 	);
 }
