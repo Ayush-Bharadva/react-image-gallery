@@ -50,18 +50,6 @@ function Videos() {
 		};
 	}, []);
 
-	// useEffect(() => {
-	// 	async function fetchVideos() {
-	// 		const res = await fetchPopularVideos();
-	// 		const { videos } = await res.data;
-	// 		setPopularVideosInfo(prev => ({
-	// 			...prev,
-	// 			fetchedVideos: [...prev.fetchedVideos, ...videos]
-	// 		}));
-	// 	}
-	// 	fetchVideos();
-	// }, []);
-
 	const computedVideoColumns = computeColumnsFromWidth(fetchedVideos, columnCount);
 
 	return (

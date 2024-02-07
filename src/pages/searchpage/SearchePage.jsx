@@ -115,7 +115,7 @@ function SearchPage() {
 	) : null;
 
 	return (
-		<div id="search-images-container">
+		<div className="search-images-container">
 			<Navbar />
 			<div className="related-categories-container">
 				<FaAngleLeft

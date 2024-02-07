@@ -22,27 +22,6 @@
 		flex: 1 1 75%;
 		gap: 10px;
 		margin-right: 10px;
-
-		.logo {
-			display: flex;
-			align-items: center;
-			height: 100%;
-			font-size: 1.6rem;
-			gap: 9px;
-			cursor: pointer;
-			transition: all 0.3s ease-in-out;
-
-			img {
-				border-radius: 7px;
-			}
-			span {
-				color: #333;
-			}
-		}
-
-		.logo:hover {
-			opacity: 0.8;
-		}
 	}
 
 	.nav-bar-right {
@@ -114,17 +93,7 @@
 	.nav-bar {
 		max-width: 95vw;
 		height: 60px;
-		.nav-bar-left {
-			.logo {
-				margin: 0;
-				height: 100%;
-				border-radius: 7px;
-				overflow: hidden;
-				span {
-					display: none;
-				}
-			}
-		}
+
 		.nav-items {
 			button {
 				height: 40px;

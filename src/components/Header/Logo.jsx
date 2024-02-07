@@ -4,6 +4,7 @@ import "./Logo.scss";
 
 function Logo() {
 	const navigate = useNavigate();
+
 	const navigateToHome = () => {
 		navigate("/");
 	};

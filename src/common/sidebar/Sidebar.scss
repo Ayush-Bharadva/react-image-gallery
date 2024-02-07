@@ -1,0 +1,76 @@
+.sidebar-container {
+	position: fixed;
+	background-color: #111;
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 0;
+	z-index: 10;
+	padding-top: 10px;
+	overflow-x: hidden;
+	transition: all 0.5s ease;
+
+	.sidebar-nav-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 7px;
+		padding: 0 5px;
+		margin-bottom: 1rem;
+
+		.upload-btn {
+			padding: 0 1.25rem;
+			height: 45px;
+			font-size: 1rem;
+			font-weight: 600;
+			border-radius: 8px;
+			background-color: #05a081;
+			color: #fff;
+			border: none;
+		}
+	}
+
+	.btn {
+		background-color: transparent;
+		border: none;
+		padding: 8px 16px;
+		font-size: 25px;
+		color: #818181;
+		display: block;
+		transition: 0.3s;
+	}
+
+	button:hover {
+		color: #f1f1f1;
+	}
+
+	.close-icon-btn {
+		background: none;
+		color: #fff;
+		border: none;
+		font-size: 36px;
+		padding: 8px 8px 0;
+	}
+}
+
+.show-side-bar {
+	width: 100%;
+}
+
+@keyframes slide-in-sidebar {
+	from {
+		width: 0%;
+	}
+	to {
+		width: 100%;
+	}
+}
+
+@keyframes slide-out-sidebar {
+	from {
+		width: 100%;
+	}
+	to {
+		width: 0%;
+	}
+}

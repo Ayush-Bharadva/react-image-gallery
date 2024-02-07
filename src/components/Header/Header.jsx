@@ -1,49 +1,41 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
 import SearchInput from "../../common/searchinput/SearchInput";
 import "./Header.scss";
 import Logo from "./Logo";
-import Sidebar from "../../common/sidebar/Sidebar";
 import { sidebarItems } from "../../constants/constants";
+import Sidebar from "../../common/sidebar/Sidebar";
 
 function Header() {
-	// const sidebarRef = useRef();
-	const navbarRef = useRef();
-	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [showSearchInput, setShowSearchInput] = useState(false);
+	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+	const [isScrolled, setIsScrolled] = useState(false);
 
-	function handleScroll() {
-		const isScrolled = window.scrollY >= 600;
-		setShowSearchInput(isScrolled);
-		navbarRef.current.className = `main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`;
-	}
+	const handleScroll = useCallback(function handleScroll() {
+		setIsScrolled(() => window.scrollY >= 600);
+	}, []);
 
 	useEffect(() => {
 		window.addEventListener("scroll", handleScroll);
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
-	}, []);
+	}, [handleScroll]);
 
-	const toggleSidebar = () => {
-		setSidebarOpen(prev => !prev);
-		// setSidebarWidth();
+	const onOpenSidebar = () => {
+		setIsOpenSidebar(true);
 	};
 
-	// const setSidebarWidth = () => {
-	// 	const width = sidebarOpen ? "275px" : "0";
-	// 	sidebarRef.current.style.width = width;
-	// };
+	const onCloseSidebar = () => {
+		setIsOpenSidebar(false);
+	};
 
 	return (
 		<>
-			<div
-				className="main-nav-bar absolute-nav"
-				ref={navbarRef}>
+			<div className={`main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`}>
 				<div className="left">
 					<Logo />
-					{showSearchInput && <SearchInput className="sp-search-input-container" />}
+					{isScrolled && <SearchInput className="sp-search-input-container" />}
 				</div>
 				<div className="right">
 					<ul className="nav-items">
@@ -54,25 +46,24 @@ function Header() {
 							<FiUpload />
 						</button>
 						<button className="sidebar-btn">
-							<GiHamburgerMenu onClick={toggleSidebar} />
+							<GiHamburgerMenu onClick={onOpenSidebar} />
 						</button>
 					</ul>
 				</div>
 			</div>
-
 			<header className="main-header">
 				<div className="hero">
-					<h1 className="heading">The best free stock photos, royalty free images & videos shared by creators</h1>
+					<h1 className="heading">
+						The best free stock photos, royalty free images & videos shared by creators
+					</h1>
 					<SearchInput />
 				</div>
 			</header>
-			{sidebarOpen && (
-				<Sidebar
-					toggleSidebar={toggleSidebar}
-					items={sidebarItems}
-					showNavbar={false}
-				/>
-			)}
+			<Sidebar
+				items={sidebarItems}
+				closeSidebar={onCloseSidebar}
+				sidebarOpen={isOpenSidebar}
+			/>
 		</>
 	);
 }

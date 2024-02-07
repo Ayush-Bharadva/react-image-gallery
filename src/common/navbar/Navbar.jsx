@@ -4,23 +4,20 @@ import { FiUpload } from "react-icons/fi";
 import SearchInput from "../searchinput/SearchInput";
 import "./Navbar.scss";
 import Logo from "../../components/Header/Logo";
-import { useRef, useState } from "react";
-import Sidebar from "../sidebar/Sidebar";
 import "../../components/Header/Header.scss";
+import Sidebar from "../sidebar/Sidebar";
 import { sidebarItems } from "../../constants/constants";
+import { useState } from "react";
 
 function Navbar() {
-	const sidebarRef = useRef();
-	const [sidebarOpen, setSidebarOpen] = useState(false);
+	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
-	const toggleSidebar = () => {
-		setSidebarOpen(prev => !prev);
-		setSidebarWidth();
+	const onOpenSidebar = () => {
+		setIsOpenSidebar(true);
 	};
 
-	const setSidebarWidth = () => {
-		const width = sidebarOpen ? "275px" : "0";
-		sidebarRef.current.style.width = width;
+	const onCloseSidebar = () => {
+		setIsOpenSidebar(false);
 	};
 
 	return (
@@ -31,26 +28,22 @@ function Navbar() {
 					<SearchInput className="sp-search-input-container" />
 				</div>
 				<ul className="nav-items nav-bar-right">
-					{/* <li>Explore</li>
-					<li>License</li> */}
-					{/* <li> */}
+					<li>Explore</li>
+					<li>License</li>
 					<button>Upload</button>
-					{/* </li> */}
 					<button className="upload-btn">
 						<FiUpload />
 					</button>
 					<button className="sidebar-btn">
-						<GiHamburgerMenu onClick={toggleSidebar} />
+						<GiHamburgerMenu onClick={onOpenSidebar} />
 					</button>
 				</ul>
 			</div>
-			{sidebarOpen && (
-				<Sidebar
-					toggleSidebar={toggleSidebar}
-					items={sidebarItems}
-					showNavbar={false}
-				/>
-			)}
+			<Sidebar
+				items={sidebarItems}
+				closeSidebar={onCloseSidebar}
+				sidebarOpen={isOpenSidebar}
+			/>
 		</>
 	);
 }

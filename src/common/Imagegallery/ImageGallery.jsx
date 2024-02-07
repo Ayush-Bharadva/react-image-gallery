@@ -1,14 +1,15 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { PropTypes } from "prop-types";
 import { ImageContext } from "../../context/ImageProvider";
-// import ImageCard from "../../components/ImageCard/ImageCard";
 import ImageModal from "../modal/ImageModal";
 import "./ImageGallery.scss";
 import RenderColumn from "../RenderColumn";
+import useModal from "../../hooks/useModal";
 
 function ImageGallery({ allImages, isVideo }) {
-	const [showModal, setShowModal] = useState(false);
 	const { column1, column2, column3 } = allImages;
+
+	const { isShowing, toggle } = useModal();
 
 	const {
 		modalImageInfo: { index, column },
@@ -16,53 +17,31 @@ function ImageGallery({ allImages, isVideo }) {
 	} = useContext(ImageContext);
 
 	useEffect(() => {
-		if (showModal) {
+		if (isShowing) {
 			document.body.classList.add("overflow-hidden");
 		}
 		return () => {
 			document.body.classList.remove("overflow-hidden");
 		};
-	}, [showModal]);
+	}, [isShowing]);
 
 	const onImageSelect = useCallback(
 		(image, index, column) => {
+			console.log("onImageSelect");
 			setModalImageInfo({ image, index, column });
-			setShowModal(true);
+			toggle();
 		},
-		[setModalImageInfo]
+		[setModalImageInfo, toggle]
 	);
 
-	// refactor this function
 	const navigateImage = direction => {
+		const newColumn = [column1, column2, column3][column - 1];
 		const newIndex = index + direction;
-		let newImage = null;
 
-		if (column === 1 && newIndex >= 0 && newIndex < column1.length) {
-			newImage = column1[newIndex];
-		} else if (column === 2 && newIndex >= 0 && newIndex < column2.length) {
-			newImage = column2[newIndex];
-		} else if (column === 3 && newIndex >= 0 && newIndex < column3.length) {
-			newImage = column3[newIndex];
-		}
-
-		if (newImage !== null) {
-			setModalImageInfo({ image: newImage, index: newIndex, column });
+		if (newIndex >= 0 && newIndex < newColumn.length) {
+			setModalImageInfo({ image: newColumn[newIndex], index: newIndex, column });
 		}
 	};
-
-	// const renderColumn = column => (
-	// 	<div className={`col-${column}`}>
-	// 		{allImages[`column${column}`].map((image, index) => (
-	// 			<ImageCard
-	// 				key={image.id}
-	// 				image={image}
-	// 				index={index}
-	// 				column={column}
-	// 				onImageClick={onImageSelect}
-	// 			/>
-	// 		))}
-	// 	</div>
-	// );
 
 	return (
 		<>
@@ -88,16 +67,17 @@ function ImageGallery({ allImages, isVideo }) {
 						column={3}
 						allItems={allImages}
 						onImageSelect={onImageSelect}
-						isVideo={false}
+						isVideo={isVideo}
 					/>
 				)}
 			</div>
-			{showModal ? (
+			{isShowing && (
 				<ImageModal
 					onImageNavigate={navigateImage}
-					onClose={() => setShowModal(false)}
+					isShowing={isShowing}
+					hide={toggle}
 				/>
-			) : null}
+			)}
 		</>
 	);
 }

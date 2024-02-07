@@ -5,13 +5,13 @@ import { MdOutlineContentCopy } from "react-icons/md";
 import SocialIconsMenu from "../../components/SocialIconsMenu";
 import { onCopyToClipBoard } from "../../helper/utils";
 
-function SocialShareModal({ onClose, photographer }) {
+function SocialShareModal({ isShowing, hide, photographer }) {
 	return (
-		<Modal>
+		<Modal isShowing={isShowing}>
 			<div className="social-share-modal-container">
 				<button
 					className="modal-close-btn close-modal-btn"
-					onClick={onClose}>
+					onClick={hide}>
 					<RxCross1 />
 				</button>
 				<div className="social-share-modal flex-column-center">
@@ -37,6 +37,7 @@ function SocialShareModal({ onClose, photographer }) {
 export default SocialShareModal;
 
 SocialShareModal.propTypes = {
-	onClose: PropTypes.func.isRequired,
+	isShowing: PropTypes.bool,
+	hide: PropTypes.func.isRequired,
 	photographer: PropTypes.string.isRequired
 };

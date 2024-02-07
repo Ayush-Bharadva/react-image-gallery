@@ -1,7 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import "./ImageModal.scss";
-import { createPortal } from "react-dom";
 import Button from "../../UI/button/Button";
 import { ImageContext } from "../../context/ImageProvider";
 import { onDownloadImage } from "../../helper/utils";
@@ -17,40 +16,42 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { SiCanva } from "react-icons/si";
 import { CiShare1 } from "react-icons/ci";
 import { BsInfoCircle } from "react-icons/bs";
+import Modal from "./Modal";
+import useModal from "../../hooks/useModal";
 
-function ImageModal({ onImageNavigate, onClose }) {
-	const [showShareModal, setShowShareModal] = useState(false);
-	const [showStatModal, setShowStatModal] = useState(false);
+function ImageModal({ onImageNavigate, isShowing, hide }) {
+	const { isShowing: imageDetails, toggle: toggleImageDetails } = useModal();
+	const { isShowing: shareInfo, toggle: toggleShare } = useModal();
 
 	const {
-		modalImageInfo: { image },
+		modalImageInfo: { image }
 	} = useContext(ImageContext);
 
 	const {
 		photographer,
 		src: { large: imageUrl },
-		alt,
+		alt
 	} = image;
 
 	const handleDownload = () => onDownloadImage(imageUrl, alt);
-	const onShowMoreInfo = () => setShowShareModal(true);
-	const onCloseMoreInfo = () => setShowShareModal(false);
 
-	return createPortal(
-		<div className="modal-wrapper">
-			<button className="modal-btn modal-close-btn" onClick={onClose}>
+	return (
+		<Modal
+			isShowing={isShowing}
+			hide={hide}>
+			<button
+				className="modal-btn modal-close-btn"
+				onClick={hide}>
 				<RxCross1 />
 			</button>
 			<button
 				onClick={() => onImageNavigate(-1)}
-				className="modal-btn previous-image-btn"
-			>
+				className="modal-btn previous-image-btn">
 				<FaAngleLeft />
 			</button>
 			<button
 				onClick={() => onImageNavigate(1)}
-				className="modal-btn next-image-btn"
-			>
+				className="modal-btn next-image-btn">
 				<FaAngleRight />
 			</button>
 			<div className="modal-container">
@@ -58,7 +59,10 @@ function ImageModal({ onImageNavigate, onClose }) {
 					<div className="image-info">
 						<div className="profile">
 							<div className="profile-img">
-								<img src={avatar} alt="profile-avatar" />
+								<img
+									src={avatar}
+									alt="profile-avatar"
+								/>
 							</div>
 							<div className="profile-name">
 								<p>{photographer}</p>
@@ -81,17 +85,16 @@ function ImageModal({ onImageNavigate, onClose }) {
 							<Button
 								type="filled-button"
 								className="download-btn-bg text-white"
-								onClick={handleDownload}
-							>
-								<span className="download-text">
-									Free Download
-								</span>{" "}
-								<FiDownload className="icon" />
+								onClick={handleDownload}>
+								<span className="download-text">Free Download</span> <FiDownload className="icon" />
 							</Button>
 						</div>
 					</div>
 					<div className="image-container">
-						<img src={imageUrl} alt={alt} />
+						<img
+							src={imageUrl}
+							alt={alt}
+						/>
 					</div>
 					<div className="more-info">
 						<p className="more-image-info flex-row gap-12">
@@ -106,40 +109,39 @@ function ImageModal({ onImageNavigate, onClose }) {
 						<div className="buttons">
 							<Button
 								type="outlined-button"
-								onClick={() => setShowStatModal(true)}
-							>
-								<BsInfoCircle className="icon" />{" "}
-								<span>More Info</span>
+								onClick={toggleImageDetails}>
+								<BsInfoCircle className="icon" /> <span>More Info</span>
 							</Button>
 							<Button
 								type="outlined-button"
-								onClick={onShowMoreInfo}
-							>
+								onClick={toggleShare}>
 								<CiShare1 className="icon" /> <span>Share</span>
 							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
-			{showShareModal ? (
-				<SocialShareModal
-					onClose={onCloseMoreInfo}
-					photographer={photographer}
-				/>
-			) : null}
-			{showStatModal ? (
+			{imageDetails ? (
 				<ImageDetailsModal
-					onCloseModal={() => setShowStatModal(false)}
 					modalImage={imageUrl}
+					isShowing={imageDetails}
+					hide={toggleImageDetails}
 				/>
 			) : null}
-		</div>,
-		document.getElementById("image-portal")
+			{shareInfo ? (
+				<SocialShareModal
+					photographer={photographer}
+					isShowing={shareInfo}
+					hide={toggleShare}
+				/>
+			) : null}
+		</Modal>
 	);
 }
 
 ImageModal.propTypes = {
 	onImageNavigate: PropTypes.func.isRequired,
-	onClose: PropTypes.func.isRequired,
+	isShowing: PropTypes.bool.isRequired,
+	hide: PropTypes.func.isRequired
 };
 export default ImageModal;

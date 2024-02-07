@@ -32,7 +32,9 @@ function SearchInput({ className, props }) {
 		setIsHovering(true);
 	};
 	const handleMouseOut = () => {
-		setIsHovering(false);
+		setTimeout(() => {
+			setIsHovering(false);
+		}, 500);
 	};
 
 	const buttonOptions = (
@@ -55,6 +57,7 @@ function SearchInput({ className, props }) {
 				onMouseOver={handleMouseOver}
 				onMouseOut={handleMouseOut}>
 				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
+				{/* {buttonOptions} */}
 				{isHovering ? buttonOptions : null}
 			</button>
 			<form

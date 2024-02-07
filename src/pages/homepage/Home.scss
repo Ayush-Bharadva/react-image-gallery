@@ -1,4 +1,4 @@
-#home-container {
+.home-container {
 	position: relative;
 	margin: 0 auto;
 
@@ -27,7 +27,7 @@
 }
 
 @media screen and (max-width: 650px) {
-	#home-container {
+	.home-container {
 		max-width: 95vw;
 		.heading {
 			font-size: 0.75rem;
@@ -36,19 +36,19 @@
 }
 
 @media screen and (max-width: 900px) {
-	#home-container {
+	.home-container {
 		max-width: 95vw;
 	}
 }
 
 @media screen and (max-width: 1400px) {
-	#home-container {
+	.home-container {
 		max-width: 90vw;
 	}
 }
 
 @media screen and (min-width: 1401px) {
-	#home-container {
+	.home-container {
 		max-width: 80vw;
 	}
 }

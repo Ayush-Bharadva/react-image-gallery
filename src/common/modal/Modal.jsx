@@ -1,35 +1,31 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
 import { PropTypes } from "prop-types";
 import "./Modal.scss";
 
-const Modal = forwardRef(function Modal({ children }, ref) {
-	const modalNode = document.getElementById("modal");
-	const modalRef = useRef(null);
-
-	useImperativeHandle(ref, () => {
-		return {
-			open() {
-				modalRef.current.showModal();
-			},
-			close() {
-				modalRef.current.close();
-			},
-		};
-	});
-
-	return createPortal(
-		<dialog
-			ref={modalRef}
-			className="container-modal">
-			{children}
-		</dialog>,
-		modalNode
-	);
-});
+function Modal({ isShowing, children }) {
+	return isShowing
+		? createPortal(
+				<div className="modal-overlay">
+					<div className="modal-wrapper">
+						<div className="modal">
+							<div className="modal-header"></div>
+							{children}
+						</div>
+					</div>
+				</div>,
+				document.getElementById("modal")
+		  )
+		: null;
+}
 
 export default Modal;
 
 Modal.propTypes = {
-	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+	isShowing: PropTypes.bool,
+	hide: PropTypes.func,
+	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
+};
+
+Modal.defaultPropTypes = {
+	hide: () => {}
 };

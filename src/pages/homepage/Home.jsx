@@ -8,8 +8,6 @@ import "./Home.scss";
 import { fetchCuratedImages } from "../../services/services";
 import { BallsLoader } from "../../components/loader/Loader";
 import { curatedImgUrl } from "../../constants/constants";
-// import { BallsLoader } from "../../components/loader/Loader";
-// const curatedImgUrl = "https://api.pexels.com/v1/curated";
 
 function Home() {
 	const [curatedImagesInfo, setCuratedImagesInfo] = useState({
@@ -55,10 +53,8 @@ function Home() {
 
 	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
 
-	// const loader = <p style={{ textAlign: "center" }}>Loading...</p>;
-
 	return (
-		<div id="home-container">
+		<div className="home-container">
 			<div className="heading">
 				<h1>Free Stock Photos</h1>
 				<button>

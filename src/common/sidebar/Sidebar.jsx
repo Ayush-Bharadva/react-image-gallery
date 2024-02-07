@@ -1,36 +1,36 @@
 import { PropTypes } from "prop-types";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../navbar/Navbar";
 import SearchInput from "../searchinput/SearchInput";
 import Logo from "../../components/Header/Logo";
+import "./Sidebar.scss";
 
-function Sidebar({ toggleSidebar, items, showNavbar = false }) {
+function Sidebar({ items, sidebarOpen, closeSidebar }) {
 	const navigate = useNavigate();
 
 	const gotoHome = () => navigate("/");
 
 	return (
-		<div id="sidebar-container">
-			{showNavbar && <Navbar />}
-			<div className="sidebar-nav">
+		<div className={`sidebar-container ${sidebarOpen ? "show-side-bar" : null}`}>
+			<div className="sidebar-nav-container">
 				<Logo />
 				<SearchInput />
+				<button className="upload-btn">Upload</button>
 				<button
 					className="close-icon-btn"
-					onClick={toggleSidebar}>
+					onClick={closeSidebar}>
 					<AiOutlineClose />
 				</button>
 			</div>
 			<button
-				className="nav-btn"
+				className="btn"
 				onClick={gotoHome}>
 				Home
 			</button>
 			{items.map(item => (
 				<button
 					key={item}
-					className="nav-btn">
+					className="btn">
 					{item}
 				</button>
 			))}
@@ -39,9 +39,9 @@ function Sidebar({ toggleSidebar, items, showNavbar = false }) {
 }
 
 Sidebar.propTypes = {
-	toggleSidebar: PropTypes.func,
-	showNavbar: PropTypes.func,
-	items: PropTypes.array
+	items: PropTypes.array,
+	closeSidebar: PropTypes.func,
+	sidebarOpen: PropTypes.bool
 };
 
 export default Sidebar;

@@ -13,11 +13,9 @@ function VideoCard({ video }) {
 			key={video.id}>
 			<video
 				className="video-card"
-				// preload
 				playsInline
 				muted
 				autoPlay
-				// controls
 				loop>
 				{video && (
 					<source
