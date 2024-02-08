@@ -24,7 +24,7 @@ function Navbar() {
 		<>
 			<div className="nav-bar">
 				<div className="nav-bar-left">
-					<Logo />
+					<Logo textColor="black" />
 					<SearchInput className="sp-search-input-container" />
 				</div>
 				<ul className="nav-items nav-bar-right">

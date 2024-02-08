@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import pexelsLogo from "../../assets/images/pexels-logo.jpg";
 import "./Logo.scss";
+import { PropTypes } from "prop-types";
 
-function Logo() {
+function Logo({ textColor }) {
 	const navigate = useNavigate();
 
 	const navigateToHome = () => {
@@ -18,9 +19,17 @@ function Logo() {
 				src={pexelsLogo}
 				alt="pexels logo"
 			/>
-			<p className="logo-text">Pexels</p>
+			<p
+				className="logo-text"
+				style={{ color: `${textColor}` }}>
+				Pexels
+			</p>
 		</div>
 	);
 }
 
 export default Logo;
+
+Logo.propTypes = {
+	textColor: PropTypes.string
+};

@@ -50,7 +50,7 @@ function ImageDetailsModal({ modalImage, isShowing, hide }) {
 					</div>
 					<div className="stat-info">
 						<p>Camera</p>
-						<p>ILCE-7C</p>
+						<p>ICLR-7C</p>
 					</div>
 					<div className="stat-info">
 						<p>Focal</p>

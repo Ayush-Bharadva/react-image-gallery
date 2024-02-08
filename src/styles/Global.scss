@@ -3,6 +3,12 @@
 	max-width: 100%;
 }
 
+video {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
 .image-gallery-container,
 .video-gallery-container {
 	display: flex;
@@ -179,6 +185,9 @@ button {
 				max-width: 40%;
 				border-radius: 10px;
 				overflow: hidden;
+				img {
+					width: 100%;
+				}
 			}
 			.top-heading {
 				width: 70%;

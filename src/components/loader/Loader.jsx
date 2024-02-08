@@ -3,15 +3,13 @@ import "./Loader.scss";
 
 export function SpinLoader() {
 	return (
-		<div className="loader-container">
-			<ReactLoading
-				type="spin"
-				color="#37455f"
-				height="64px"
-				width="64px"
-				className="loader"
-			/>
-		</div>
+		<ReactLoading
+			type="spin"
+			color="#37455f"
+			height="64px"
+			width="64px"
+			className="spin-loader"
+		/>
 	);
 }
 

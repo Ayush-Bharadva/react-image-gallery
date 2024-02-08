@@ -24,7 +24,6 @@ function Videos() {
 
 	const fetchVideos = useCallback(async () => {
 		if (!isLoading && hasMore) {
-			console.log("fetching videos");
 			try {
 				setPopularVideosInfo(prev => ({ ...prev, isLoading: true }));
 				const response = await fetchPopularVideos(nextPageUrl);

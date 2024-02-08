@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ImageContext } from "../../context/ImageProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
-import ImageGallery from "../../common/Imagegallery/ImageGallery";
+import ImageGallery from "../../common/imagegallery/ImageGallery";
 import { relatedCategories } from "../../constants/constants";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";

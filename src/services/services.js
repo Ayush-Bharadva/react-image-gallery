@@ -14,7 +14,6 @@ const axiosInstance = axios.create({
 export async function fetchSearchedImages(query, nextPageLink) {
 	try {
 		const apiUrl = nextPageLink || `${searchUrl}${query}`;
-
 		const response = await axiosInstance.get(apiUrl);
 		if (response.status === 200) {
 			return response.data;

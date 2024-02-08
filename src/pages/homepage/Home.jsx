@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth } from "../../helper/helper";
 import { calculateColumns } from "../../helper/helper";
-import ImageGallery from "../../common/Imagegallery/ImageGallery";
+import ImageGallery from "../../common/imagegallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
 import { fetchCuratedImages } from "../../services/services";
@@ -58,10 +58,9 @@ function Home() {
 			<div className="heading">
 				<h1>Free Stock Photos</h1>
 				<button>
-					Trending <GoChevronDown />{" "}
+					Trending <GoChevronDown />
 				</button>
 			</div>
-			<BallsLoader />
 			<InfiniteScroll
 				className="infinite-scroll-container"
 				loadMore={fetchImages}

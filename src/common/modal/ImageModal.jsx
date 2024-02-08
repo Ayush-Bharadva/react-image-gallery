@@ -8,7 +8,7 @@ import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
 import { FiDownload } from "react-icons/fi";
-import avatar from "../../assets/images/profile-avatar.jpg";
+import avatar from "../../assets/images/user-avatar.png";
 import SocialShareModal from "./SocialShareModal";
 import ImageDetailsModal from "./ImageDetailsModal";
 import { RxCross1 } from "react-icons/rx";
@@ -20,8 +20,8 @@ import Modal from "./Modal";
 import useModal from "../../hooks/useModal";
 
 function ImageModal({ onImageNavigate, isShowing, hide }) {
-	const { isShowing: imageDetails, toggle: toggleImageDetails } = useModal();
-	const { isShowing: shareInfo, toggle: toggleShare } = useModal();
+	const { isShowing: showImageDetails, toggle: toggleImageDetails } = useModal();
+	const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
 
 	const {
 		modalImageInfo: { image }
@@ -114,27 +114,23 @@ function ImageModal({ onImageNavigate, isShowing, hide }) {
 							</Button>
 							<Button
 								type="outlined-button"
-								onClick={toggleShare}>
+								onClick={toggleShareInfo}>
 								<CiShare1 className="icon" /> <span>Share</span>
 							</Button>
 						</div>
 					</div>
 				</div>
 			</div>
-			{imageDetails ? (
-				<ImageDetailsModal
-					modalImage={imageUrl}
-					isShowing={imageDetails}
-					hide={toggleImageDetails}
-				/>
-			) : null}
-			{shareInfo ? (
-				<SocialShareModal
-					photographer={photographer}
-					isShowing={shareInfo}
-					hide={toggleShare}
-				/>
-			) : null}
+			<ImageDetailsModal
+				modalImage={imageUrl}
+				isShowing={showImageDetails}
+				hide={toggleImageDetails}
+			/>
+			<SocialShareModal
+				photographer={photographer}
+				isShowing={showShareInfo}
+				hide={toggleShareInfo}
+			/>
 		</Modal>
 	);
 }

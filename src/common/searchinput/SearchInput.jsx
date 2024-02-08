@@ -3,20 +3,66 @@ import { CiSearch } from "react-icons/ci";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ImageContext } from "../../context/ImageProvider";
 import { RiVideoLine } from "react-icons/ri";
+import SearchDropdown from "./SearchDropdown";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
 	const { setQuery, query } = useContext(ImageContext);
+	const ddRef = useRef();
 
-	const [isHovering, setIsHovering] = useState(false);
 	const [searchString, setSearchString] = useState(query || "");
+	const [searchHistory, setSearchHistory] = useState([]);
+	const [showDropdown, setShowDropdown] = useState(false);
+
+	useEffect(() => {
+		const currentSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
+		setSearchHistory(currentSearchHistory);
+	}, []);
+
+	useEffect(() => {
+		function handleClick(e) {
+			e.stopPropagation();
+			if (!ddRef.current || !ddRef.current.contains(e.target)) {
+				setShowDropdown(false);
+			}
+		}
+		document.addEventListener("click", handleClick);
+
+		return () => {
+			document.removeEventListener("click", handleClick);
+		};
+	}, []);
+
+	const onSearchFocus = isTrue => {
+		setShowDropdown(isTrue);
+	};
 
 	const onChange = ({ target: { value } }) => {
 		setSearchString(value);
+	};
+
+	const clearSearchHistory = () => {
+		localStorage.setItem("search-history", JSON.stringify([]));
+		setSearchHistory([]);
+	};
+
+	const updateSearchHistory = searchItem => {
+		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
+		if (!prevSearchHistory.includes(searchItem)) {
+			setSearchHistory(prev => ({ searchItem, ...prev }));
+			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
+		}
+	};
+
+	const handleSearchSelect = buttonText => {
+		updateSearchHistory(buttonText);
+		setSearchString("");
+		setQuery(buttonText);
+		navigate(`/search/${buttonText}`);
 	};
 
 	const onSubmit = event => {
@@ -24,41 +70,25 @@ function SearchInput({ className, props }) {
 		if (!searchString.trim()) {
 			return;
 		}
-		setQuery(searchString);
-		navigate(`/search/${searchString}`);
+		handleSearchSelect(searchString);
 	};
-
-	const handleMouseOver = () => {
-		setIsHovering(true);
-	};
-	const handleMouseOut = () => {
-		setTimeout(() => {
-			setIsHovering(false);
-		}, 500);
-	};
-
-	const buttonOptions = (
-		<div className="button-options">
-			<button>
-				<HiOutlinePhotograph /> <span>Photos</span>
-			</button>
-			<button>
-				<RiVideoLine /> <span>Videos</span>
-			</button>
-		</div>
-	);
 
 	return (
 		<div
+			ref={ddRef}
 			className={`search-input-container ${className}`}
-			{...props}>
-			<button
-				className="option-btn"
-				onMouseOver={handleMouseOver}
-				onMouseOut={handleMouseOut}>
+			{...props}
+			onFocus={() => onSearchFocus(true)}>
+			<button className="option-btn">
 				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
-				{/* {buttonOptions} */}
-				{isHovering ? buttonOptions : null}
+				<div className="button-options">
+					<button type="button">
+						<HiOutlinePhotograph /> <span>Photos</span>
+					</button>
+					<button type="button">
+						<RiVideoLine /> <span>Videos</span>
+					</button>
+				</div>
 			</button>
 			<form
 				onSubmit={onSubmit}
@@ -69,6 +99,7 @@ function SearchInput({ className, props }) {
 					title={searchString}
 					value={searchString}
 					onChange={onChange}
+					autoComplete="off"
 					placeholder="Search for free photos"
 				/>
 				<button
@@ -77,6 +108,13 @@ function SearchInput({ className, props }) {
 					<CiSearch />
 				</button>
 			</form>
+			{showDropdown ? (
+				<SearchDropdown
+					searchHistory={searchHistory}
+					clearSearchHistory={clearSearchHistory}
+					handleSelect={handleSearchSelect}
+				/>
+			) : null}
 		</div>
 	);
 }

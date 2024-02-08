@@ -27,7 +27,6 @@ function ImageGallery({ allImages, isVideo }) {
 
 	const onImageSelect = useCallback(
 		(image, index, column) => {
-			console.log("onImageSelect");
 			setModalImageInfo({ image, index, column });
 			toggle();
 		},

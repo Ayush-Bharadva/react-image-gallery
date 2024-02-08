@@ -1,6 +1,6 @@
 .main-image-container {
 	list-style-type: none;
-	position: relative;
+	background-color: #faebd7;
 	border-radius: 10px;
 	overflow: hidden;
 	height: min-content;
@@ -31,8 +31,6 @@
 .main-image-container:hover {
 	background: rgb(176, 177, 180);
 	filter: opacity(95%);
-}
-.main-image-container:hover {
 	.download-icon,
 	.bookmark-icon,
 	.heart-icon {

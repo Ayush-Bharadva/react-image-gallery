@@ -105,7 +105,6 @@
 				border: none;
 				font-size: 36px;
 				margin: auto auto;
-				// padding: 0.5rem;
 			}
 		}
 	}
@@ -150,7 +149,6 @@
 }
 
 img {
-	width: 100%;
 	height: 100%;
 	object-fit: contain;
 }
@@ -191,12 +189,6 @@ button {
 	.main-nav-bar {
 		height: 70px;
 	}
-
-	// #sidebar-container {
-	// 	.close-icon-btn {
-	// 		display: block;
-	// 	}
-	// }
 }
 
 @media screen and (max-width: 650px) {

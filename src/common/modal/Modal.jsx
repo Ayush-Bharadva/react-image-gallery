@@ -25,7 +25,3 @@ Modal.propTypes = {
 	hide: PropTypes.func,
 	children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node])
 };
-
-Modal.defaultPropTypes = {
-	hide: () => {}
-};
