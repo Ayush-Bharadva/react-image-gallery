@@ -8,6 +8,7 @@ function Logo({ textColor }) {
 
 	const navigateToHome = () => {
 		navigate("/");
+		window.location.reload();
 	};
 
 	return (
