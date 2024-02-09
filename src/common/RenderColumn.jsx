@@ -1,48 +1,61 @@
-import { PropTypes } from "prop-types"
-import ImageCard from "../components/ImageCard/ImageCard"
-import VideoCard from "../components/VideoCard/VideoCard"
-import { useEffect, useRef } from "react"
+import { PropTypes } from "prop-types";
+import ImageCard from "../components/ImageCard/ImageCard";
+import VideoCard from "../components/VideoCard/VideoCard";
+import { useEffect, useRef } from "react";
 
-function RenderColumn({ column, allItems, onImageSelect, fetchImages, isVideo }) {
-	const columnRef = useRef()
+function RenderColumn({ column, allItems, onImageSelect, onSelect, fetchImages, isVideo }) {
+	const columnRef = useRef();
 
 	useEffect(() => {
 		function handleScroll() {
 			if (columnRef.current && columnRef.current.clientHeight < window.scrollY) {
-				fetchImages()
+				fetchImages();
 			}
 		}
 
-		document.addEventListener("scroll", handleScroll)
+		document.addEventListener("scroll", handleScroll);
 
 		return () => {
-			document.removeEventListener("scroll", handleScroll)
-		}
-	}, [fetchImages])
+			document.removeEventListener("scroll", handleScroll);
+		};
+	}, [fetchImages]);
 
 	return (
-		<div ref={columnRef} className={`col-${column}`}>
+		<div
+			ref={columnRef}
+			className={`col-${column}`}>
 			{allItems[`column${column}`].map((item, index) => {
 				return isVideo ? (
-					<VideoCard key={item.id} video={item} />
+					<VideoCard
+						key={item.id}
+						video={item}
+						onVideoSelect={() => onSelect(item.id)}
+					/>
 				) : (
-					<ImageCard key={item.id} image={item} index={index} column={column} onImageClick={onImageSelect} />
-				)
+					<ImageCard
+						key={item.id}
+						image={item}
+						index={index}
+						column={column}
+						onImageClick={onImageSelect}
+					/>
+				);
 			})}
 		</div>
-	)
+	);
 }
 
-export default RenderColumn
+export default RenderColumn;
 
 RenderColumn.propTypes = {
 	column: PropTypes.number,
 	allItems: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object),
+		column3: PropTypes.arrayOf(PropTypes.object)
 	}),
 	onImageSelect: PropTypes.func,
+	onSelect: PropTypes.func,
 	fetchImages: PropTypes.func,
-	isVideo: PropTypes.bool,
-}
+	isVideo: PropTypes.bool
+};

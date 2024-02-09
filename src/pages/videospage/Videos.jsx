@@ -5,6 +5,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import VideoGallery from "../../common/videoGallery/VideoGallery";
+import { GoChevronDown } from "react-icons/go";
 
 function Videos() {
 	const [popularVideosInfo, setPopularVideosInfo] = useState({
@@ -53,13 +54,22 @@ function Videos() {
 
 	return (
 		<div className="videos-container">
+			<div className="heading">
+				<h4>Trending Free Stock Videos</h4>
+				<button>
+					Trending <GoChevronDown />
+				</button>
+			</div>
 			<InfiniteScroll
 				className="infinite-scroll-container"
 				loadMore={fetchVideos}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={400}>
-				<VideoGallery allVideos={computedVideoColumns} />
+				<VideoGallery
+					allVideos={computedVideoColumns}
+					allFetchedVideos={fetchedVideos}
+				/>
 			</InfiniteScroll>
 		</div>
 	);

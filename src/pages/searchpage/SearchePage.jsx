@@ -1,6 +1,6 @@
 import { useContext, useState, useCallback, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ImageContext } from "../../context/ImageProvider";
+import { MainContext } from "../../context/MainProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import ImageGallery from "../../common/imagegallery/ImageGallery";
@@ -25,7 +25,7 @@ function SearchPage() {
 	const [columns, setColumns] = useState(1);
 
 	const categoriesRef = useRef();
-	const { query, setQuery } = useContext(ImageContext);
+	const { query, setQuery } = useContext(MainContext);
 
 	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
@@ -98,13 +98,8 @@ function SearchPage() {
 	};
 
 	const noResultsFound = (
-		<h1
-			style={{
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center"
-			}}>
-			No results found for {query}!!
+		<h1 className="text-center">
+			No results found for <span className="not-found-text">{`"${query}"!!`}</span>
 		</h1>
 	);
 
@@ -133,7 +128,6 @@ function SearchPage() {
 					onClick={() => onScroll(300)}
 				/>
 			</div>
-
 			<InfiniteScroll
 				className="infinite-scroll-container"
 				loadMore={fetchImages}

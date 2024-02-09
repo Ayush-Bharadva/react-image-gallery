@@ -7,10 +7,7 @@ function Modal({ isShowing, children }) {
 		? createPortal(
 				<div className="modal-overlay">
 					<div className="modal-wrapper">
-						<div className="modal">
-							<div className="modal-header"></div>
-							{children}
-						</div>
+						<div className="modal">{children}</div>
 					</div>
 				</div>,
 				document.getElementById("modal")

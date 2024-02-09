@@ -7,7 +7,7 @@ import {
 import "./styles/Global.scss";
 import "./App.scss";
 import Layout from "./Layout";
-import ImageProvider from "./context/ImageProvider";
+import MainProvider from "./context/MainProvider";
 import SearchPage from "./pages/searchpage/SearchePage";
 import { Suspense, lazy } from "react";
 import { SpinLoader } from "./components/loader/Loader";
@@ -43,11 +43,11 @@ const router = createBrowserRouter(
 
 function App() {
 	return (
-		<ImageProvider>
+		<MainProvider>
 			<Suspense fallback={<SpinLoader />}>
 				<RouterProvider router={router} />
 			</Suspense>
-		</ImageProvider>
+		</MainProvider>
 	);
 }
 

@@ -1,46 +1,47 @@
-import { useCallback, useContext, useEffect } from "react"
-import { PropTypes } from "prop-types"
-import { ImageContext } from "../../context/ImageProvider"
-import ImageModal from "../modal/ImageModal"
-import "./ImageGallery.scss"
-import RenderColumn from "../RenderColumn"
-import useModal from "../../hooks/useModal"
+import { useCallback, useContext, useEffect } from "react";
+import { PropTypes } from "prop-types";
+import { MainContext } from "../../context/MainProvider";
+import ImageModal from "../modal/ImageModal";
+import "./ImageGallery.scss";
+import RenderColumn from "../RenderColumn";
+import useModal from "../../hooks/useModal";
 
-function ImageGallery({ allImages, fetchImages, isVideo }) {
-	const { column1, column2, column3 } = allImages
+function ImageGallery({ allImages, allFetchedImages, fetchImages, isVideo }) {
+	const { column1, column2, column3 } = allImages;
 
-	const { isShowing, toggle } = useModal()
+	const { isShowing: showImageModal, toggle } = useModal();
 
-	const {
-		modalImageInfo: { index, column },
-		setModalImageInfo,
-	} = useContext(ImageContext)
+	const { setModalImage } = useContext(MainContext);
 
 	useEffect(() => {
-		if (isShowing) {
-			document.body.classList.add("overflow-hidden")
+		if (showImageModal) {
+			document.body.classList.add("overflow-hidden");
 		}
 		return () => {
-			document.body.classList.remove("overflow-hidden")
-		}
-	}, [isShowing])
+			document.body.classList.remove("overflow-hidden");
+		};
+	}, [showImageModal]);
 
 	const onImageSelect = useCallback(
-		(image, index, column) => {
-			setModalImageInfo({ image, index, column })
-			toggle()
+		imageId => {
+			const selectedImage = allFetchedImages.find(image => image.id === imageId);
+			setModalImage(selectedImage);
+			toggle();
 		},
-		[setModalImageInfo, toggle]
-	)
+		[allFetchedImages, setModalImage, toggle]
+	);
 
-	const navigateImage = (direction) => {
-		const newColumn = [column1, column2, column3][column - 1]
-		const newIndex = index + direction
-
-		if (newIndex >= 0 && newIndex < newColumn.length) {
-			setModalImageInfo({ image: newColumn[newIndex], index: newIndex, column })
-		}
-	}
+	const handleImageNavigation = useCallback(
+		(currentId, dir) => {
+			const currentImageIndex = allFetchedImages.findIndex(image => image.id === currentId);
+			// console.log("newIndex :", currentImageIndex + dir);
+			const newImage = allFetchedImages.at(currentImageIndex + dir);
+			if (newImage) {
+				setModalImage(newImage);
+			}
+		},
+		[setModalImage, allFetchedImages]
+	);
 
 	return (
 		<>
@@ -73,19 +74,26 @@ function ImageGallery({ allImages, fetchImages, isVideo }) {
 					/>
 				)}
 			</div>
-			{isShowing && <ImageModal onImageNavigate={navigateImage} isShowing={isShowing} hide={toggle} />}
+			{showImageModal && (
+				<ImageModal
+					handleImageNavigate={handleImageNavigation}
+					isShowing={showImageModal}
+					hide={toggle}
+				/>
+			)}
 		</>
-	)
+	);
 }
 
 ImageGallery.propTypes = {
 	allImages: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object),
+		column3: PropTypes.arrayOf(PropTypes.object)
 	}),
+	allFetchedImages: PropTypes.array,
 	fetchImages: PropTypes.func,
-	isVideo: PropTypes.bool,
-}
+	isVideo: PropTypes.bool
+};
 
-export default ImageGallery
+export default ImageGallery;

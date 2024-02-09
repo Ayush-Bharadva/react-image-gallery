@@ -1,38 +1,34 @@
-import { useContext } from "react";
-import PropTypes from "prop-types";
-import Button from "../../UI/button/Button";
-import { MainContext } from "../../context/MainProvider";
-import { onDownloadImage } from "../../helper/utils";
-import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
-import { AiTwotoneCheckCircle } from "react-icons/ai";
-import { GrLocation } from "react-icons/gr";
-import { FiDownload } from "react-icons/fi";
-import avatar from "../../assets/images/user-avatar.png";
+import { PropTypes } from "prop-types";
 import SocialShareModal from "./SocialShareModal";
-import ImageDetailsModal from "./ImageDetailsModal";
-import { RxCross1 } from "react-icons/rx";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { SiCanva } from "react-icons/si";
-import { CiShare1 } from "react-icons/ci";
+import Button from "../../UI/button/Button";
 import { BsInfoCircle } from "react-icons/bs";
+import { CiShare1 } from "react-icons/ci";
+import { AiTwotoneCheckCircle } from "react-icons/ai";
+import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
 import Modal from "./Modal";
 import useModal from "../../hooks/useModal";
+import { FiDownload } from "react-icons/fi";
+import avatar from "../../assets/images/user-avatar.png";
+import { onDownloadVideo } from "../../helper/utils";
+import { useContext } from "react";
+import { MainContext } from "../../context/MainProvider";
 
-function ImageModal({ handleImageNavigate, isShowing, hide }) {
-	const { isShowing: showImageDetails, toggle: toggleImageDetails } = useModal();
+function VideoModal({ isShowing, hide, handleVideoNavigation }) {
 	const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
 
-	const { modalImage } = useContext(MainContext);
-	console.log("modalImage :", modalImage);
+	const { modalVideo } = useContext(MainContext);
+	console.log(modalVideo);
 
 	const {
 		id,
-		photographer,
-		src: { large: imageUrl },
-		alt
-	} = modalImage;
+		user: { name },
+		video_files
+	} = modalVideo;
 
-	const handleDownload = () => onDownloadImage(imageUrl, alt);
+	const videoObj = video_files.at(-1);
+	console.log("videoObj :", videoObj);
 
 	return (
 		<Modal
@@ -44,18 +40,18 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 				<RxCross1 />
 			</button>
 			<button
-				onClick={() => handleImageNavigate(id, -1)}
+				onClick={() => handleVideoNavigation(id, -1)}
 				className="modal-btn previous-image-btn">
 				<FaAngleLeft />
 			</button>
 			<button
-				onClick={() => handleImageNavigate(id, 1)}
+				onClick={() => handleVideoNavigation(id, 1)}
 				className="modal-btn next-image-btn">
 				<FaAngleRight />
 			</button>
 			<div className="modal-container">
 				<div className="modal-info-container">
-					<div className="image-info">
+					<div className="video-info">
 						<div className="profile">
 							<div className="profile-img">
 								<img
@@ -64,7 +60,7 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 								/>
 							</div>
 							<div className="profile-name">
-								<p>{photographer}</p>
+								<p>{name}</p>
 								<p>Follow | Donate</p>
 							</div>
 						</div>
@@ -77,23 +73,25 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 								<IoHeartOutline className="icon" />
 								<span>Like</span>
 							</Button>
-							<Button type="outlined-button">
-								<SiCanva className="icon" />
-								<span>Edit in Canva</span>
-							</Button>
 							<Button
 								type="filled-button"
 								className="download-btn-bg text-white"
-								onClick={handleDownload}>
+								onClick={() => onDownloadVideo(videoObj.link)}>
 								<span className="download-text">Free Download</span> <FiDownload className="icon" />
 							</Button>
 						</div>
 					</div>
-					<div className="image-container">
-						<img
-							src={imageUrl}
-							alt={alt}
-						/>
+					<div className="video-container">
+						<video
+							muted
+							autoPlay
+							controls
+							key={videoObj.id}>
+							<source
+								src={videoObj.link}
+								type={videoObj.file_type}
+							/>
+						</video>
 					</div>
 					<div className="more-info">
 						<p className="more-image-info flex-row gap-12">
@@ -101,14 +99,9 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 								<AiTwotoneCheckCircle />
 								Free to use
 							</span>
-							<span className="text-center-v">
-								<GrLocation /> NewZealand
-							</span>
 						</p>
 						<div className="buttons">
-							<Button
-								type="outlined-button"
-								onClick={toggleImageDetails}>
+							<Button type="outlined-button">
 								<BsInfoCircle className="icon" /> <span>More Info</span>
 							</Button>
 							<Button
@@ -120,13 +113,13 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 					</div>
 				</div>
 			</div>
-			<ImageDetailsModal
+			{/* <ImageDetailsModal
 				modalImage={imageUrl}
 				isShowing={showImageDetails}
 				hide={toggleImageDetails}
-			/>
+			/> */}
 			<SocialShareModal
-				photographer={photographer}
+				photographer="photographer"
 				isShowing={showShareInfo}
 				hide={toggleShareInfo}
 			/>
@@ -134,9 +127,12 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 	);
 }
 
-ImageModal.propTypes = {
-	handleImageNavigate: PropTypes.func.isRequired,
+export default VideoModal;
+
+VideoModal.propTypes = {
+	// onImageNavigate: PropTypes.func.isRequired,
 	isShowing: PropTypes.bool.isRequired,
-	hide: PropTypes.func.isRequired
+	hide: PropTypes.func.isRequired,
+	handleVideoNavigation: PropTypes.func,
+	selectedVideo: PropTypes.obj
 };
-export default ImageModal;

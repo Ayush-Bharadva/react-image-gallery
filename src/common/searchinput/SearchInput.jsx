@@ -1,85 +1,83 @@
-import { PropTypes } from "prop-types"
-import { CiSearch } from "react-icons/ci"
-import { HiOutlinePhotograph } from "react-icons/hi"
-import { GoChevronDown } from "react-icons/go"
-import "./SearchInput.scss"
-import { useContext, useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { ImageContext } from "../../context/ImageProvider"
-import { RiVideoLine } from "react-icons/ri"
-import SearchDropdown from "./SearchDropdown"
+import { PropTypes } from "prop-types";
+import { CiSearch } from "react-icons/ci";
+import { HiOutlinePhotograph } from "react-icons/hi";
+import { GoChevronDown } from "react-icons/go";
+import "./SearchInput.scss";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MainContext } from "../../context/MainProvider";
+import { RiVideoLine } from "react-icons/ri";
+import SearchDropdown from "./SearchDropdown";
 
 function SearchInput({ className, props }) {
-	const navigate = useNavigate()
-	const { setQuery, query } = useContext(ImageContext)
-	const ddRef = useRef()
+	const navigate = useNavigate();
+	const { setQuery, query } = useContext(MainContext);
+	const ddRef = useRef();
 
-	const [searchString, setSearchString] = useState(query || "")
-	const [searchHistory, setSearchHistory] = useState([])
-	const [showDropdown, setShowDropdown] = useState(false)
+	const [searchString, setSearchString] = useState(query || "");
+	const [searchHistory, setSearchHistory] = useState([]);
+	const [showDropdown, setShowDropdown] = useState(false);
 
 	useEffect(() => {
-		const currentSearchHistory = JSON.parse(localStorage.getItem("search-history")) || []
-		setSearchHistory(currentSearchHistory)
-	}, [])
+		const currentSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
+		setSearchHistory(currentSearchHistory);
+	}, []);
 
 	useEffect(() => {
 		function handleClick(e) {
-			e.stopPropagation()
+			e.stopPropagation();
 			if (!ddRef.current || !ddRef.current.contains(e.target)) {
-				setShowDropdown(false)
+				setShowDropdown(false);
 			}
 		}
-		document.addEventListener("click", handleClick)
+		document.addEventListener("click", handleClick);
 
 		return () => {
-			document.removeEventListener("click", handleClick)
-		}
-	}, [])
+			document.removeEventListener("click", handleClick);
+		};
+	}, []);
 
-	const onSearchFocus = (isTrue) => {
-		setShowDropdown(isTrue)
-	}
+	const onSearchFocus = isTrue => {
+		setShowDropdown(isTrue);
+	};
 
 	const onChange = ({ target: { value } }) => {
-		setSearchString(value)
-	}
+		setSearchString(value);
+	};
 
 	const clearSearchHistory = () => {
-		localStorage.setItem("search-history", JSON.stringify([]))
-		setSearchHistory([])
-	}
+		localStorage.setItem("search-history", JSON.stringify([]));
+		setSearchHistory([]);
+	};
 
-	const updateSearchHistory = (searchItem) => {
-		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || []
+	const updateSearchHistory = searchItem => {
+		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
 		if (!prevSearchHistory.includes(searchItem)) {
-			setSearchHistory((prev) => ({ searchItem, ...prev }))
-			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]))
+			setSearchHistory(prev => ({ searchItem, ...prev }));
+			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
 		}
-	}
+	};
 
-	const handleSearchSelect = (buttonText) => {
-		updateSearchHistory(buttonText)
-		setSearchString("")
-		setQuery(buttonText)
-		navigate(`/search/${buttonText}`)
-	}
+	const handleSearchSelect = buttonText => {
+		updateSearchHistory(buttonText);
+		setSearchString("");
+		setQuery(buttonText);
+		navigate(`/search/${buttonText}`);
+	};
 
-	const onSubmit = (event) => {
-		event.preventDefault()
+	const onSubmit = event => {
+		event.preventDefault();
 		if (!searchString.trim()) {
-			return
+			return;
 		}
-		handleSearchSelect(searchString)
-	}
+		handleSearchSelect(searchString);
+	};
 
 	return (
 		<div
 			ref={ddRef}
 			className={`search-input-container ${className}`}
-			{...props}
-			onFocus={() => onSearchFocus(true)}
-		>
+			{...props}>
 			<button className="option-btn">
 				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
 				<div className="button-options">
@@ -91,17 +89,22 @@ function SearchInput({ className, props }) {
 					</button>
 				</div>
 			</button>
-			<form onSubmit={onSubmit} className="search-input">
+			<form
+				onSubmit={onSubmit}
+				className="search-input">
 				<input
 					id="search"
 					type="text"
 					title={searchString}
 					value={searchString}
 					onChange={onChange}
+					onFocus={() => onSearchFocus(true)}
 					autoComplete="off"
 					placeholder="Search for free photos"
 				/>
-				<button type="button" className="search-icon-btn">
+				<button
+					type="button"
+					className="search-icon-btn">
 					<CiSearch />
 				</button>
 			</form>
@@ -113,7 +116,7 @@ function SearchInput({ className, props }) {
 				/>
 			) : null}
 		</div>
-	)
+	);
 }
 
 SearchInput.propTypes = {
@@ -121,7 +124,7 @@ SearchInput.propTypes = {
 	onChange: PropTypes.func,
 	onSubmit: PropTypes.func,
 	className: PropTypes.string,
-	props: PropTypes.object,
-}
+	props: PropTypes.object
+};
 
-export default SearchInput
+export default SearchInput;

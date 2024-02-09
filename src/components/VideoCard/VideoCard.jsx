@@ -3,20 +3,32 @@ import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { IoBookmarksOutline } from "react-icons/io5";
 import "./videoCard.scss";
+import { useEffect, useRef, useState } from "react";
 
-function VideoCard({ video }) {
-	const videoFile = video.video_files[1];
+function VideoCard({ video, onVideoSelect }) {
+	const [isHovering, setIsHovering] = useState(false);
+	const videoRef = useRef();
+
+	const videoFile = video.video_files.at(-1);
+
+	useEffect(() => {
+		if (isHovering && videoRef.current) {
+			videoRef.current.autoPlay = true;
+		}
+	}, [isHovering]);
 
 	return (
 		<div
 			className="main-video-container"
+			onMouseEnter={() => setIsHovering(true)}
+			onMouseLeave={() => setIsHovering(false)}
 			key={video.id}>
 			<video
+				ref={videoRef}
 				className="video-card"
+				onClick={onVideoSelect}
 				playsInline
-				muted
-				autoPlay
-				loop>
+				muted>
 				{video && (
 					<source
 						src={videoFile.link}
@@ -42,5 +54,6 @@ function VideoCard({ video }) {
 export default VideoCard;
 
 VideoCard.propTypes = {
-	video: PropTypes.object
+	video: PropTypes.object,
+	onVideoSelect: PropTypes.func
 };
