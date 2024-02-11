@@ -4,15 +4,15 @@ import { BallsLoader } from "../../components/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
-import VideoGallery from "../../common/videoGallery/VideoGallery";
 import { GoChevronDown } from "react-icons/go";
+import VideoGallery from "../../common/videogallery/VideoGallery";
 
 function Videos() {
 	const [popularVideosInfo, setPopularVideosInfo] = useState({
 		fetchedVideos: [],
 		nextPageUrl: "",
 		hasMore: true,
-		isLoading: false
+		isLoading: false,
 	});
 	const [columnCount, setColumnCount] = useState(1);
 
@@ -26,15 +26,15 @@ function Videos() {
 	const fetchVideos = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
-				setPopularVideosInfo(prev => ({ ...prev, isLoading: true }));
+				setPopularVideosInfo((prev) => ({ ...prev, isLoading: true }));
 				const response = await fetchPopularVideos(nextPageUrl);
 				const { videos, next_page } = response.data;
-				setPopularVideosInfo(prev => ({
+				setPopularVideosInfo((prev) => ({
 					...prev,
 					fetchedVideos: [...prev.fetchedVideos, ...videos],
 					nextPageUrl: next_page,
 					hasMore: !!next_page,
-					isLoading: false
+					isLoading: false,
 				}));
 			} catch (error) {
 				console.error("Error fetching videos :", error);
@@ -66,10 +66,7 @@ function Videos() {
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={400}>
-				<VideoGallery
-					allVideos={computedVideoColumns}
-					allFetchedVideos={fetchedVideos}
-				/>
+				<VideoGallery allVideos={computedVideoColumns} allFetchedVideos={fetchedVideos} fetchVideos={fetchVideos} />
 			</InfiniteScroll>
 		</div>
 	);

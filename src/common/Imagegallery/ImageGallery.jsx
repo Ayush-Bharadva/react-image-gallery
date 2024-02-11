@@ -23,8 +23,8 @@ function ImageGallery({ allImages, allFetchedImages, fetchImages, isVideo }) {
 	}, [showImageModal]);
 
 	const onImageSelect = useCallback(
-		imageId => {
-			const selectedImage = allFetchedImages.find(image => image.id === imageId);
+		(imageId) => {
+			const selectedImage = allFetchedImages.find((image) => image.id === imageId);
 			setModalImage(selectedImage);
 			toggle();
 		},
@@ -33,8 +33,7 @@ function ImageGallery({ allImages, allFetchedImages, fetchImages, isVideo }) {
 
 	const handleImageNavigation = useCallback(
 		(currentId, dir) => {
-			const currentImageIndex = allFetchedImages.findIndex(image => image.id === currentId);
-			// console.log("newIndex :", currentImageIndex + dir);
+			const currentImageIndex = allFetchedImages.findIndex((image) => image.id === currentId);
 			const newImage = allFetchedImages.at(currentImageIndex + dir);
 			if (newImage) {
 				setModalImage(newImage);
@@ -75,11 +74,7 @@ function ImageGallery({ allImages, allFetchedImages, fetchImages, isVideo }) {
 				)}
 			</div>
 			{showImageModal && (
-				<ImageModal
-					handleImageNavigate={handleImageNavigation}
-					isShowing={showImageModal}
-					hide={toggle}
-				/>
+				<ImageModal handleImageNavigate={handleImageNavigation} isShowing={showImageModal} hide={toggle} />
 			)}
 		</>
 	);
@@ -89,11 +84,11 @@ ImageGallery.propTypes = {
 	allImages: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object)
+		column3: PropTypes.arrayOf(PropTypes.object),
 	}),
 	allFetchedImages: PropTypes.array,
 	fetchImages: PropTypes.func,
-	isVideo: PropTypes.bool
+	isVideo: PropTypes.bool,
 };
 
 export default ImageGallery;

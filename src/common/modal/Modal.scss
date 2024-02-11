@@ -36,7 +36,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	// border: 2px solid white;
 }
 
 .modal-close-button {
@@ -453,7 +452,6 @@
 			.modal-info-container {
 				.image-info,
 				.video-info {
-					// flex-direction: column;
 					align-items: center;
 					.profile {
 						align-self: flex-start;

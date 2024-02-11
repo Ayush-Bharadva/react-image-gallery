@@ -8,10 +8,10 @@ import "./ImageCard.scss";
 
 function ImageCard({ image, onImageClick }) {
 	const onDownload = useCallback(
-		e => {
-			e.preventDefault();
+		(event) => {
+			event.preventDefault();
 			onDownloadImage(image.src.large, image.alt);
-			e.stopPropagation();
+			event.stopPropagation();
 		},
 		[image]
 	);
@@ -23,10 +23,7 @@ function ImageCard({ image, onImageClick }) {
 			}}
 			className="main-image-container"
 			key={image.id}>
-			<img
-				src={image.src.large}
-				alt={image.alt}
-			/>
+			<img src={image.src.large} alt={image.alt} />
 			<div className="icons-group">
 				<button className="bookmark-icon">
 					<IoBookmarksOutline />
@@ -35,10 +32,7 @@ function ImageCard({ image, onImageClick }) {
 					<FaRegHeart />
 				</button>
 			</div>
-			<button
-				type="button"
-				className="download-icon"
-				onClick={onDownload}>
+			<button type="button" className="download-icon" onClick={onDownload}>
 				<FiDownload /> Download
 			</button>
 		</li>
@@ -47,9 +41,7 @@ function ImageCard({ image, onImageClick }) {
 
 ImageCard.propTypes = {
 	image: PropTypes.object,
-	index: PropTypes.number,
-	column: PropTypes.number,
-	onImageClick: PropTypes.func
+	onImageClick: PropTypes.func,
 };
 
 export default ImageCard;
