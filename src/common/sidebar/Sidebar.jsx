@@ -14,29 +14,25 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 	return (
 		<div className={`sidebar-container ${sidebarOpen ? "show-side-bar" : null}`}>
 			<div className="sidebar-nav-container">
-				<Logo />
-				<SearchInput />
-				<button className="upload-btn">Upload</button>
-				<button
-					type="button"
-					className="upload-btn-icon">
-					<FiUpload />
-				</button>
-				<button
-					className="close-icon-btn"
-					onClick={closeSidebar}>
-					<AiOutlineClose />
-				</button>
+				<div className="flex-row justify-between gap-7">
+					<Logo textColor="white" />
+					<SearchInput />
+				</div>
+				<div className="flex-row gap-7">
+					<button className="upload-filled-button">Upload</button>
+					<button type="button" className="upload-button">
+						<FiUpload />
+					</button>
+					<button className="close-icon-btn" onClick={closeSidebar}>
+						<AiOutlineClose />
+					</button>
+				</div>
 			</div>
-			<button
-				className="btn"
-				onClick={gotoHome}>
+			<button className="btn" onClick={gotoHome}>
 				Home
 			</button>
-			{items.map(item => (
-				<button
-					key={item}
-					className="btn">
+			{items.map((item) => (
+				<button key={item} className="btn">
 					{item}
 				</button>
 			))}
@@ -47,7 +43,7 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 Sidebar.propTypes = {
 	items: PropTypes.array,
 	closeSidebar: PropTypes.func,
-	sidebarOpen: PropTypes.bool
+	sidebarOpen: PropTypes.bool,
 };
 
 export default Sidebar;

@@ -17,24 +17,23 @@ export async function onDownloadImage(imageSrc, downloadName = "image.jpeg") {
 	}
 }
 
-export function onDownloadVideo(videoLink) {
-	let xhr = new XMLHttpRequest();
-	xhr.open("GET", videoLink, true);
-	xhr.responseType = "blob";
-	xhr.onload = function () {
-		let urlCreator = window.URL || window.webkitURL;
-		let videoUrl = urlCreator.createObjectURL(this.response);
-		let tag = document.createElement("a");
-		tag.href = videoUrl;
-		tag.download = "your-video.mp4";
-		document.body.appendChild(tag);
-		tag.click();
-		document.body.removeChild(tag);
-	};
-	xhr.onerror = err => {
-		err;
-	};
-	xhr.send();
+export async function onDownloadVideo(videoLink) {
+	try {
+		const response = await fetch(videoLink);
+		const blobVideo = await response.blob();
+		const videoUrl = URL.createObjectURL(blobVideo);
+
+		const anchor = document.createElement("a");
+		anchor.href = videoUrl;
+		anchor.download = "video.mp4";
+
+		document.body.appendChild(anchor);
+		anchor.click();
+		document.body.removeChild(anchor);
+		URL.revokeObjectURL(videoUrl);
+	} catch (error) {
+		console.error("Error downloading video:", error);
+	}
 }
 
 export const onCopyToClipBoard = ({ target: { innerText: text } }) => {

@@ -3,13 +3,17 @@ import ImageCard from "../components/ImageCard/ImageCard";
 import VideoCard from "../components/VideoCard/VideoCard";
 import { useEffect, useRef } from "react";
 
-function RenderColumn({ column, allItems, onImageSelect, onSelect, fetchImages, isVideo }) {
+function RenderColumn({ column, allItems, onImageSelect, onSelect, fetchImages, fetchVideos, isVideo }) {
 	const columnRef = useRef();
 
 	useEffect(() => {
 		function handleScroll() {
 			if (columnRef.current && columnRef.current.clientHeight < window.scrollY) {
-				fetchImages();
+				if (isVideo) {
+					fetchVideos();
+				} else {
+					fetchImages();
+				}
 			}
 		}
 
@@ -18,27 +22,15 @@ function RenderColumn({ column, allItems, onImageSelect, onSelect, fetchImages, 
 		return () => {
 			document.removeEventListener("scroll", handleScroll);
 		};
-	}, [fetchImages]);
+	}, [fetchImages, fetchVideos, isVideo]);
 
 	return (
-		<div
-			ref={columnRef}
-			className={`col-${column}`}>
+		<div ref={columnRef} className={`col-${column}`}>
 			{allItems[`column${column}`].map((item, index) => {
 				return isVideo ? (
-					<VideoCard
-						key={item.id}
-						video={item}
-						onVideoSelect={() => onSelect(item.id)}
-					/>
+					<VideoCard key={item.id} video={item} onVideoSelect={() => onSelect(item.id)} />
 				) : (
-					<ImageCard
-						key={item.id}
-						image={item}
-						index={index}
-						column={column}
-						onImageClick={onImageSelect}
-					/>
+					<ImageCard key={item.id} image={item} index={index} column={column} onImageClick={onImageSelect} />
 				);
 			})}
 		</div>
@@ -52,10 +44,11 @@ RenderColumn.propTypes = {
 	allItems: PropTypes.shape({
 		column1: PropTypes.arrayOf(PropTypes.object),
 		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object)
+		column3: PropTypes.arrayOf(PropTypes.object),
 	}),
 	onImageSelect: PropTypes.func,
 	onSelect: PropTypes.func,
 	fetchImages: PropTypes.func,
-	isVideo: PropTypes.bool
+	fetchVideos: PropTypes.func,
+	isVideo: PropTypes.bool,
 };

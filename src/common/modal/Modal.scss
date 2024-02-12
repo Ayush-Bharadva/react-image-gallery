@@ -262,7 +262,8 @@
 			height: 100%;
 			width: 100%;
 			max-height: 750px;
-			max-width: 1200px;
+			// max-width: 1200px;
+			max-width: 1400px;
 			// height: 750px;
 			// width: 1200px;
 
@@ -366,109 +367,26 @@
 	background-color: #eaebed;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 375px) {
 	.modal-wrapper {
-		.modal-container {
-			.modal-info-container {
-				.image-info,
-				.video-info {
-					.actions {
-						.outlined-button {
-							span {
-								display: none;
-							}
-						}
-					}
-				}
-				.more-info {
-					.buttons {
-						.outlined-button {
-							span {
-								display: none;
-							}
-						}
-					}
-				}
-			}
+		.modal-close-btn {
+			top: 10px;
+			left: 22px;
 		}
-	}
-}
-
-@media screen and (max-width: 700px) {
-	.modal-wrapper {
-		.modal-close-btn,
 		.previous-image-btn {
-			left: 20px;
+			left: 0;
 		}
 		.next-image-btn {
-			right: 20px;
+			right: 0;
 		}
-
+		.modal {
+			padding: 0.5rem;
+		}
 		.modal-container {
-			// width: calc(100% - 100px);
-			.image-info,
-			.video-info {
-				.actions {
-					.outlined-button {
-						padding: 0.5rem 1rem;
-					}
-				}
-			}
+			width: calc(100% - 15px);
 			.more-info {
-				.buttons {
-					.outlined-button {
-						padding: 0.5rem 1rem;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 600px) {
-	// .modal-wrapper {
-	// 	.modal-container {
-	// 		// width: 100%;
-	// 	}
-	// }
-
-	.social-share-modal-container {
-		.social-share-modal {
-			padding: 20px 10px;
-			.social-icons-container {
-				menu {
-					.social-icon {
-						height: 40px;
-						width: 40px;
-						padding: 0.25rem;
-						font-size: 1rem;
-						line-height: 40px;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 555px) {
-	.modal-wrapper {
-		.modal-container {
-			// height: auto;
-
-			.modal-info-container {
-				.image-info,
-				.video-info {
-					align-items: center;
-					.profile {
-						align-self: flex-start;
-					}
-					.actions {
-						.filled-button {
-							span {
-								display: none;
-							}
-						}
-					}
+				.more-image-info {
+					flex-direction: column;
 				}
 			}
 		}
@@ -520,26 +438,109 @@
 	}
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 555px) {
 	.modal-wrapper {
-		.modal-close-btn {
-			top: 10px;
-			left: 22px;
+		.modal-container {
+			// height: auto;
+
+			.modal-info-container {
+				.image-info,
+				.video-info {
+					align-items: center;
+					.profile {
+						align-self: flex-start;
+					}
+					.actions {
+						.filled-button {
+							span {
+								display: none;
+							}
+						}
+					}
+				}
+			}
 		}
+	}
+}
+
+@media screen and (max-width: 600px) {
+	// .modal-wrapper {
+	// 	.modal-container {
+	// 		// width: 100%;
+	// 	}
+	// }
+
+	.social-share-modal-container {
+		.social-share-modal {
+			padding: 20px 10px;
+			.social-icons-container {
+				menu {
+					.social-icon {
+						height: 40px;
+						width: 40px;
+						padding: 0.25rem;
+						font-size: 1rem;
+						line-height: 40px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.modal-wrapper {
+		.modal-close-btn,
 		.previous-image-btn {
-			left: 0;
+			left: 20px;
 		}
 		.next-image-btn {
-			right: 0;
+			right: 20px;
 		}
-		.modal {
-			padding: 0.5rem;
-		}
+
 		.modal-container {
-			width: calc(100% - 15px);
+			// width: calc(100% - 100px);
+			.image-info,
+			.video-info {
+				.actions {
+					.outlined-button {
+						padding: 0.5rem 1rem;
+					}
+				}
+			}
 			.more-info {
-				.more-image-info {
-					flex-direction: column;
+				.buttons {
+					.outlined-button {
+						padding: 0.5rem 1rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.modal-wrapper {
+		.modal-container {
+			.modal-info-container {
+				.image-info,
+				.video-info {
+					.actions {
+						.outlined-button {
+							span {
+								display: none;
+							}
+						}
+					}
+				}
+				.more-info {
+					.buttons {
+						.outlined-button {
+							span {
+								display: none;
+							}
+						}
+					}
 				}
 			}
 		}

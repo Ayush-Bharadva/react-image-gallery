@@ -61,8 +61,11 @@
 
 @media screen and (max-width: 650px) {
 	.sidebar-nav-container {
-		.upload-btn {
+		.upload-filled-button {
 			display: none;
+		}
+		.upload-button {
+			display: block;
 		}
 	}
 }

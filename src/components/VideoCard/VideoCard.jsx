@@ -25,18 +25,8 @@ function VideoCard({ video, onVideoSelect }) {
 			onMouseEnter={() => setIsHovering(true)}
 			onMouseLeave={() => setIsHovering(false)}
 			key={video.id}>
-			<video
-				ref={videoRef}
-				className="video-card"
-				onClick={onVideoSelect}
-				playsInline
-				muted>
-				{video && (
-					<source
-						src={videoFile.link}
-						type={videoFile.file_type}
-					/>
-				)}
+			<video ref={videoRef} key={video.id} className="video-card" onClick={onVideoSelect} playsInline muted>
+				{video && <source src={videoFile.link} type={videoFile.file_type} />}
 			</video>
 			<div className="icons-group">
 				<button className="bookmark-icon">
@@ -57,5 +47,5 @@ export default VideoCard;
 
 VideoCard.propTypes = {
 	video: PropTypes.object,
-	onVideoSelect: PropTypes.func
+	onVideoSelect: PropTypes.func,
 };
