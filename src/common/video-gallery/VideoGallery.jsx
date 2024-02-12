@@ -23,19 +23,14 @@ function VideoGallery({ allVideos, allFetchedVideos }) {
 
 	const onVideoSelect = videoId => {
 		const videoSelected = allFetchedVideos.find(video => video.id === videoId);
-		// if (videoSelected) {
 		setModalVideo(videoSelected);
-		// }
 		toggleVideoModal();
 	};
 
 	const handleVideoNavigation = useCallback(
 		(currentId, dir) => {
 			const currentVideoIndex = allFetchedVideos.findIndex(video => video.id === currentId);
-			// console.log("currentVideoIndex :", currentVideoIndex);
-			console.log("newVideoIndex :", currentVideoIndex + dir);
 			const newVideo = allFetchedVideos.at(currentVideoIndex + dir);
-			console.log("newVideoObj :", newVideo);
 			setModalVideo(newVideo);
 		},
 		[allFetchedVideos, setModalVideo]
@@ -74,7 +69,6 @@ function VideoGallery({ allVideos, allFetchedVideos }) {
 					isShowing={showVideoModal}
 					hide={toggleVideoModal}
 					handleVideoNavigation={handleVideoNavigation}
-					// selectedVideo={selectedVideo}
 				/>
 			)}
 		</>

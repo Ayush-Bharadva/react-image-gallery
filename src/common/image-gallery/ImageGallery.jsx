@@ -34,7 +34,6 @@ function ImageGallery({ allImages, allFetchedImages, fetchImages, isVideo }) {
 	const handleImageNavigation = useCallback(
 		(currentId, dir) => {
 			const currentImageIndex = allFetchedImages.findIndex(image => image.id === currentId);
-			// console.log("newIndex :", currentImageIndex + dir);
 			const newImage = allFetchedImages.at(currentImageIndex + dir);
 			if (newImage) {
 				setModalImage(newImage);

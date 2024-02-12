@@ -15,6 +15,7 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 7px;
+		height: 70px;
 		padding: 0 5px;
 		margin-bottom: 1rem;
 
@@ -48,8 +49,9 @@
 		background: none;
 		color: #fff;
 		border: none;
-		font-size: 36px;
-		padding: 8px 8px 0;
+		font-size: 28px;
+		padding: 5px;
+		height: fit-content;
 	}
 }
 
@@ -57,20 +59,10 @@
 	width: 100%;
 }
 
-@keyframes slide-in-sidebar {
-	from {
-		width: 0%;
-	}
-	to {
-		width: 100%;
-	}
-}
-
-@keyframes slide-out-sidebar {
-	from {
-		width: 100%;
-	}
-	to {
-		width: 0%;
+@media screen and (max-width: 650px) {
+	.sidebar-nav-container {
+		.upload-btn {
+			display: none;
+		}
 	}
 }

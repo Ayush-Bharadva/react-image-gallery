@@ -13,7 +13,9 @@ function VideoCard({ video, onVideoSelect }) {
 
 	useEffect(() => {
 		if (isHovering && videoRef.current) {
-			videoRef.current.autoPlay = true;
+			videoRef.current.play();
+		} else {
+			videoRef.current.pause();
 		}
 	}, [isHovering]);
 

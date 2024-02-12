@@ -14,21 +14,24 @@ import avatar from "../../assets/images/user-avatar.png";
 import { onDownloadVideo } from "../../helper/utils";
 import { useContext } from "react";
 import { MainContext } from "../../context/MainProvider";
+import VideoDetailsModal from "./VideoDetailsModal";
 
 function VideoModal({ isShowing, hide, handleVideoNavigation }) {
 	const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
+	const { isShowing: showVideoDetailsModal, toggle: toggleVideoDetailsModal } = useModal();
 
 	const { modalVideo } = useContext(MainContext);
-	console.log(modalVideo);
+	// console.log(modalVideo);
 
 	const {
 		id,
 		user: { name },
+		image: videoImageUrl,
 		video_files
 	} = modalVideo;
 
 	const videoObj = video_files.at(-1);
-	console.log("videoObj :", videoObj);
+	// console.log("videoObj :", videoObj);
 
 	return (
 		<Modal
@@ -101,7 +104,9 @@ function VideoModal({ isShowing, hide, handleVideoNavigation }) {
 							</span>
 						</p>
 						<div className="buttons">
-							<Button type="outlined-button">
+							<Button
+								type="outlined-button"
+								onClick={toggleVideoDetailsModal}>
 								<BsInfoCircle className="icon" /> <span>More Info</span>
 							</Button>
 							<Button
@@ -113,11 +118,11 @@ function VideoModal({ isShowing, hide, handleVideoNavigation }) {
 					</div>
 				</div>
 			</div>
-			{/* <ImageDetailsModal
-				modalImage={imageUrl}
-				isShowing={showImageDetails}
-				hide={toggleImageDetails}
-			/> */}
+			<VideoDetailsModal
+				isShowing={showVideoDetailsModal}
+				hide={toggleVideoDetailsModal}
+				videoImageUrl={videoImageUrl}
+			/>
 			<SocialShareModal
 				photographer="photographer"
 				isShowing={showShareInfo}
@@ -130,9 +135,7 @@ function VideoModal({ isShowing, hide, handleVideoNavigation }) {
 export default VideoModal;
 
 VideoModal.propTypes = {
-	// onImageNavigate: PropTypes.func.isRequired,
 	isShowing: PropTypes.bool.isRequired,
 	hide: PropTypes.func.isRequired,
-	handleVideoNavigation: PropTypes.func,
-	selectedVideo: PropTypes.obj
+	handleVideoNavigation: PropTypes.func
 };

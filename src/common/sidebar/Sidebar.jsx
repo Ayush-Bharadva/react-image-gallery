@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SearchInput from "../searchinput/SearchInput";
 import Logo from "../../components/Header/Logo";
 import "./Sidebar.scss";
+import { FiUpload } from "react-icons/fi";
 
 function Sidebar({ items, sidebarOpen, closeSidebar }) {
 	const navigate = useNavigate();
@@ -16,6 +17,11 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 				<Logo />
 				<SearchInput />
 				<button className="upload-btn">Upload</button>
+				<button
+					type="button"
+					className="upload-btn-icon">
+					<FiUpload />
+				</button>
 				<button
 					className="close-icon-btn"
 					onClick={closeSidebar}>

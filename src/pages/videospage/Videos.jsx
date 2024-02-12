@@ -4,7 +4,7 @@ import { BallsLoader } from "../../components/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
-import VideoGallery from "../../common/videoGallery/VideoGallery";
+import VideoGallery from "../../common/video-gallery/VideoGallery";
 import { GoChevronDown } from "react-icons/go";
 
 function Videos() {

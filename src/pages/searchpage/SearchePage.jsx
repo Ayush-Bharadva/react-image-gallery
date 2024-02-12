@@ -3,13 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { MainContext } from "../../context/MainProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
-import ImageGallery from "../../common/imagegallery/ImageGallery";
 import { relatedCategories } from "../../constants/constants";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./SearchPage.scss";
 import Navbar from "../../common/navbar/Navbar";
 import { BallsLoader } from "../../components/loader/Loader";
+import ImageGallery from "../../common/image-gallery/ImageGallery";
 
 function SearchPage() {
 	const navigate = useNavigate();
@@ -133,8 +133,12 @@ function SearchPage() {
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
-				threshold={500}>
-				<ImageGallery allImages={computedLayoutColumns} />
+				threshold={400}>
+				<ImageGallery
+					allImages={computedLayoutColumns}
+					allFetchedImages={searchedImagesInfo}
+					fetchImages={fetchCategoryImages}
+				/>
 			</InfiniteScroll>
 			{!searchedImagesInfo.length ? noResultsFound : null}
 		</div>

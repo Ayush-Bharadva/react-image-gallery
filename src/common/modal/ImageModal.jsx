@@ -23,7 +23,7 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 	const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
 
 	const { modalImage } = useContext(MainContext);
-	console.log("modalImage :", modalImage);
+	// console.log("modalImage :", modalImage);
 
 	const {
 		id,
@@ -96,15 +96,15 @@ function ImageModal({ handleImageNavigate, isShowing, hide }) {
 						/>
 					</div>
 					<div className="more-info">
-						<p className="more-image-info flex-row gap-12">
-							<span className="text-center-v">
+						<div className="more-image-info flex-row gap-12">
+							<p className="text-center-v">
 								<AiTwotoneCheckCircle />
 								Free to use
-							</span>
-							<span className="text-center-v">
+							</p>
+							<p className="text-center-v">
 								<GrLocation /> NewZealand
-							</span>
-						</p>
+							</p>
+						</div>
 						<div className="buttons">
 							<Button
 								type="outlined-button"
