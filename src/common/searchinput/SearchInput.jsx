@@ -37,7 +37,7 @@ function SearchInput({ className, props }) {
 		};
 	}, []);
 
-	const onSearchFocus = (isTrue) => {
+	const onSearchFocus = isTrue => {
 		setShowDropdown(isTrue);
 	};
 
@@ -50,22 +50,22 @@ function SearchInput({ className, props }) {
 		setSearchHistory([]);
 	};
 
-	const updateSearchHistory = (searchItem) => {
+	const updateSearchHistory = searchItem => {
 		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
 		if (!prevSearchHistory.includes(searchItem)) {
-			setSearchHistory((prev) => ({ searchItem, ...prev }));
+			setSearchHistory(prev => ({ searchItem, ...prev }));
 			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
 		}
 	};
 
-	const handleSearchSelect = (buttonText) => {
+	const handleSearchSelect = buttonText => {
 		updateSearchHistory(buttonText);
 		setSearchString("");
 		setQuery(buttonText);
 		navigate(`/search/${buttonText}`);
 	};
 
-	const onSubmit = (event) => {
+	const onSubmit = event => {
 		event.preventDefault();
 		if (!searchString.trim()) {
 			return;
@@ -74,7 +74,10 @@ function SearchInput({ className, props }) {
 	};
 
 	return (
-		<div ref={ddRef} className={`search-input-container ${className}`} {...props}>
+		<div
+			ref={ddRef}
+			className={`search-input-container ${className}`}
+			{...props}>
 			<button className="option-btn">
 				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
 				<div className="button-options">
@@ -86,7 +89,9 @@ function SearchInput({ className, props }) {
 					</button>
 				</div>
 			</button>
-			<form onSubmit={onSubmit} className="search-input">
+			<form
+				onSubmit={onSubmit}
+				className="search-input">
 				<input
 					id="search"
 					type="text"
@@ -97,7 +102,9 @@ function SearchInput({ className, props }) {
 					autoComplete="off"
 					placeholder="Search for free photos"
 				/>
-				<button type="button" className="search-icon-btn">
+				<button
+					type="button"
+					className="search-icon-btn">
 					<CiSearch />
 				</button>
 			</form>
@@ -113,8 +120,11 @@ function SearchInput({ className, props }) {
 }
 
 SearchInput.propTypes = {
+	searchString: PropTypes.string,
+	onChange: PropTypes.func,
+	onSubmit: PropTypes.func,
 	className: PropTypes.string,
-	props: PropTypes.object,
+	props: PropTypes.object
 };
 
 export default SearchInput;

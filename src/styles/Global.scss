@@ -12,14 +12,13 @@ video {
 .image-gallery-container,
 .video-gallery-container {
 	display: flex;
-	gap: 5px;
+	gap: 9px;
 	padding: 0.5rem;
 	.col-1,
 	.col-2,
 	.col-3 {
 		width: 100%;
 		height: fit-content;
-		padding: 5px;
 	}
 }
 

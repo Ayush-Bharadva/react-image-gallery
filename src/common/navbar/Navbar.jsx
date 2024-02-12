@@ -1,3 +1,4 @@
+import { PropTypes } from "prop-types";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
 import SearchInput from "../searchinput/SearchInput";
@@ -38,8 +39,16 @@ function Navbar() {
 					</button>
 				</ul>
 			</div>
-			<Sidebar items={sidebarItems} closeSidebar={onCloseSidebar} sidebarOpen={isOpenSidebar} />
+			<Sidebar
+				items={sidebarItems}
+				closeSidebar={onCloseSidebar}
+				sidebarOpen={isOpenSidebar}
+			/>
 		</>
 	);
 }
 export default Navbar;
+
+Navbar.propTypes = {
+	showSearchInput: PropTypes.bool
+};

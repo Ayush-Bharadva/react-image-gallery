@@ -14,7 +14,7 @@ function Home() {
 		fetchedImages: [],
 		nextPageUrl: curatedImgUrl,
 		hasMore: true,
-		isLoading: false,
+		isLoading: false
 	});
 	const [columnCount, setColumnCount] = useState(1);
 
@@ -28,14 +28,14 @@ function Home() {
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
-				setCuratedImagesInfo((prev) => ({ ...prev, isLoading: true }));
+				setCuratedImagesInfo(prev => ({ ...prev, isLoading: true }));
 				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
-				setCuratedImagesInfo((prev) => ({
+				setCuratedImagesInfo(prev => ({
 					...prev,
 					fetchedImages: [...prev.fetchedImages, ...photos],
 					nextPageUrl: next_page,
 					isLoading: false,
-					hasMore: !!next_page,
+					hasMore: !!next_page
 				}));
 			} catch (error) {
 				console.error("Error fetching images:", error);
@@ -67,7 +67,11 @@ function Home() {
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={400}>
-				<ImageGallery allImages={computedImageColumns} allFetchedImages={fetchedImages} fetchImages={fetchImages} />
+				<ImageGallery
+					allImages={computedImageColumns}
+					allFetchedImages={fetchedImages}
+					fetchImages={fetchImages}
+				/>
 			</InfiniteScroll>
 		</div>
 	);
