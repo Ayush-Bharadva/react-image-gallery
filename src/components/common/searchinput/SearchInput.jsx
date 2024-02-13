@@ -5,13 +5,14 @@ import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MainContext } from "../../context/MainProvider";
+import { MainContext } from "../../../context/MainProvider";
 import { RiVideoLine } from "react-icons/ri";
 import SearchDropdown from "./SearchDropdown";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
 	const { setQuery, query } = useContext(MainContext);
+	// console.log("search Query :", query);
 	const ddRef = useRef();
 
 	const [searchString, setSearchString] = useState(query || "");

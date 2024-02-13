@@ -7,9 +7,9 @@ import { relatedCategories } from "../../constants/constants";
 import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./SearchPage.scss";
-import Navbar from "../../common/navbar/Navbar";
+import Navbar from "../../components/common/navbar/Navbar";
 import { BallsLoader } from "../../components/loader/Loader";
-import ImageGallery from "../../common/image-gallery/ImageGallery";
+import ImageGallery from "../../components/common/image-gallery/ImageGallery";
 
 function SearchPage() {
 	const navigate = useNavigate();
@@ -88,7 +88,7 @@ function SearchPage() {
 		navigate(`/search/${category}`);
 	};
 
-	const computedLayoutColumns = computeColumnsFromWidth([...searchedImagesInfo], columns);
+	const extractedImageColumns = computeColumnsFromWidth([...searchedImagesInfo], columns);
 
 	const onScroll = scrollOffset => {
 		if (categoriesRef.current) {
@@ -135,7 +135,7 @@ function SearchPage() {
 				loader={<BallsLoader />}
 				threshold={400}>
 				<ImageGallery
-					allImages={computedLayoutColumns}
+					allImages={extractedImageColumns}
 					allFetchedImages={searchedImagesInfo}
 					fetchImages={fetchCategoryImages}
 				/>

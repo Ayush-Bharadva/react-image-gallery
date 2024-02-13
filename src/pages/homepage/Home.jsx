@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { computeColumnsFromWidth } from "../../helper/helper";
 import { calculateColumns } from "../../helper/helper";
-import ImageGallery from "../../common/image-gallery/ImageGallery";
+import ImageGallery from "../../components/common/image-gallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
 import { fetchCuratedImages } from "../../services/services";
@@ -51,7 +51,7 @@ function Home() {
 		};
 	}, []);
 
-	const computedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
+	const extractedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
 
 	return (
 		<div className="home-container">
@@ -68,7 +68,7 @@ function Home() {
 				loader={<BallsLoader />}
 				threshold={400}>
 				<ImageGallery
-					allImages={computedImageColumns}
+					allImages={extractedImageColumns}
 					allFetchedImages={fetchedImages}
 					fetchImages={fetchImages}
 				/>

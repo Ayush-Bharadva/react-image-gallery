@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import PropTypes from "prop-types";
-import Button from "../../UI/button/Button";
-import { MainContext } from "../../context/MainProvider";
-import { onDownloadImage } from "../../helper/utils";
+import Button from "../../../UI/button/Button";
+import { MainContext } from "../../../context/MainProvider";
+import { onDownloadImage } from "../../../helper/utils";
 import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
 import { FiDownload } from "react-icons/fi";
-import avatar from "../../assets/images/user-avatar.png";
+import avatar from "../../../assets/images/user-avatar.png";
 import SocialShareModal from "./SocialShareModal";
 import ImageDetailsModal from "./ImageDetailsModal";
 import { RxCross1 } from "react-icons/rx";
@@ -16,7 +16,7 @@ import { SiCanva } from "react-icons/si";
 import { CiShare1 } from "react-icons/ci";
 import { BsInfoCircle } from "react-icons/bs";
 import Modal from "./Modal";
-import useModal from "../../hooks/useModal";
+import useModal from "../../../hooks/useModal";
 
 function ImageModal({ handleImageNavigate, isShowing, hide }) {
 	const { isShowing: showImageDetails, toggle: toggleImageDetails } = useModal();

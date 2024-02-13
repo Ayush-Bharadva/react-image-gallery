@@ -1,10 +1,10 @@
 import { useCallback, useContext, useEffect } from "react";
 import { PropTypes } from "prop-types";
-import { MainContext } from "../../context/MainProvider";
+import { MainContext } from "../../../context/MainProvider";
 import ImageModal from "../modal/ImageModal";
 import "./ImageGallery.scss";
 import RenderColumn from "../RenderColumn";
-import useModal from "../../hooks/useModal";
+import useModal from "../../../hooks/useModal";
 
 function ImageGallery({ allImages, allFetchedImages, fetchImages, isVideo }) {
 	const { column1, column2, column3 } = allImages;

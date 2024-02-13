@@ -3,10 +3,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
 import SearchInput from "../searchinput/SearchInput";
 import "./Navbar.scss";
-import Logo from "../../components/Header/Logo";
-import "../../components/Header/Header.scss";
+import Logo from "../../Header/Logo";
+import "../../Header/Header.scss";
 import Sidebar from "../sidebar/Sidebar";
-import { sidebarItems } from "../../constants/constants";
+import { sidebarItems } from "../../../constants/constants";
 import { useState } from "react";
 
 function Navbar() {

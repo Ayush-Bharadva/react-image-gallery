@@ -1,28 +1,28 @@
 import { PropTypes } from "prop-types";
-import { RxCross1 } from "react-icons/rx";
 import Modal from "./Modal";
-import { imageDetails } from "../../constants/constants";
+import { videoDetails } from "../../../constants/constants";
+import { RxCross1 } from "react-icons/rx";
 
-function ImageDetailsModal({ modalImage, isShowing, hide }) {
+function VideoDetailsModal({ isShowing, hide, videoImageUrl }) {
 	const {
 		title,
 		statistics: { views, likes, downloads },
-		relatedInfo: { dimensions, aspectRatio, camera, focal, aperture, iso, shutterSpeed, takenAt }
-	} = imageDetails;
+		relatedInfo: { dimensions, aspectRatio, duration, fps }
+	} = videoDetails;
 
 	return (
 		<Modal isShowing={isShowing}>
-			<div className="image-details-modal-container">
+			<div className="video-details-modal-container">
 				<div className="top-container">
 					<div className="top-container-header flex-row-center">
 						<div className="image-container">
 							<img
-								src={modalImage}
+								src={videoImageUrl}
 								alt=""
 							/>
 						</div>
 						<div className="top-heading">
-							<h1>Photo details</h1>
+							<h1>Video details</h1>
 							<p>{title}</p>
 						</div>
 					</div>
@@ -56,28 +56,12 @@ function ImageDetailsModal({ modalImage, isShowing, hide }) {
 						<p title={aspectRatio}>{aspectRatio}</p>
 					</div>
 					<div className="stat-info">
-						<p title="Camera">Camera</p>
-						<p title={camera}>{camera}</p>
+						<p title="Camera">Duration</p>
+						<p title={duration}>{duration}</p>
 					</div>
 					<div className="stat-info">
-						<p title="Focal">Focal</p>
-						<p title={focal}>{focal}</p>
-					</div>
-					<div className="stat-info">
-						<p title="Aperture">Aperture</p>
-						<p title={aperture}>{aperture}</p>
-					</div>
-					<div className="stat-info">
-						<p title="ISO">ISO</p>
-						<p title={iso}>{iso}</p>
-					</div>
-					<div className="stat-info">
-						<p title="Shutter Speed">Shutter Speed</p>
-						<p title={shutterSpeed}>{shutterSpeed}</p>
-					</div>
-					<div className="stat-info">
-						<p title="Taken At">Taken At</p>
-						<p title={takenAt}>{takenAt}</p>
+						<p title="Focal">FPS</p>
+						<p title={fps}>{fps}</p>
 					</div>
 				</div>
 			</div>
@@ -85,10 +69,10 @@ function ImageDetailsModal({ modalImage, isShowing, hide }) {
 	);
 }
 
-export default ImageDetailsModal;
+export default VideoDetailsModal;
 
-ImageDetailsModal.propTypes = {
+VideoDetailsModal.propTypes = {
+	isShowing: PropTypes.bool,
 	hide: PropTypes.func.isRequired,
-	modalImage: PropTypes.string.isRequired,
-	isShowing: PropTypes.bool
+	videoImageUrl: PropTypes.string.isRequired
 };

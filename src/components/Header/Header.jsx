@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
-import SearchInput from "../../common/searchinput/SearchInput";
+import SearchInput from "../common/searchinput/SearchInput";
 import "./Header.scss";
 import Logo from "./Logo";
 import { sidebarItems } from "../../constants/constants";
-import Sidebar from "../../common/sidebar/Sidebar";
+import Sidebar from "../common/sidebar/Sidebar";
 
 function Header() {
 	const [isOpenSidebar, setIsOpenSidebar] = useState(false);

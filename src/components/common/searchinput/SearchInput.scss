@@ -70,6 +70,7 @@
 		border-radius: 0 0 8px 8px;
 		padding: 30px 20px;
 		background-color: #fff;
+		z-index: 1000;
 
 		h2 {
 			color: #333;
@@ -130,7 +131,7 @@
 
 .button-options {
 	position: absolute;
-	top: 100%;
+	top: 95%;
 	left: 4px;
 	display: flex;
 	flex-direction: column;

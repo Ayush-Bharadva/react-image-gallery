@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import { IoSearch } from "react-icons/io5";
-import { trendingTopics } from "../../constants/constants";
+import { trendingTopics } from "../../../constants/constants";
 
 function SearchDropdown({ searchHistory, clearSearchHistory, handleSelect }) {
 	return (

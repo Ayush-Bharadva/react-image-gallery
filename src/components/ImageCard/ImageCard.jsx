@@ -6,20 +6,20 @@ import { FiDownload } from "react-icons/fi";
 import { PropTypes } from "prop-types";
 import "./ImageCard.scss";
 
-function ImageCard({ image, onImageClick }) {
+function ImageCard({ image, onImageSelect }) {
 	const onDownload = useCallback(
-		e => {
-			e.preventDefault();
+		event => {
+			event.preventDefault();
 			onDownloadImage(image.src.large, image.alt);
-			e.stopPropagation();
+			event.stopPropagation();
 		},
 		[image]
 	);
 
 	return (
-		<li
+		<div
 			onClick={() => {
-				onImageClick(image.id);
+				onImageSelect(image.id);
 			}}
 			className="main-image-container"
 			key={image.id}>
@@ -41,7 +41,7 @@ function ImageCard({ image, onImageClick }) {
 				onClick={onDownload}>
 				<FiDownload /> Download
 			</button>
-		</li>
+		</div>
 	);
 }
 
@@ -49,7 +49,7 @@ ImageCard.propTypes = {
 	image: PropTypes.object,
 	index: PropTypes.number,
 	column: PropTypes.number,
-	onImageClick: PropTypes.func
+	onImageSelect: PropTypes.func
 };
 
 export default ImageCard;
