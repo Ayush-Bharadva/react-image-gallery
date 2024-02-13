@@ -14,11 +14,11 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 	return (
 		<div className={`sidebar-container ${sidebarOpen ? "show-side-bar" : null}`}>
 			<div className="sidebar-nav-container">
-				<div className="flex-row justify-between gap-7">
+				<div className="left">
 					<Logo textColor="white" />
 					<SearchInput />
 				</div>
-				<div className="flex-row gap-7">
+				<div className="right">
 					<button className="upload-filled-button">Upload</button>
 					<button type="button" className="upload-button">
 						<FiUpload />
