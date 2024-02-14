@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { fetchPopularVideos } from "../../services/services";
 import { BallsLoader } from "../../components/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
-import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
 import VideoGallery from "../../components/common/video-gallery/VideoGallery";
 import { GoChevronDown } from "react-icons/go";
 
@@ -14,12 +13,6 @@ function Videos() {
 		hasMore: true,
 		isLoading: false
 	});
-	const [columnCount, setColumnCount] = useState(1);
-
-	const computeColumns = () => {
-		const columnsCount = calculateColumns();
-		setColumnCount(columnsCount);
-	};
 
 	const { fetchedVideos, hasMore, isLoading, nextPageUrl } = popularVideosInfo;
 
@@ -28,7 +21,8 @@ function Videos() {
 			try {
 				setPopularVideosInfo(prev => ({ ...prev, isLoading: true }));
 				const response = await fetchPopularVideos(nextPageUrl);
-				const { videos, next_page } = response.data;
+				const { videos, next_page } = await response;
+				console.log("fetchVideos :", videos, next_page);
 				setPopularVideosInfo(prev => ({
 					...prev,
 					fetchedVideos: [...prev.fetchedVideos, ...videos],
@@ -41,16 +35,6 @@ function Videos() {
 			}
 		}
 	}, [hasMore, isLoading, nextPageUrl]);
-
-	useEffect(() => {
-		computeColumns();
-		window.addEventListener("resize", computeColumns);
-		return () => {
-			window.removeEventListener("resize", computeColumns);
-		};
-	}, []);
-
-	const computedVideoColumns = computeColumnsFromWidth(fetchedVideos, columnCount);
 
 	return (
 		<div className="videos-container">
@@ -67,7 +51,6 @@ function Videos() {
 				loader={<BallsLoader />}
 				threshold={400}>
 				<VideoGallery
-					allVideos={computedVideoColumns}
 					allFetchedVideos={fetchedVideos}
 					fetchVideos={fetchVideos}
 				/>

@@ -12,7 +12,7 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 	const gotoHome = () => navigate("/");
 
 	return (
-		<div className={`sidebar-container ${sidebarOpen ? "show-side-bar" : null}`}>
+		<div className={`sidebar-container ${sidebarOpen ? "show-side-bar" : ""}`}>
 			<div className="sidebar-nav-container">
 				<div className="left">
 					<Logo textColor="white" />

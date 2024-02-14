@@ -36,8 +36,10 @@ export async function fetchCuratedImages(curatedImgUrl) {
 
 export async function fetchPopularVideos(nextPageLink) {
 	try {
-		const response = axiosInstance.get(nextPageLink || popularVideosUrl);
-		return response;
+		const response = await axiosInstance.get(nextPageLink || popularVideosUrl);
+		if (response.status === 200) {
+			return response.data;
+		}
 	} catch (error) {
 		throw new Error(error);
 	}

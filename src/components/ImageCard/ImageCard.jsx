@@ -7,9 +7,9 @@ import { PropTypes } from "prop-types";
 import "./ImageCard.scss";
 
 function ImageCard({ image, onImageSelect }) {
+	// console.log('image :', image)
 	const onDownload = useCallback(
 		event => {
-			event.preventDefault();
 			onDownloadImage(image.src.large, image.alt);
 			event.stopPropagation();
 		},
@@ -18,6 +18,7 @@ function ImageCard({ image, onImageSelect }) {
 
 	return (
 		<div
+			style={{ height: `${image.height}`, width: `${image.width}` }}
 			onClick={() => {
 				onImageSelect(image.id);
 			}}

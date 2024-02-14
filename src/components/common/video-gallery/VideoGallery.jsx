@@ -1,16 +1,36 @@
 import { PropTypes } from "prop-types";
 import RenderColumn from "../RenderColumn";
 import useModal from "../../../hooks/useModal";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import VideoModal from "../modal/VideoModal";
 import { MainContext } from "../../../context/MainProvider";
+import { calculateColumns, computeColumnsFromWidth } from "../../../helper/helper";
 
-function VideoGallery({ allVideos, allFetchedVideos, fetchVideos }) {
-	const { column1, column2, column3 } = allVideos;
+function VideoGallery({ allFetchedVideos, fetchVideos }) {
+	// const { column1, column2, column3 } = allVideos;
 
 	const { isShowing: showVideoModal, toggle: toggleVideoModal } = useModal();
 
 	const { setModalVideo } = useContext(MainContext);
+
+	const [columnCount, setColumnCount] = useState(1);
+
+	const computeColumns = () => {
+		const columnsCount = calculateColumns();
+		setColumnCount(columnsCount);
+	};
+
+	useEffect(() => {
+		computeColumns();
+		window.addEventListener("resize", computeColumns);
+		return () => {
+			window.removeEventListener("resize", computeColumns);
+		};
+	}, []);
+
+	const computedVideoColumns = computeColumnsFromWidth(allFetchedVideos, columnCount);
+
+	const { column1, column2, column3 } = computedVideoColumns;
 
 	useEffect(() => {
 		if (showVideoModal) {
@@ -21,7 +41,7 @@ function VideoGallery({ allVideos, allFetchedVideos, fetchVideos }) {
 		};
 	}, [showVideoModal]);
 
-	const onVideoSelect = videoId => {
+	const onSelectVideo = videoId => {
 		const videoSelected = allFetchedVideos.find(video => video.id === videoId);
 		setModalVideo(videoSelected);
 		toggleVideoModal();
@@ -42,8 +62,8 @@ function VideoGallery({ allVideos, allFetchedVideos, fetchVideos }) {
 				{column1 && (
 					<RenderColumn
 						column={1}
-						allItems={allVideos}
-						onSelect={onVideoSelect}
+						allMediaItems={column1}
+						onSelectVideo={onSelectVideo}
 						fetchVideos={fetchVideos}
 						isVideo
 					/>
@@ -51,8 +71,8 @@ function VideoGallery({ allVideos, allFetchedVideos, fetchVideos }) {
 				{column2 && (
 					<RenderColumn
 						column={2}
-						allItems={allVideos}
-						onSelect={onVideoSelect}
+						allMediaItems={column2}
+						onSelectVideo={onSelectVideo}
 						fetchVideos={fetchVideos}
 						isVideo
 					/>
@@ -60,8 +80,8 @@ function VideoGallery({ allVideos, allFetchedVideos, fetchVideos }) {
 				{column3 && (
 					<RenderColumn
 						column={3}
-						allItems={allVideos}
-						onSelect={onVideoSelect}
+						allMediaItems={column3}
+						onSelectVideo={onSelectVideo}
 						fetchVideos={fetchVideos}
 						isVideo
 					/>
@@ -81,11 +101,6 @@ function VideoGallery({ allVideos, allFetchedVideos, fetchVideos }) {
 export default VideoGallery;
 
 VideoGallery.propTypes = {
-	allVideos: PropTypes.shape({
-		column1: PropTypes.arrayOf(PropTypes.object),
-		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object)
-	}),
 	allFetchedVideos: PropTypes.array,
 	fetchVideos: PropTypes.func
 };

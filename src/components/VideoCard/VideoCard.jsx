@@ -2,7 +2,7 @@ import { PropTypes } from "prop-types";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { IoBookmarksOutline } from "react-icons/io5";
-import "./videoCard.scss";
+import "./VideoCard.scss";
 import { useEffect, useRef, useState } from "react";
 
 function VideoCard({ video, onVideoSelect }) {
@@ -25,8 +25,19 @@ function VideoCard({ video, onVideoSelect }) {
 			onMouseEnter={() => setIsHovering(true)}
 			onMouseLeave={() => setIsHovering(false)}
 			key={video.id}>
-			<video ref={videoRef} key={video.id} className="video-card" onClick={onVideoSelect} playsInline muted>
-				{video && <source src={videoFile.link} type={videoFile.file_type} />}
+			<video
+				ref={videoRef}
+				key={video.id}
+				className="video-card"
+				onClick={onVideoSelect}
+				playsInline
+				muted>
+				{video && (
+					<source
+						src={videoFile.link}
+						type={videoFile.file_type}
+					/>
+				)}
 			</video>
 			<div className="icons-group">
 				<button className="bookmark-icon">
@@ -47,5 +58,5 @@ export default VideoCard;
 
 VideoCard.propTypes = {
 	video: PropTypes.object,
-	onVideoSelect: PropTypes.func,
+	onVideoSelect: PropTypes.func
 };

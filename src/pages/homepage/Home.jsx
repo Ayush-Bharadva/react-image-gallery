@@ -1,7 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import { computeColumnsFromWidth } from "../../helper/helper";
-import { calculateColumns } from "../../helper/helper";
 import ImageGallery from "../../components/common/image-gallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
@@ -16,14 +14,8 @@ function Home() {
 		hasMore: true,
 		isLoading: false
 	});
-	const [columnCount, setColumnCount] = useState(1);
 
 	const { fetchedImages, nextPageUrl, hasMore, isLoading } = curatedImagesInfo;
-
-	const computeColumns = () => {
-		const columnsCount = calculateColumns();
-		setColumnCount(columnsCount);
-	};
 
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
@@ -43,16 +35,6 @@ function Home() {
 		}
 	}, [isLoading, nextPageUrl, hasMore]);
 
-	useEffect(() => {
-		computeColumns();
-		window.addEventListener("resize", computeColumns);
-		return () => {
-			window.removeEventListener("resize", computeColumns);
-		};
-	}, []);
-
-	const extractedImageColumns = computeColumnsFromWidth(fetchedImages, columnCount);
-
 	return (
 		<div className="home-container">
 			<div className="heading">
@@ -68,7 +50,6 @@ function Home() {
 				loader={<BallsLoader />}
 				threshold={400}>
 				<ImageGallery
-					allImages={extractedImageColumns}
 					allFetchedImages={fetchedImages}
 					fetchImages={fetchImages}
 				/>

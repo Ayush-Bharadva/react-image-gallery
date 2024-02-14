@@ -66,7 +66,7 @@ function SearchInput({ className, props }) {
 		navigate(`/search/${buttonText}`);
 	};
 
-	const onSubmit = event => {
+	const onSubmitSearch = event => {
 		event.preventDefault();
 		if (!searchString.trim()) {
 			return;
@@ -91,7 +91,7 @@ function SearchInput({ className, props }) {
 				</div>
 			</button>
 			<form
-				onSubmit={onSubmit}
+				onSubmit={onSubmitSearch}
 				className="search-input">
 				<input
 					id="search"

@@ -5,43 +5,43 @@ import { useEffect, useRef } from "react";
 
 function RenderColumn({
 	column,
-	allItems,
+	allMediaItems,
 	onImageSelect,
-	onSelect,
+	onSelectVideo,
 	fetchImages,
 	fetchVideos,
 	isVideo
 }) {
 	const columnRef = useRef();
 
-	useEffect(() => {
-		function handleScroll() {
-			if (columnRef.current && columnRef.current.clientHeight < window.scrollY) {
-				if (isVideo) {
-					fetchVideos();
-				} else {
-					fetchImages();
-				}
-			}
-		}
+	// useEffect(() => {
+	// 	function handleScroll() {
+	// 		if (columnRef.current && columnRef.current.clientHeight < window.scrollY) {
+	// 			if (isVideo) {
+	// 				fetchVideos();
+	// 			} else {
+	// 				fetchImages();
+	// 			}
+	// 		}
+	// 	}
 
-		document.addEventListener("scroll", handleScroll);
+	// 	document.addEventListener("scroll", handleScroll);
 
-		return () => {
-			document.removeEventListener("scroll", handleScroll);
-		};
-	}, [fetchImages, fetchVideos, isVideo]);
+	// 	return () => {
+	// 		document.removeEventListener("scroll", handleScroll);
+	// 	};
+	// }, [fetchImages, fetchVideos, isVideo]);
 
 	return (
 		<div
 			ref={columnRef}
 			className={`col-${column}`}>
-			{allItems[`column${column}`].map((item, index) => {
+			{allMediaItems.map((item, index) => {
 				return isVideo ? (
 					<VideoCard
 						key={item.id}
 						video={item}
-						onVideoSelect={() => onSelect(item.id)}
+						onVideoSelect={() => onSelectVideo(item.id)}
 					/>
 				) : (
 					<ImageCard
@@ -61,13 +61,9 @@ export default RenderColumn;
 
 RenderColumn.propTypes = {
 	column: PropTypes.number,
-	allItems: PropTypes.shape({
-		column1: PropTypes.arrayOf(PropTypes.object),
-		column2: PropTypes.arrayOf(PropTypes.object),
-		column3: PropTypes.arrayOf(PropTypes.object)
-	}),
+	allMediaItems: PropTypes.array,
 	onImageSelect: PropTypes.func,
-	onSelect: PropTypes.func,
+	onSelectVideo: PropTypes.func,
 	fetchImages: PropTypes.func,
 	fetchVideos: PropTypes.func,
 	isVideo: PropTypes.bool
