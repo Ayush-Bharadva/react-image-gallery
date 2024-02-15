@@ -4,7 +4,7 @@ import useModal from "../../../hooks/useModal";
 import { useCallback, useContext, useEffect, useState } from "react";
 import VideoModal from "../modal/VideoModal";
 import { MainContext } from "../../../context/MainProvider";
-import { calculateColumns, computeColumnsFromWidth } from "../../../helper/helper";
+import { calculateColumns, computeColumnsFromWidth } from "../../../utils/helper";
 
 function VideoGallery({ allFetchedVideos, fetchVideos }) {
 	// const { column1, column2, column3 } = allVideos;

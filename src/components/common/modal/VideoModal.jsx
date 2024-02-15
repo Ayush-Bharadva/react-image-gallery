@@ -11,7 +11,7 @@ import Modal from "./Modal";
 import useModal from "../../../hooks/useModal";
 import { FiDownload } from "react-icons/fi";
 import avatar from "../../../assets/images/user-avatar.png";
-import { onDownloadVideo } from "../../../helper/utils";
+import { onDownloadVideo } from "../../../utils/utils";
 import { useContext } from "react";
 import { MainContext } from "../../../context/MainProvider";
 import VideoDetailsModal from "./VideoDetailsModal";

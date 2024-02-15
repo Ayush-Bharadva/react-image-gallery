@@ -4,14 +4,14 @@ import { MainContext } from "../../context/MainProvider";
 import { fetchSearchedImages } from "../../services/services";
 import InfiniteScroll from "react-infinite-scroller";
 import { relatedCategories } from "../../constants/constants";
-import { calculateColumns, computeColumnsFromWidth } from "../../helper/helper";
+import { calculateColumns, computeColumnsFromWidth } from "../../utils/helper";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import "./SearchPage.scss";
+import "./Search.scss";
 import Navbar from "../../components/common/navbar/Navbar";
 import { BallsLoader } from "../../components/loader/Loader";
 import ImageGallery from "../../components/common/image-gallery/ImageGallery";
 
-function SearchPage() {
+function Search() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const currentPath = location.pathname;
@@ -145,4 +145,4 @@ function SearchPage() {
 	);
 }
 
-export default SearchPage;
+export default Search;

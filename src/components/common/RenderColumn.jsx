@@ -1,40 +1,17 @@
 import { PropTypes } from "prop-types";
 import ImageCard from "../ImageCard/ImageCard";
 import VideoCard from "../VideoCard/VideoCard";
-import { useEffect, useRef } from "react";
 
 function RenderColumn({
 	column,
 	allMediaItems,
 	onImageSelect,
 	onSelectVideo,
-	fetchImages,
-	fetchVideos,
 	isVideo
 }) {
-	const columnRef = useRef();
-
-	// useEffect(() => {
-	// 	function handleScroll() {
-	// 		if (columnRef.current && columnRef.current.clientHeight < window.scrollY) {
-	// 			if (isVideo) {
-	// 				fetchVideos();
-	// 			} else {
-	// 				fetchImages();
-	// 			}
-	// 		}
-	// 	}
-
-	// 	document.addEventListener("scroll", handleScroll);
-
-	// 	return () => {
-	// 		document.removeEventListener("scroll", handleScroll);
-	// 	};
-	// }, [fetchImages, fetchVideos, isVideo]);
 
 	return (
 		<div
-			ref={columnRef}
 			className={`col-${column}`}>
 			{allMediaItems.map((item, index) => {
 				return isVideo ? (
@@ -45,10 +22,8 @@ function RenderColumn({
 					/>
 				) : (
 					<ImageCard
-						key={item.id}
+						key={`${item.id}-${index}`}
 						image={item}
-						index={index}
-						column={column}
 						onImageSelect={onImageSelect}
 					/>
 				);
@@ -64,7 +39,5 @@ RenderColumn.propTypes = {
 	allMediaItems: PropTypes.array,
 	onImageSelect: PropTypes.func,
 	onSelectVideo: PropTypes.func,
-	fetchImages: PropTypes.func,
-	fetchVideos: PropTypes.func,
 	isVideo: PropTypes.bool
 };

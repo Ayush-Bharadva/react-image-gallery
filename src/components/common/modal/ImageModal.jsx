@@ -2,7 +2,7 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 import Button from "../../../UI/button/Button";
 import { MainContext } from "../../../context/MainProvider";
-import { onDownloadImage } from "../../../helper/utils";
+import { onDownloadImage } from "../../../utils/utils";
 import { IoBookmarksOutline, IoHeartOutline } from "react-icons/io5";
 import { AiTwotoneCheckCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";

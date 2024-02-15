@@ -16,8 +16,6 @@ export const relatedCategories = [
 	"art"
 ];
 
-export const curatedImgUrl = "https://api.pexels.com/v1/curated?per_page=10";
-
 export const trendingTopics = [
 	"cricket",
 	"soccer",

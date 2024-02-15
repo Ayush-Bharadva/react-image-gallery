@@ -5,12 +5,12 @@ import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
 import { fetchCuratedImages } from "../../services/services";
 import { BallsLoader } from "../../components/loader/Loader";
-import { curatedImgUrl } from "../../constants/constants";
+// import { curatedImgUrl } from "../../constants/constants";
 
 function Home() {
 	const [curatedImagesInfo, setCuratedImagesInfo] = useState({
 		fetchedImages: [],
-		nextPageUrl: curatedImgUrl,
+		nextPageUrl: '',
 		hasMore: true,
 		isLoading: false
 	});
@@ -48,7 +48,8 @@ function Home() {
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
-				threshold={400}>
+				threshold={300}
+			>
 				<ImageGallery
 					allFetchedImages={fetchedImages}
 					fetchImages={fetchImages}

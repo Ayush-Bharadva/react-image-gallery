@@ -1,6 +1,8 @@
 import axios from "axios";
-// const apiKey = "cIDDhLutgAm2CCVZQKyIElDBsCQ4nqzAzWL7qRRePGd8WmuWlFvHHqNA";
-const apiKey = "8Q3TvNS14nRNAMnmbWoqRNCjb94REEfQhIf6XvpEhwJtIGuGQ1b93Rlm";
+const apiKey = "cIDDhLutgAm2CCVZQKyIElDBsCQ4nqzAzWL7qRRePGd8WmuWlFvHHqNA";
+// const apiKey = "8Q3TvNS14nRNAMnmbWoqRNCjb94REEfQhIf6XvpEhwJtIGuGQ1b93Rlm";
+
+export const curatedImgUrl = "https://api.pexels.com/v1/curated?per_page=10";
 const searchUrl = "https://api.pexels.com/v1/search/?query=";
 const popularVideosUrl = "https://api.pexels.com/videos/popular";
 
@@ -23,9 +25,9 @@ export async function fetchSearchedImages(query, nextPageLink) {
 	}
 }
 
-export async function fetchCuratedImages(curatedImgUrl) {
+export async function fetchCuratedImages(nextPageLink) {
 	try {
-		const response = await axiosInstance.get(curatedImgUrl);
+		const response = await axiosInstance.get(nextPageLink || curatedImgUrl);
 		if (response.status === 200) {
 			return response.data;
 		}

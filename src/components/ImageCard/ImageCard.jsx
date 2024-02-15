@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { onDownloadImage } from "../../helper/utils.js";
+import { onDownloadImage } from "../../utils/utils.js";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
@@ -7,7 +7,6 @@ import { PropTypes } from "prop-types";
 import "./ImageCard.scss";
 
 function ImageCard({ image, onImageSelect }) {
-	// console.log('image :', image)
 	const onDownload = useCallback(
 		event => {
 			onDownloadImage(image.src.large, image.alt);
@@ -18,7 +17,6 @@ function ImageCard({ image, onImageSelect }) {
 
 	return (
 		<div
-			style={{ height: `${image.height}`, width: `${image.width}` }}
 			onClick={() => {
 				onImageSelect(image.id);
 			}}

@@ -8,16 +8,16 @@ import "./styles/Global.scss";
 import "./App.scss";
 import Layout from "./Layout";
 import MainProvider from "./context/MainProvider";
-// import SearchPage from "./pages/searchpage/SearchePage";
 import { Suspense, lazy } from "react";
 import { SpinLoader } from "./components/loader/Loader";
+import { Home } from "./pages/index";
+
 
 const lazyImport = file =>
 	lazy(() => import("./pages/index").then(module => ({ default: module[file] })));
 
-const Home = lazyImport("Home");
 const Videos = lazyImport("Videos");
-const SearchPage = lazyImport("SearchPage");
+const Search = lazyImport("Search");
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -36,7 +36,7 @@ const router = createBrowserRouter(
 			</Route>
 			<Route
 				path="/search/:query"
-				element={<SearchPage />}
+				element={<Search />}
 			/>
 		</>
 	)

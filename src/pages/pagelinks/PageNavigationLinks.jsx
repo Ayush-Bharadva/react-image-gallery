@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./PageNavigationLinks.scss";
 
-function PagesLinks() {
+function PageNavigationLinks() {
 	return (
 		<div className="page-links-container">
 			<div className="page-links">
@@ -20,4 +20,4 @@ function PagesLinks() {
 	);
 }
 
-export default PagesLinks;
+export default PageNavigationLinks;
