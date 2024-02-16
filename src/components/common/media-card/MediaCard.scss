@@ -1,4 +1,4 @@
-.main-image-container {
+.media-container {
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -15,8 +15,10 @@
     opacity: 1;
   }
 
-  img:hover {
-    background: rgb(176, 177, 180);
+  video {
+    width: 100%;
+    display: block;
+    opacity: 1;
   }
 
   .icons-group {
@@ -28,7 +30,7 @@
   }
 }
 
-.main-image-container:hover {
+.media-container:hover {
   .download-icon,
   .bookmark-icon,
   .heart-icon {
