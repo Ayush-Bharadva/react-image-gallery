@@ -3,21 +3,29 @@ import { CiSearch } from "react-icons/ci";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { GoChevronDown } from "react-icons/go";
 import "./SearchInput.scss";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { MainContext } from "../../../context/MainProvider";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RiVideoLine } from "react-icons/ri";
 import SearchDropdown from "./SearchDropdown";
 
 function SearchInput({ className, props }) {
 	const navigate = useNavigate();
-	const { setQuery, query } = useContext(MainContext);
-	// console.log("search Query :", query);
-	const ddRef = useRef();
 
-	const [searchString, setSearchString] = useState(query || "");
+	const location = useLocation();
+	const pathname = location.pathname;
+	const searchResult = pathname.split("/").at(-1);
+
+	// console.log("search Query :", query);
+	const dropdownRef = useRef();
+
+	const [searchString, setSearchString] = useState(searchResult);
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [showDropdown, setShowDropdown] = useState(false);
+
+	useEffect(() => {
+		setSearchString(searchResult);
+	}, [searchResult])
+
 
 	useEffect(() => {
 		const currentSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
@@ -27,7 +35,7 @@ function SearchInput({ className, props }) {
 	useEffect(() => {
 		function handleClick(e) {
 			e.stopPropagation();
-			if (!ddRef.current || !ddRef.current.contains(e.target)) {
+			if (!dropdownRef.current || !dropdownRef.current.contains(e.target)) {
 				setShowDropdown(false);
 			}
 		}
@@ -51,35 +59,44 @@ function SearchInput({ className, props }) {
 		setSearchHistory([]);
 	};
 
-	const updateSearchHistory = searchItem => {
-		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
-		if (!prevSearchHistory.includes(searchItem)) {
-			setSearchHistory(prev => ({ searchItem, ...prev }));
-			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
-		}
-	};
+	// const updateSearchHistory = searchItem => {
+	// 	const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
+	// 	if (!prevSearchHistory.includes(searchItem)) {
+	// 		setSearchHistory(prev => ({ searchItem, ...prev }));
+	// 		localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
+	// 	}
+	// };
 
-	const handleSearchSelect = buttonText => {
-		updateSearchHistory(buttonText);
-		setSearchString("");
-		setQuery(buttonText);
-		navigate(`/search/${buttonText}`);
-	};
+	// const handleSearchSelect = buttonText => {
+	// 	updateSearchHistory(buttonText);
+	// 	setSearchString("");
+	// 	// setQuery(buttonText);
+	// 	navigate(`/search/${buttonText}`);
+	// };
 
-	const onSubmitSearch = event => {
+	// const onSubmitSearch = event => {
+	// 	event.preventDefault();
+	// 	if (!searchString.trim()) {
+	// 		return;
+	// 	}
+	// 	handleSearchSelect(searchString);
+	// };
+
+	const onSearchImages = (event) => {
 		event.preventDefault();
 		if (!searchString.trim()) {
 			return;
 		}
-		handleSearchSelect(searchString);
-	};
+		navigate(`/search/${searchString}`);
+	}
+
 
 	return (
 		<div
-			ref={ddRef}
+			ref={dropdownRef}
 			className={`search-input-container ${className}`}
 			{...props}>
-			<button className="option-btn">
+			<div className="option-btn">
 				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
 				<div className="button-options">
 					<button type="button">
@@ -89,9 +106,9 @@ function SearchInput({ className, props }) {
 						<RiVideoLine /> <span>Videos</span>
 					</button>
 				</div>
-			</button>
+			</div>
 			<form
-				onSubmit={onSubmitSearch}
+				onSubmit={onSearchImages}
 				className="search-input">
 				<input
 					id="search"
@@ -113,7 +130,7 @@ function SearchInput({ className, props }) {
 				<SearchDropdown
 					searchHistory={searchHistory}
 					clearSearchHistory={clearSearchHistory}
-					handleSelect={handleSearchSelect}
+				// handleSelect={handleSearchSelect}
 				/>
 			) : null}
 		</div>

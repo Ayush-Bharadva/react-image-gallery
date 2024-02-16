@@ -1,8 +1,8 @@
 import { PropTypes } from "prop-types";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import SearchInput from "../searchinput/SearchInput";
-import Logo from "../../Header/Logo";
+import SearchInput from "../search-input/SearchInput";
+import Logo from "../header/Logo";
 import "./Sidebar.scss";
 import { FiUpload } from "react-icons/fi";
 

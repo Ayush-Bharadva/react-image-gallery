@@ -1,15 +1,15 @@
 import { useCallback } from "react";
-import { onDownloadImage } from "../../utils/utils.js";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { PropTypes } from "prop-types";
 import "./ImageCard.scss";
+import { downloadMedia } from "../../../utils/utils";
 
 function ImageCard({ image, onImageSelect }) {
-	const onDownload = useCallback(
+	const downloadImage = useCallback(
 		event => {
-			onDownloadImage(image.src.large, image.alt);
+			downloadMedia(image.src.large, image.alt);
 			event.stopPropagation();
 		},
 		[image]
@@ -37,7 +37,7 @@ function ImageCard({ image, onImageSelect }) {
 			<button
 				type="button"
 				className="download-icon"
-				onClick={onDownload}>
+				onClick={downloadImage}>
 				<FiDownload /> Download
 			</button>
 		</div>

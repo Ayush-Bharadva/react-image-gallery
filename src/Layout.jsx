@@ -1,5 +1,5 @@
-import Header from "./components/Header/Header";
-import PageNavigationLinks from "./pages/pagelinks/PageNavigationLinks";
+import Header from "./components/common/header/Header";
+import PageNavigationLinks from "./components/common/page-navigation-links/PageNavigationLinks";
 import { Outlet } from "react-router-dom";
 
 function Layout() {

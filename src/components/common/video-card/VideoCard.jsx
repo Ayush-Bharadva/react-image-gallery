@@ -4,6 +4,7 @@ import { FiDownload } from "react-icons/fi";
 import { IoBookmarksOutline } from "react-icons/io5";
 import "./VideoCard.scss";
 import { useEffect, useRef, useState } from "react";
+import { downloadMedia } from "../../../utils/utils";
 
 function VideoCard({ video, onVideoSelect }) {
 	const [isHovering, setIsHovering] = useState(false);
@@ -47,7 +48,7 @@ function VideoCard({ video, onVideoSelect }) {
 					<FaRegHeart />
 				</button>
 			</div>
-			<button className="download-icon">
+			<button className="download-icon" onClick={() => downloadMedia(videoFile.link)}>
 				<FiDownload /> Download
 			</button>
 		</div>

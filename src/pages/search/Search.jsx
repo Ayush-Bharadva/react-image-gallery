@@ -1,20 +1,22 @@
-import { useContext, useState, useCallback, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MainContext } from "../../context/MainProvider";
-import { fetchSearchedImages } from "../../services/services";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { fetchSearchedImages } from "../../services/apiService";
 import InfiniteScroll from "react-infinite-scroller";
-import { relatedCategories } from "../../constants/constants";
-import { calculateColumns, computeColumnsFromWidth } from "../../utils/helper";
+import { MediaType, RelatedCategories } from "../../utils/constants";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./Search.scss";
 import Navbar from "../../components/common/navbar/Navbar";
-import { BallsLoader } from "../../components/loader/Loader";
-import ImageGallery from "../../components/common/image-gallery/ImageGallery";
+import { BallsLoader } from "../../components/common/loader/Loader";
+import Gallery from "../../components/gallery/Gallery";
 
 function Search() {
-	const navigate = useNavigate();
+	console.log('page reloaded');
+
 	const location = useLocation();
 	const currentPath = location.pathname;
+	const searchQuery = currentPath.split("/").at(-1);
+
+	console.log('searchQuery:', searchQuery);
 
 	const [searchState, setSearchState] = useState({
 		searchedImagesInfo: [],
@@ -22,47 +24,29 @@ function Search() {
 		hasMore: true,
 		isLoading: false
 	});
-	const [columns, setColumns] = useState(1);
+
+	const [searchedString, setSearchedString] = useState(searchQuery);
 
 	const categoriesRef = useRef();
-	const { query, setQuery } = useContext(MainContext);
 
 	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
 
-	const onSetPrevQuery = useCallback(() => {
+	useEffect(() => {
+		console.log('effect called..')
 		setSearchState({
 			searchedImagesInfo: [],
 			nextPageLink: null,
 			hasMore: true,
 			isLoading: false
 		});
-		const path = currentPath.split("/");
-		const prevQuery = path[path.length - 1];
-		setQuery(prevQuery);
-	}, [currentPath, setQuery]);
-
-	const computeColumns = () => {
-		const columnCount = calculateColumns();
-		setColumns(columnCount);
-	};
-
-	useEffect(() => {
-		onSetPrevQuery();
-	}, [onSetPrevQuery]);
-
-	useEffect(() => {
-		computeColumns();
-		window.addEventListener("resize", computeColumns);
-		return () => {
-			window.removeEventListener("resize", computeColumns);
-		};
-	}, []);
+		setSearchedString(searchQuery);
+	}, [searchQuery])
 
 	const fetchImages = useCallback(async () => {
 		if (!isLoading && hasMore) {
 			try {
 				setSearchState(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(query, nextPageLink);
+				const { photos, next_page } = await fetchSearchedImages(searchedString, nextPageLink);
 				setSearchState(prev => ({
 					...prev,
 					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
@@ -74,21 +58,20 @@ function Search() {
 				console.error(error);
 			}
 		}
-	}, [query, isLoading, hasMore, nextPageLink]);
+	}, [searchedString, isLoading, hasMore, nextPageLink]);
 
 	const fetchCategoryImages = ({ target: { value } }) => {
-		const category = value;
-		setSearchState({
-			searchedImagesInfo: [],
-			nextPageLink: null,
-			hasMore: true,
-			isLoading: false
-		});
-		setQuery(category);
-		navigate(`/search/${category}`);
+		console.log('category:', value);
+		// const category = value;
+		// setSearchState({
+		// 	searchedImagesInfo: [],
+		// 	nextPageLink: null,
+		// 	hasMore: true,
+		// 	isLoading: false
+		// });
+		// setQuery(category);
+		// navigate(`/search/${category}`);
 	};
-
-	const extractedImageColumns = computeColumnsFromWidth([...searchedImagesInfo], columns);
 
 	const onScroll = scrollOffset => {
 		if (categoriesRef.current) {
@@ -99,7 +82,7 @@ function Search() {
 
 	const noResultsFound = (
 		<h1 className="text-center">
-			No results found for <span className="not-found-text">{`"${query}"!!`}</span>
+			No results found for <span className="not-found-text">{`"${searchedString}"!!`}</span>
 		</h1>
 	);
 
@@ -114,7 +97,7 @@ function Search() {
 				<div
 					className="related-categories"
 					ref={categoriesRef}>
-					{relatedCategories.map(category => (
+					{RelatedCategories.map(category => (
 						<button
 							key={category}
 							onClick={fetchCategoryImages}
@@ -134,11 +117,7 @@ function Search() {
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={400}>
-				<ImageGallery
-					allImages={extractedImageColumns}
-					allFetchedImages={searchedImagesInfo}
-					fetchImages={fetchCategoryImages}
-				/>
+				<Gallery allFetchedImages={searchedImagesInfo} fetchImages={fetchCategoryImages} type={MediaType.photos} />
 			</InfiniteScroll>
 			{!searchedImagesInfo.length ? noResultsFound : null}
 		</div>

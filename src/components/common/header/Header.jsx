@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
-import SearchInput from "../common/searchinput/SearchInput";
+import SearchInput from "../search-input/SearchInput";
 import "./Header.scss";
+import { SidebarItems } from "../../../utils/constants";
+import Sidebar from "../sidebar/Sidebar";
 import Logo from "./Logo";
-import { sidebarItems } from "../../constants/constants";
-import Sidebar from "../common/sidebar/Sidebar";
 
 function Header() {
 	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
@@ -60,7 +60,7 @@ function Header() {
 				</div>
 			</header>
 			<Sidebar
-				items={sidebarItems}
+				items={SidebarItems}
 				closeSidebar={onCloseSidebar}
 				sidebarOpen={isOpenSidebar}
 			/>

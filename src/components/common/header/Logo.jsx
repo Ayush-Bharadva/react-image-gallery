@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import pexelsLogo from "../../assets/images/pexels-logo.jpg";
+import pexelsLogo from "../../../assets/images/pexels-logo.jpg";
 import "./Logo.scss";
 import { PropTypes } from "prop-types";
 

@@ -1,11 +1,11 @@
 import { useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroller";
-import ImageGallery from "../../components/common/image-gallery/ImageGallery";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
-import { fetchCuratedImages } from "../../services/services";
-import { BallsLoader } from "../../components/loader/Loader";
-// import { curatedImgUrl } from "../../constants/constants";
+import { fetchCuratedPhotos } from "../../services/apiService";
+import { BallsLoader } from "../../components/common/loader/Loader";
+import Gallery from "../../components/gallery/Gallery";
+import { MediaType } from "../../utils/constants";
 
 function Home() {
 	const [curatedImagesInfo, setCuratedImagesInfo] = useState({
@@ -21,7 +21,7 @@ function Home() {
 		if (!isLoading && hasMore) {
 			try {
 				setCuratedImagesInfo(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchCuratedImages(nextPageUrl);
+				const { photos, next_page } = await fetchCuratedPhotos(nextPageUrl);
 				setCuratedImagesInfo(prev => ({
 					...prev,
 					fetchedImages: [...prev.fetchedImages, ...photos],
@@ -48,12 +48,8 @@ function Home() {
 				loadMore={fetchImages}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
-				threshold={300}
-			>
-				<ImageGallery
-					allFetchedImages={fetchedImages}
-					fetchImages={fetchImages}
-				/>
+				threshold={300}>
+				<Gallery allFetchedImages={fetchedImages} fetchImages={fetchImages} type={MediaType.photos} />
 			</InfiniteScroll>
 		</div>
 	);

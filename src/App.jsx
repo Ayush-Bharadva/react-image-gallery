@@ -7,9 +7,8 @@ import {
 import "./styles/Global.scss";
 import "./App.scss";
 import Layout from "./Layout";
-import MainProvider from "./context/MainProvider";
 import { Suspense, lazy } from "react";
-import { SpinLoader } from "./components/loader/Loader";
+import { SpinLoader } from "./components/common/loader/Loader";
 import { Home } from "./pages/index";
 
 
@@ -44,11 +43,9 @@ const router = createBrowserRouter(
 
 function App() {
 	return (
-		<MainProvider>
-			<Suspense fallback={<SpinLoader />}>
-				<RouterProvider router={router} />
-			</Suspense>
-		</MainProvider>
+		<Suspense fallback={<SpinLoader />}>
+			<RouterProvider router={router} />
+		</Suspense>
 	);
 }
 

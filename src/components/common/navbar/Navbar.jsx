@@ -1,12 +1,12 @@
 import { PropTypes } from "prop-types";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
-import SearchInput from "../searchinput/SearchInput";
+import SearchInput from "../search-input/SearchInput";
 import "./Navbar.scss";
-import Logo from "../../Header/Logo";
-import "../../Header/Header.scss";
+import Logo from "../header/Logo";
+import "../header/Header.scss";
 import Sidebar from "../sidebar/Sidebar";
-import { sidebarItems } from "../../../constants/constants";
+import { SidebarItems } from "../../../utils/constants";
 import { useState } from "react";
 
 function Navbar() {
@@ -40,7 +40,7 @@ function Navbar() {
 				</ul>
 			</div>
 			<Sidebar
-				items={sidebarItems}
+				items={SidebarItems}
 				closeSidebar={onCloseSidebar}
 				sidebarOpen={isOpenSidebar}
 			/>

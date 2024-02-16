@@ -1,6 +1,6 @@
 import { PropTypes } from "prop-types";
 import { IoSearch } from "react-icons/io5";
-import { trendingTopics } from "../../../constants/constants";
+import { TrendingTopics } from "../../../utils/constants";
 
 function SearchDropdown({ searchHistory, clearSearchHistory, handleSelect }) {
 	return (
@@ -30,7 +30,7 @@ function SearchDropdown({ searchHistory, clearSearchHistory, handleSelect }) {
 			<div className="trending-topics-wrapper">
 				<h2>Trending Topics</h2>
 				<div className="trending-topics">
-					{trendingTopics.map((topic, index) => (
+					{TrendingTopics.map((topic, index) => (
 						<button
 							key={index}
 							type="button"
