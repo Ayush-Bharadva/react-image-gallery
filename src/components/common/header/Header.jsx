@@ -22,20 +22,15 @@ function Header() {
 		};
 	}, [handleScroll]);
 
-	const onOpenSidebar = () => {
-		setIsOpenSidebar(true);
-	};
-
-	const onCloseSidebar = () => {
-		setIsOpenSidebar(false);
-	};
+	const onOpenSidebar = () => setIsOpenSidebar(true);
+	const onCloseSidebar = () => setIsOpenSidebar(false);
 
 	return (
 		<>
 			<div className={`main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`}>
 				<div className="left">
 					<Logo />
-					{isScrolled && <SearchInput className="sp-search-input-container" />}
+					{isScrolled && <SearchInput />}
 				</div>
 				<div className="right">
 					<ul className="nav-items">
@@ -56,7 +51,7 @@ function Header() {
 					<h1 className="heading">
 						The best free stock photos, royalty free images & videos shared by creators
 					</h1>
-					<SearchInput />
+					<SearchInput className="flex-0" />
 				</div>
 			</header>
 			<Sidebar

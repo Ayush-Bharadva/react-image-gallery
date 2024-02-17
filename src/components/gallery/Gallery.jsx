@@ -6,6 +6,9 @@ import RenderColumn from "./RenderColumn";
 import MediaModal from "../common/modal/MediaModal";
 
 function Gallery({ allFetchedImages, allFetchedVideos, type }) {
+
+	console.log('allFetchedImages-gal :', allFetchedImages);
+
 	// console.log('rerendering..')
 	const [containerWidth, setContainerWidth] = useState(0);
 	const [columnCount, setColumnCount] = useState(1);
@@ -31,11 +34,11 @@ function Gallery({ allFetchedImages, allFetchedVideos, type }) {
 					setContainerWidth((prevContainerWidth) => {
 						if (prevContainerWidth !== newWidth) {
 							animationFrameId = window.requestAnimationFrame(() => {
-
+								setContainerWidth(newWidth);
 							});
-							return newWidth;
+							// return newWidth;
 						}
-						return prevContainerWidth;
+						// return prevContainerWidth;
 					});
 					return newColumnCount;
 				}
@@ -66,19 +69,13 @@ function Gallery({ allFetchedImages, allFetchedVideos, type }) {
 		setAllColumns(prev => ({ ...prev, column1: [...col1], column2: [...col2], column3: [...col3] }));
 	}, [allFetchedImages, allFetchedVideos, columnCount, containerWidth])
 
-	const onSelectImage = useCallback(
-		imageId => {
-			const selectedImage = allFetchedImages.find(image => image.id === imageId);
-			setModalObj(selectedImage);
+	const onMediaSelect = useCallback((mediaId) => {
+		const selectedMedia = type === 'photos' ? allFetchedImages.find(image => image.id === mediaId) : allFetchedVideos.find(video => video.id === mediaId);
+		if (selectedMedia) {
+			setModalObj(selectedMedia);
 			toggleMediaModal();
-		},
-		[allFetchedImages, setModalObj, toggleMediaModal]
-	);
-	const onSelectVideo = useCallback(videoId => {
-		const videoSelected = allFetchedVideos.find(video => video.id === videoId);
-		setModalObj(videoSelected);
-		toggleMediaModal();
-	}, [allFetchedVideos, setModalObj, toggleMediaModal]);
+		}
+	}, [allFetchedImages, allFetchedVideos, type, setModalObj, toggleMediaModal]);
 
 	const handleMediaNavigation = useCallback((currentMediaId, direction) => {
 		const currentMediaIndex = type === 'photos' ? allFetchedImages.findIndex(image => image.id === currentMediaId) : allFetchedVideos.findIndex(video => video.id === currentMediaId);
@@ -95,28 +92,22 @@ function Gallery({ allFetchedImages, allFetchedVideos, type }) {
 				className="gallery-container">
 				{!!column1.length && (
 					<RenderColumn
-						column={1}
 						allMediaItems={column1}
-						onImageSelect={onSelectImage}
-						onVideoSelect={onSelectVideo}
+						onMediaSelect={onMediaSelect}
 						type={type}
 					/>
 				)}
 				{!!column2.length && (
 					<RenderColumn
-						column={2}
 						allMediaItems={column2}
-						onImageSelect={onSelectImage}
-						onVideoSelect={onSelectVideo}
+						onMediaSelect={onMediaSelect}
 						type={type}
 					/>
 				)}
 				{!!column3.length && (
 					<RenderColumn
-						column={3}
 						allMediaItems={column3}
-						onImageSelect={onSelectImage}
-						onVideoSelect={onSelectVideo}
+						onMediaSelect={onMediaSelect}
 						type={type}
 					/>
 				)}

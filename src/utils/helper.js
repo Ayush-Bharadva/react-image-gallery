@@ -23,7 +23,7 @@ export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
 	const [column1, column2, column3] = updatedPhotos.reduce((acc, photo) => {
 		const minHeightIndex = columnsHeight.indexOf(Math.min(...columnsHeight));
 
-		acc[minHeightIndex] = [...acc[minHeightIndex], photo];
+		acc[minHeightIndex] = [...(acc[minHeightIndex] || []), photo];
 
 		columnsHeight[minHeightIndex] += Math.floor(photo.height);
 

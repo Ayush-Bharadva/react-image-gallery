@@ -1,125 +1,125 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchSearchedImages } from "../../services/apiService";
-import InfiniteScroll from "react-infinite-scroller";
-import { MediaType, RelatedCategories } from "../../utils/constants";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./Search.scss";
-import Navbar from "../../components/common/navbar/Navbar";
-import { BallsLoader } from "../../components/common/loader/Loader";
+import InfiniteScroll from "react-infinite-scroller";
 import Gallery from "../../components/gallery/Gallery";
+import { fetchSearchedImages } from "../../services/apiService";
+import { MediaType, SidebarItems } from "../../utils/constants";
+// import Navbar from "../../components/common/navbar/Navbar";
+import { BallsLoader } from "../../components/common/loader/Loader";
+import Logo from "../../components/common/header/Logo";
+import SearchInput from "../../components/common/search-input/SearchInput";
+import { GiHamburgerMenu } from "react-icons/gi";
+import Sidebar from "../../components/common/sidebar/Sidebar";
+import { FiUpload } from "react-icons/fi";
+import RelatedCategories from "../../components/common/related-categories/RelatedCategories";
 
 function Search() {
-	console.log('page reloaded');
 
+	// const navigate = useNavigate();
 	const location = useLocation();
 	const currentPath = location.pathname;
 	const searchQuery = currentPath.split("/").at(-1);
 
-	console.log('searchQuery:', searchQuery);
-
 	const [searchState, setSearchState] = useState({
-		searchedImagesInfo: [],
-		nextPageLink: null,
+		fetchedImages: [],
 		hasMore: true,
 		isLoading: false
 	});
 
-	const [searchedString, setSearchedString] = useState(searchQuery);
+	const nextPageLink = useRef(null);
+	const { fetchedImages, isLoading, hasMore } = searchState;
 
-	const categoriesRef = useRef();
+	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
-	const { searchedImagesInfo, nextPageLink, isLoading, hasMore } = searchState;
-
-	useEffect(() => {
-		console.log('effect called..')
-		setSearchState({
-			searchedImagesInfo: [],
-			nextPageLink: null,
-			hasMore: true,
-			isLoading: false
-		});
-		setSearchedString(searchQuery);
-	}, [searchQuery])
+	const toggleSidebar = () => setIsOpenSidebar(prev => !prev);
 
 	const fetchImages = useCallback(async () => {
-		if (!isLoading && hasMore) {
-			try {
-				setSearchState(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchSearchedImages(searchedString, nextPageLink);
+		try {
+			setSearchState(prev => ({ ...prev, isLoading: true }));
+			const { photos, next_page } = await fetchSearchedImages(searchQuery, nextPageLink.current);
+			console.log(nextPageLink.current)
+			if (!nextPageLink.current) {
+				setSearchState({
+					fetchedImages: [...photos],
+					hasMore: !!next_page,
+					isLoading: false
+				});
+			} else {
 				setSearchState(prev => ({
 					...prev,
-					searchedImagesInfo: [...prev.searchedImagesInfo, ...photos],
+					fetchedImages: [...prev.fetchedImages, ...photos],
 					hasMore: !!next_page,
-					nextPageLink: next_page,
 					isLoading: false
 				}));
-			} catch (error) {
-				console.error(error);
 			}
+			nextPageLink.current = next_page;
+		} catch (error) {
+			console.error(error);
 		}
-	}, [searchedString, isLoading, hasMore, nextPageLink]);
+	}, [searchQuery]);
 
-	const fetchCategoryImages = ({ target: { value } }) => {
-		console.log('category:', value);
-		// const category = value;
-		// setSearchState({
-		// 	searchedImagesInfo: [],
-		// 	nextPageLink: null,
-		// 	hasMore: true,
-		// 	isLoading: false
-		// });
-		// setQuery(category);
-		// navigate(`/search/${category}`);
-	};
+	useEffect(() => {
+		setSearchState({
+			fetchedImages: [],
+			hasMore: true,
+			isLoading: false
+		})
+		nextPageLink.current = null
+	}, [location.pathname, fetchImages])
 
-	const onScroll = scrollOffset => {
-		if (categoriesRef.current) {
-			categoriesRef.current.style.transition = "scroll-left 0.5s ease-in-out";
-			categoriesRef.current.scrollLeft += scrollOffset;
+	useEffect(() => {
+		if (!fetchedImages.length && !isLoading && hasMore) {
+			fetchImages()
 		}
-	};
+	}, [fetchedImages, isLoading, hasMore, fetchImages])
 
-	const noResultsFound = (
-		<h1 className="text-center">
-			No results found for <span className="not-found-text">{`"${searchedString}"!!`}</span>
-		</h1>
-	);
+	const loadMore = useCallback(() => {
+		if (!isLoading && hasMore) {
+			fetchImages();
+		}
+	}, [isLoading, hasMore, fetchImages]);
 
 	return (
 		<div className="search-images-container">
-			<Navbar />
-			<div className="related-categories-container">
-				<FaAngleLeft
-					className="move-left-icon"
-					onClick={() => onScroll(-500)}
-				/>
-				<div
-					className="related-categories"
-					ref={categoriesRef}>
-					{RelatedCategories.map(category => (
-						<button
-							key={category}
-							onClick={fetchCategoryImages}
-							value={category}>
-							{category}
+			<>
+				<div className="nav-bar">
+					<div className="nav-bar-left">
+						<Logo textColor="black" />
+						<SearchInput searchQuery={searchQuery} />
+					</div>
+					<ul className="nav-items nav-bar-right">
+						<li>Explore</li>
+						<li>License</li>
+						<button>Upload</button>
+						<button className="upload-btn">
+							<FiUpload />
 						</button>
-					))}
+						<button className="sidebar-btn">
+							<GiHamburgerMenu onClick={toggleSidebar} />
+						</button>
+					</ul>
 				</div>
-				<FaAngleRight
-					className="move-right-icon"
-					onClick={() => onScroll(300)}
+				<Sidebar
+					items={SidebarItems}
+					closeSidebar={toggleSidebar}
+					sidebarOpen={isOpenSidebar}
 				/>
-			</div>
+			</>
+			<RelatedCategories />
 			<InfiniteScroll
 				className="infinite-scroll-container"
-				loadMore={fetchImages}
+				loadMore={loadMore}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
+				isInitialLoad={false}
 				threshold={400}>
-				<Gallery allFetchedImages={searchedImagesInfo} fetchImages={fetchCategoryImages} type={MediaType.photos} />
+				{console.info('fetchedImages-ser :', fetchedImages)}
+				<Gallery
+					allFetchedImages={fetchedImages}
+					type={MediaType.photos} />
 			</InfiniteScroll>
-			{!searchedImagesInfo.length ? noResultsFound : null}
+			{!fetchedImages.length ? <h1>No images found for {searchQuery + '..'}</h1> : null}
 		</div>
 	);
 }

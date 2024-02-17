@@ -1,31 +1,26 @@
-import { PropTypes } from "prop-types";
+import { useState } from "react";
+// import { PropTypes } from "prop-types";
+import "./Navbar.scss";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FiUpload } from "react-icons/fi";
 import SearchInput from "../search-input/SearchInput";
-import "./Navbar.scss";
 import Logo from "../header/Logo";
 import "../header/Header.scss";
 import Sidebar from "../sidebar/Sidebar";
 import { SidebarItems } from "../../../utils/constants";
-import { useState } from "react";
 
 function Navbar() {
 	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
-	const onOpenSidebar = () => {
-		setIsOpenSidebar(true);
-	};
-
-	const onCloseSidebar = () => {
-		setIsOpenSidebar(false);
-	};
+	const onOpenSidebar = () => setIsOpenSidebar(true);
+	const onCloseSidebar = () => setIsOpenSidebar(false);
 
 	return (
 		<>
 			<div className="nav-bar">
 				<div className="nav-bar-left">
 					<Logo textColor="black" />
-					<SearchInput className="sp-search-input-container" />
+					<SearchInput />
 				</div>
 				<ul className="nav-items nav-bar-right">
 					<li>Explore</li>
@@ -49,6 +44,6 @@ function Navbar() {
 }
 export default Navbar;
 
-Navbar.propTypes = {
-	showSearchInput: PropTypes.bool
-};
+// Navbar.propTypes = {
+// 	searchedString: PropTypes.string
+// };

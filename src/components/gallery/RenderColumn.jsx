@@ -1,33 +1,22 @@
 import { PropTypes } from "prop-types";
-import ImageCard from "../common/image-card/ImageCard";
-import VideoCard from "../common/video-card/VideoCard";
+import MediaCard from "../common/media-card/MediaCard";
 
 function RenderColumn({
-	column,
 	allMediaItems,
-	onImageSelect,
-	onVideoSelect,
+	onMediaSelect,
 	type
 }) {
 
 	return (
 		<div
-			className={`col-${column}`}>
-			{allMediaItems.map((item, index) => {
-				return type === "videos" ? (
-					<VideoCard
-						key={item.id}
-						video={item}
-						onVideoSelect={() => onVideoSelect(item.id)}
-					/>
-				) : (
-					<ImageCard
-						key={`${item.id}-${index}`}
-						image={item}
-						onImageSelect={onImageSelect}
-					/>
-				);
-			})}
+			className="column">
+			{allMediaItems.map((media) =>
+				<MediaCard
+					key={media.id}
+					media={media}
+					onSelectMedia={onMediaSelect}
+					type={type} />
+			)}
 		</div>
 	);
 }
@@ -35,9 +24,7 @@ function RenderColumn({
 export default RenderColumn;
 
 RenderColumn.propTypes = {
-	column: PropTypes.number,
 	allMediaItems: PropTypes.array,
-	onImageSelect: PropTypes.func,
-	onVideoSelect: PropTypes.func,
+	onMediaSelect: PropTypes.func,
 	type: PropTypes.string
 };

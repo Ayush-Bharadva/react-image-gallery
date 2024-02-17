@@ -49,7 +49,11 @@ function Home() {
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={300}>
-				<Gallery allFetchedImages={fetchedImages} fetchImages={fetchImages} type={MediaType.photos} />
+				<Gallery
+					allFetchedImages={fetchedImages}
+					fetchImages={fetchImages}
+					type={MediaType.photos}
+				/>
 			</InfiniteScroll>
 		</div>
 	);

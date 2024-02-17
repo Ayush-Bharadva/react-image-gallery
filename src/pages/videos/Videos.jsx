@@ -3,7 +3,6 @@ import { fetchPopularVideos } from "../../services/apiService";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
-// import VideoGallery from "../../components/common/video-gallery/VideoGallery";
 import { GoChevronDown } from "react-icons/go";
 import Gallery from "../../components/gallery/Gallery";
 import { MediaType } from "../../utils/constants";
@@ -52,11 +51,11 @@ function Videos() {
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={400}>
-				{/* <VideoGallery
+				<Gallery
 					allFetchedVideos={fetchedVideos}
 					fetchVideos={fetchVideos}
-				/> */}
-				<Gallery allFetchedVideos={fetchedVideos} fetchVideos={fetchVideos} type={MediaType.videos} />
+					type={MediaType.videos}
+				/>
 			</InfiniteScroll>
 		</div>
 	);
