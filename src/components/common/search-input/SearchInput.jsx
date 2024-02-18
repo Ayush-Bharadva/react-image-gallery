@@ -75,8 +75,7 @@ function SearchInput({ className, searchQuery }) {
 	return (
 		<div
 			ref={dropdownRef}
-			className={`search-input-container ${className}`}
-		>
+			className={`search-input-container ${className || ""}`}>
 			<div className="option-btn">
 				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
 				<div className="button-options">

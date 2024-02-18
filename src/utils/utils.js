@@ -1,4 +1,5 @@
 export async function downloadMedia(mediaSrc, downloadName = "media") {
+	console.log(mediaSrc, downloadName);
 	try {
 		const response = await fetch(mediaSrc);
 		const blobResponse = await response.blob();

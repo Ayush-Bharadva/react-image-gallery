@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { fetchPopularVideos } from "../../services/apiService";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
@@ -10,32 +10,43 @@ import { MediaType } from "../../utils/constants";
 function Videos() {
 	const [popularVideosInfo, setPopularVideosInfo] = useState({
 		fetchedVideos: [],
-		nextPageUrl: "",
 		hasMore: true,
 		isLoading: false
 	});
+	const nextPageLink = useRef(null);
 
-	const { fetchedVideos, hasMore, isLoading, nextPageUrl } = popularVideosInfo;
+	const { fetchedVideos, hasMore, isLoading } = popularVideosInfo;
 
 	const fetchVideos = useCallback(async () => {
-		if (!isLoading && hasMore) {
-			try {
-				setPopularVideosInfo(prev => ({ ...prev, isLoading: true }));
-				const response = await fetchPopularVideos(nextPageUrl);
-				const { videos, next_page } = await response;
-				// console.log("fetchVideos :", videos, next_page);
+		try {
+			setPopularVideosInfo(prev => ({ ...prev, isLoading: true }));
+			const response = await fetchPopularVideos(nextPageLink.current);
+			const { videos, next_page } = await response;
+			if (!nextPageLink.current) {
+				setPopularVideosInfo({
+					fetchedVideos: [...videos],
+					hasMore: !!next_page,
+					isLoading: false
+				});
+			} else {
 				setPopularVideosInfo(prev => ({
 					...prev,
 					fetchedVideos: [...prev.fetchedVideos, ...videos],
-					nextPageUrl: next_page,
 					hasMore: !!next_page,
 					isLoading: false
 				}));
-			} catch (error) {
-				console.error("Error fetching videos :", error);
 			}
+			nextPageLink.current = next_page;
+		} catch (error) {
+			console.error("Error fetching videos :", error);
 		}
-	}, [hasMore, isLoading, nextPageUrl]);
+	}, []);
+
+	const loadMore = useCallback(() => {
+		if (!isLoading && hasMore) {
+			fetchVideos();
+		}
+	}, [isLoading, hasMore, fetchVideos]);
 
 	return (
 		<div className="videos-container">
@@ -47,7 +58,7 @@ function Videos() {
 			</div>
 			<InfiniteScroll
 				className="infinite-scroll-container"
-				loadMore={fetchVideos}
+				loadMore={loadMore}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
 				threshold={400}>

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
@@ -10,30 +10,43 @@ import { MediaType } from "../../utils/constants";
 function Home() {
 	const [curatedImagesInfo, setCuratedImagesInfo] = useState({
 		fetchedImages: [],
-		nextPageUrl: '',
 		hasMore: true,
 		isLoading: false
 	});
+	const nextPageLink = useRef(null);
 
-	const { fetchedImages, nextPageUrl, hasMore, isLoading } = curatedImagesInfo;
+	const { fetchedImages, hasMore, isLoading } = curatedImagesInfo;
 
 	const fetchImages = useCallback(async () => {
-		if (!isLoading && hasMore) {
-			try {
-				setCuratedImagesInfo(prev => ({ ...prev, isLoading: true }));
-				const { photos, next_page } = await fetchCuratedPhotos(nextPageUrl);
+		try {
+			setCuratedImagesInfo(prev => ({ ...prev, isLoading: true }));
+			const { photos, next_page } = await fetchCuratedPhotos(nextPageLink.current);
+
+			if (!nextPageLink.current) {
+				setCuratedImagesInfo({
+					fetchedImages: [...photos],
+					isLoading: false,
+					hasMore: !!next_page
+				});
+			} else {
 				setCuratedImagesInfo(prev => ({
 					...prev,
 					fetchedImages: [...prev.fetchedImages, ...photos],
-					nextPageUrl: next_page,
 					isLoading: false,
 					hasMore: !!next_page
 				}));
-			} catch (error) {
-				console.error("Error fetching images:", error);
 			}
+			nextPageLink.current = next_page;
+		} catch (error) {
+			console.error("Error fetching images:", error);
 		}
-	}, [isLoading, nextPageUrl, hasMore]);
+	}, []);
+
+	const loadMore = useCallback(() => {
+		if (!isLoading && hasMore) {
+			fetchImages();
+		}
+	}, [isLoading, hasMore, fetchImages]);
 
 	return (
 		<div className="home-container">
@@ -45,10 +58,9 @@ function Home() {
 			</div>
 			<InfiniteScroll
 				className="infinite-scroll-container"
-				loadMore={fetchImages}
+				loadMore={loadMore}
 				hasMore={hasMore}
-				loader={<BallsLoader />}
-				threshold={300}>
+				loader={<BallsLoader />}>
 				<Gallery
 					allFetchedImages={fetchedImages}
 					fetchImages={fetchImages}

@@ -7,11 +7,12 @@ function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
 
   const { title,
     statistics: { views, likes, downloads },
-    relatedInfo: { dimensions, aspectRatio, camera, focal, aperture, iso, shutterSpeed, takenAt, duration, fps } } = MediaDetails[type];
+    relatedInfo: { dimensions, aspectRatio, camera, focal, aperture, iso, shutterSpeed, takenAt, duration, fps }
+  } = MediaDetails[type];
 
   return (
     <Modal isShowing={isShowing}>
-      <div className="image-details-modal-container">
+      <div className="media-details-modal-container">
         <div className="top-container">
           <div className="top-container-header flex-row-center">
             <div className="image-container">
@@ -54,7 +55,6 @@ function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
             <p title="Aspect Ratio">Aspect Ratio</p>
             <p title={aspectRatio}>{aspectRatio}</p>
           </div>
-
           {type === 'photos' ?
             <>
               <div className="stat-info">
@@ -93,13 +93,10 @@ function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
                 <p title={fps}>{fps}</p>
               </div>
             </>}
-
-
         </div>
       </div>
-    </Modal>);
-
-
+    </Modal>
+  );
 }
 
 export default MediaDetailsModal

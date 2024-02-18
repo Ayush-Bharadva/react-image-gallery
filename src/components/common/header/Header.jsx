@@ -1,66 +1,67 @@
-import { useState, useEffect, useCallback } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { useCallback, useEffect, useState } from "react";
+import { PropTypes } from 'prop-types';
 import { FiUpload } from "react-icons/fi";
-import SearchInput from "../search-input/SearchInput";
-import "./Header.scss";
-import { SidebarItems } from "../../../utils/constants";
+import Logo from "../logo/Logo";
+import { GiHamburgerMenu } from "react-icons/gi";
 import Sidebar from "../sidebar/Sidebar";
-import Logo from "./Logo";
+import SearchInput from "../search-input/SearchInput";
+import './Header.scss'
 
-function Header() {
-	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
-	const [isScrolled, setIsScrolled] = useState(false);
+function Header({ searchQuery, isSearchPage }) {
 
-	const handleScroll = useCallback(function handleScroll() {
-		setIsScrolled(() => window.scrollY >= 600);
-	}, []);
+  const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-	useEffect(() => {
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
-	}, [handleScroll]);
+  const toggleSidebar = () => setIsOpenSidebar(prev => !prev);
 
-	const onOpenSidebar = () => setIsOpenSidebar(true);
-	const onCloseSidebar = () => setIsOpenSidebar(false);
+  const handleScroll = useCallback(function handleScroll() {
+    const hasScrolled = window.scrollY >= 500;
+    setIsScrolled(hasScrolled)
+  }, []);
 
-	return (
-		<>
-			<div className={`main-nav-bar ${isScrolled ? "fixed-nav" : "absolute-nav"}`}>
-				<div className="left">
-					<Logo />
-					{isScrolled && <SearchInput />}
-				</div>
-				<div className="right">
-					<ul className="nav-items">
-						<li>Explore</li>
-						<li>License</li>
-						<button>Upload</button>
-						<button className="upload-btn">
-							<FiUpload />
-						</button>
-						<button className="sidebar-btn">
-							<GiHamburgerMenu onClick={onOpenSidebar} />
-						</button>
-					</ul>
-				</div>
-			</div>
-			<header className="main-header">
-				<div className="hero">
-					<h1 className="heading">
-						The best free stock photos, royalty free images & videos shared by creators
-					</h1>
-					<SearchInput className="flex-0" />
-				</div>
-			</header>
-			<Sidebar
-				items={SidebarItems}
-				closeSidebar={onCloseSidebar}
-				sidebarOpen={isOpenSidebar}
-			/>
-		</>
-	);
+  useEffect(() => {
+    if (!isSearchPage) {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [handleScroll, isSearchPage]);
+
+  return (
+    <div className="main-header">
+      <div className={`nav-bar ${isScrolled || isSearchPage ? "fixed-nav-bar" : "absolute-nav-bar"}`}>
+        <div className="nav-bar-left">
+          <Logo textColor={isScrolled || isSearchPage ? "black" : "white"} />
+          {(isSearchPage || isScrolled) && <SearchInput searchQuery={searchQuery} />}
+        </div>
+        <div className="nav-bar-right">
+          <button type="button" className="text-button" >Explore</button>
+          <button type="button" className="text-button" >License</button>
+          <button type="button" className="filled-button" >Upload</button>
+          <button type="button" className="upload-icon-button" > <FiUpload /> </button>
+          <button type="button" className="sidebar-button" onClick={toggleSidebar} > <GiHamburgerMenu /> </button>
+        </div>
+      </div>
+      {!isSearchPage && <header className="hero-section">
+        <div className="hero">
+          <h1 className="heading">
+            The best free stock photos, royalty free images & videos shared by creators
+          </h1>
+          <SearchInput />
+        </div>
+      </header>}
+      <Sidebar
+        closeSidebar={toggleSidebar}
+        isSidebarOpen={isOpenSidebar}
+      />
+    </div>
+  )
 }
 
 export default Header;
+
+Header.propTypes = {
+  searchQuery: PropTypes.string,
+  isSearchPage: PropTypes.bool
+}

@@ -2,17 +2,18 @@ import { PropTypes } from "prop-types";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import SearchInput from "../search-input/SearchInput";
-import Logo from "../header/Logo";
+import Logo from "../logo/Logo";
 import "./Sidebar.scss";
 import { FiUpload } from "react-icons/fi";
+import { SidebarItems } from "../../../utils/constants";
 
-function Sidebar({ items, sidebarOpen, closeSidebar }) {
+function Sidebar({ isSidebarOpen, closeSidebar }) {
 	const navigate = useNavigate();
 
 	const gotoHome = () => navigate("/");
 
 	return (
-		<div className={`sidebar-container ${sidebarOpen ? "show-side-bar" : ""}`}>
+		<div className={`sidebar-container ${isSidebarOpen ? "show-side-bar" : ""}`}>
 			<div className="sidebar-nav-container">
 				<div className="left">
 					<Logo textColor="white" />
@@ -37,7 +38,7 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 				onClick={gotoHome}>
 				Home
 			</button>
-			{items.map(item => (
+			{SidebarItems.map(item => (
 				<button
 					key={item}
 					className="btn">
@@ -49,9 +50,8 @@ function Sidebar({ items, sidebarOpen, closeSidebar }) {
 }
 
 Sidebar.propTypes = {
-	items: PropTypes.array,
 	closeSidebar: PropTypes.func,
-	sidebarOpen: PropTypes.bool
+	isSidebarOpen: PropTypes.bool
 };
 
 export default Sidebar;

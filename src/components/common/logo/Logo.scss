@@ -1,0 +1,32 @@
+.pexels-logo {
+	height: 50px;
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin-right: 25px;
+	transition: all 0.3s ease;
+	cursor: pointer;
+
+	.logo-image {
+		border-radius: 7px;
+	}
+	.logo-text {
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.pexels-logo {
+		margin-right: 0;
+		.logo-text {
+			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.pexels-logo {
+		height: 40px !important;
+	}
+}

@@ -10,17 +10,18 @@ function MediaCard({ media, onSelectMedia, type }) {
   const [isHovering, setIsHovering] = useState(false);
   const videoRef = useRef();
 
-  const handleMediaDownload = useCallback((event, mediaLink, mediaName) => {
-    downloadMedia(mediaLink, mediaName);
-    event.stopPropagation();
-  }, []);
-
   const {
     src: { large: imageSrc = "" } = {},
     alt: imageAlt = "",
   } = media;
 
   const videoFile = type === "videos" ? media.video_files.at(-1) : null;
+
+  const handleMediaDownload = useCallback((event) => {
+    downloadMedia(imageSrc || videoFile.link, imageAlt);
+    event.stopPropagation();
+  }, [imageSrc, imageAlt, videoFile]);
+
 
   useEffect(() => {
     if (type === "videos") {
@@ -60,7 +61,7 @@ function MediaCard({ media, onSelectMedia, type }) {
       <button
         type="button"
         className="download-icon"
-        onClick={() => handleMediaDownload(imageSrc || videoFile.link, imageAlt || "Your-Video")}>
+        onClick={handleMediaDownload}>
         <FiDownload /> Download
       </button>
     </div>

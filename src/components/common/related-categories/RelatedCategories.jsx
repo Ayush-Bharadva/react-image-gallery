@@ -10,12 +10,6 @@ function RelatedCategories() {
   const categoriesRef = useRef();
 
   const fetchCategoryImages = ({ target: { value: category } }) => {
-    // setSearchState({
-    //   fetchedImages: [],
-    //   nextPageLink: null,
-    //   hasMore: true,
-    //   isLoading: false
-    // });
     navigate(`/search/${category}`);
   };
 
