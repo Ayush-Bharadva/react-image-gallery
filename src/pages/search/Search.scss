@@ -8,9 +8,9 @@
 	margin: 0 auto;
 }
 
-@media screen and (min-width: 1401px) {
+@media screen and (max-width: 900px) {
 	.search-images-container {
-		max-width: 80vw;
+		max-width: 95vw;
 	}
 }
 
@@ -20,14 +20,8 @@
 	}
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 1401px) {
 	.search-images-container {
-		max-width: 95vw;
-	}
-}
-
-@media screen and (max-width: 650px) {
-	.search-images-container {
-		max-width: 95vw;
+		max-width: 80vw;
 	}
 }

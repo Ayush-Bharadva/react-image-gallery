@@ -3,41 +3,46 @@ import { useLocation } from "react-router-dom";
 import "./Search.scss";
 import InfiniteScroll from "react-infinite-scroller";
 import Gallery from "../../components/gallery/Gallery";
-import { fetchSearchedImages } from "../../services/apiService";
+import { fetchSearchedImages } from "../../services/api-services";
 import { MediaType } from "../../utils/constants";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import RelatedCategories from "../../components/common/related-categories/RelatedCategories";
 import Header from "../../components/common/header/Header";
+// import useFetchData from "../../hooks/useFetchData";
 
 function Search() {
 
 	const location = useLocation();
-	const currentPath = location.pathname;
-	const searchQuery = currentPath.split("/").at(-1);
+	const searchQuery = location.pathname.split("/").at(-1);
+
+	// const { data: fetchedPhotos, hasMore, fetchData, loadMore } =
+	// 	useFetchData({
+	// 		fetchFunction: () => fetchSearchedImages(searchQuery), initialData: [], type: MediaType.photos
+	// 	});
 
 	const [searchState, setSearchState] = useState({
-		fetchedImages: [],
+		fetchedPhotos: [],
 		hasMore: true,
 		isLoading: false
 	});
 	const nextPageLink = useRef(null);
 
-	const { fetchedImages, isLoading, hasMore } = searchState;
+	const { fetchedPhotos, isLoading, hasMore } = searchState;
 
-	const fetchImages = useCallback(async () => {
+	const fetchPhotos = useCallback(async () => {
 		try {
 			setSearchState(prev => ({ ...prev, isLoading: true }));
 			const { photos, next_page } = await fetchSearchedImages(searchQuery, nextPageLink.current);
 			if (!nextPageLink.current) {
 				setSearchState({
-					fetchedImages: [...photos],
+					fetchedPhotos: [...photos],
 					hasMore: !!next_page,
 					isLoading: false
 				});
 			} else {
 				setSearchState(prev => ({
 					...prev,
-					fetchedImages: [...prev.fetchedImages, ...photos],
+					fetchedPhotos: [...prev.fetchedPhotos, ...photos],
 					hasMore: !!next_page,
 					isLoading: false
 				}));
@@ -50,7 +55,7 @@ function Search() {
 
 	useEffect(() => {
 		setSearchState({
-			fetchedImages: [],
+			fetchedPhotos: [],
 			hasMore: true,
 			isLoading: false
 		})
@@ -58,16 +63,16 @@ function Search() {
 	}, [location.pathname]);
 
 	useEffect(() => {
-		if (!fetchedImages.length && !isLoading && hasMore) {
-			fetchImages();
+		if (!fetchedPhotos.length && !isLoading && hasMore) {
+			fetchPhotos();
 		}
-	}, [fetchedImages, isLoading, hasMore, fetchImages]);
+	}, [fetchedPhotos, isLoading, hasMore, fetchPhotos]);
 
 	const loadMore = useCallback(() => {
 		if (!isLoading && hasMore) {
-			fetchImages();
+			fetchPhotos();
 		}
-	}, [isLoading, hasMore, fetchImages]);
+	}, [isLoading, hasMore, fetchPhotos]);
 
 	return (
 		<div className="search-images-container">
@@ -81,10 +86,11 @@ function Search() {
 				isInitialLoad={false}
 				threshold={400}>
 				<Gallery
-					allFetchedImages={fetchedImages}
+					allFetchedImages={fetchedPhotos}
+					fetchImages={fetchPhotos}
 					type={MediaType.photos} />
 			</InfiniteScroll>
-			{!fetchedImages.length ? <h1>No images found for {searchQuery + '..'}</h1> : null}
+			{!fetchedPhotos.length ? <h1>No images found for {searchQuery + '..'}</h1> : null}
 		</div>
 	);
 }

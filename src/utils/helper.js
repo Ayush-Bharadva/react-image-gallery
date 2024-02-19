@@ -24,7 +24,6 @@ export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
 		const minHeightIndex = columnsHeight.indexOf(Math.min(...columnsHeight));
 
 		acc[minHeightIndex] = [...(acc[minHeightIndex] || []), photo];
-
 		columnsHeight[minHeightIndex] += Math.floor(photo.height);
 
 		return acc;
@@ -32,15 +31,3 @@ export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
 
 	return [column1 || [], column2 || [], column3 || []];
 }
-
-export const computeColumnsFromWidth = (allImages, columnsCount) => {
-	const columns = {};
-	for (let i = 1; i <= columnsCount; i++) {
-		columns[`column${i}`] = [];
-	}
-	allImages.forEach((image, index) => {
-		const columnIndex = index % columnsCount;
-		columns[`column${columnIndex + 1}`].push(image);
-	});
-	return columns;
-};

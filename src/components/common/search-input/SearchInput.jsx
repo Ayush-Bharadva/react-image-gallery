@@ -8,7 +8,7 @@ import { GoChevronDown } from "react-icons/go";
 import { RiVideoLine } from "react-icons/ri";
 import SearchDropdown from "./SearchDropdown";
 
-function SearchInput({ className, searchQuery }) {
+function SearchInput({ className, searchQuery = '' }) {
 
 	const navigate = useNavigate();
 	const dropdownRef = useRef();
@@ -50,7 +50,7 @@ function SearchInput({ className, searchQuery }) {
 	const updateSearchHistory = searchItem => {
 		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
 		if (!prevSearchHistory.includes(searchItem)) {
-			setSearchHistory(prev => ({ searchItem, ...prev }));
+			setSearchHistory(prev => ([searchItem, ...prev]));
 			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
 		}
 	};
@@ -62,22 +62,27 @@ function SearchInput({ className, searchQuery }) {
 		navigate(`/search/${buttonText}`);
 	};
 
-	const searchImages = (event) => {
-		event.preventDefault();
-		if (!searchString.trim()) {
-			return;
+	const searchImages = () => {
+		if (searchString.trim()) {
+			updateSearchHistory(searchString);
+			setShowDropdown(false);
+			navigate(`/search/${searchString}`);
 		}
-		setShowDropdown(false);
-		navigate(`/search/${searchString}`);
 	}
 
+	const handleKeyDown = (event) => {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+			searchImages();
+		}
+	}
 
 	return (
 		<div
 			ref={dropdownRef}
 			className={`search-input-container ${className || ""}`}>
-			<div className="option-btn">
-				<HiOutlinePhotograph /> <span>Photos</span> <GoChevronDown />
+			<button className="option-btn">
+				<HiOutlinePhotograph /> <span className="button-text" >Photos</span> <GoChevronDown />
 				<div className="button-options">
 					<button type="button">
 						<HiOutlinePhotograph /> <span>Photos</span>
@@ -86,10 +91,9 @@ function SearchInput({ className, searchQuery }) {
 						<RiVideoLine /> <span>Videos</span>
 					</button>
 				</div>
-			</div>
+			</button>
 			<form
-				onSubmit={searchImages}
-				className="search-input">
+				className="search-field">
 				<input
 					id="search"
 					type="text"
@@ -97,12 +101,15 @@ function SearchInput({ className, searchQuery }) {
 					value={searchString}
 					onChange={onChange}
 					onFocus={() => onSearchFocus(true)}
+					onKeyDown={handleKeyDown}
 					autoComplete="off"
 					placeholder="Search for free photos"
 				/>
 				<button
 					type="button"
-					className="search-icon-btn">
+					className="search-icon-btn"
+					onClick={searchImages}
+				>
 					<CiSearch />
 				</button>
 			</form>

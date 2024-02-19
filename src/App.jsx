@@ -20,21 +20,10 @@ const Search = lazyImport("Search");
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route
-				path="/"
-				element={<Layout />}>
-				<Route
-					path=""
-					element={<Home />}
-				/>
-				<Route
-					path="/videos"
-					element={<Videos />}
-				/>
-				<Route
-					path="/search/:query"
-					element={<Search />}
-				/>
+			<Route path="/" element={<Layout />}>
+				<Route path="" element={<Home />} />
+				<Route path="/videos" element={<Videos />} />
+				<Route path="/search/:query" element={<Search />} />
 			</Route>
 		</>
 	)

@@ -1,13 +1,20 @@
 import { useCallback, useRef, useState } from "react";
-import { fetchPopularVideos } from "../../services/apiService";
+import { fetchPopularVideos } from "../../services/api-services";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
 import { GoChevronDown } from "react-icons/go";
 import Gallery from "../../components/gallery/Gallery";
 import { MediaType } from "../../utils/constants";
+// import useFetchData from "../../hooks/useFetchData";
 
 function Videos() {
+
+	// const { data: fetchedVideos, hasMore, fetchData, loadMore } =
+	// 	useFetchData({
+	// 		fetchFunction: fetchPopularVideos, initialData: [], type: MediaType.photos
+	// 	});
+
 	const [popularVideosInfo, setPopularVideosInfo] = useState({
 		fetchedVideos: [],
 		hasMore: true,

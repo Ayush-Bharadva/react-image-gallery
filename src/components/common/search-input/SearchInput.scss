@@ -13,8 +13,8 @@
 	.option-btn {
 		background-color: #ececee;
 		color: #333;
-		font-size: 16px;
-		height: 100%;
+		font-size: 1.15rem;
+		height: 50px;
 		padding: 0 15px;
 		display: flex;
 		align-items: center;
@@ -25,11 +25,11 @@
 	}
 	.option-btn:hover {
 		.button-options {
-			display: block;
+			display: block !important;
 		}
 	}
 
-	.search-input {
+	.search-field {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -169,51 +169,22 @@
 	.search-input-container {
 		height: 40px;
 
-		.search-input {
-			input {
-				margin: 0 0.25rem;
-			}
-		}
 		.option-btn {
-			span {
+			font-size: 1.35rem;
+			padding: 0 9px;
+			.button-text {
 				display: none;
 				padding: 0 8px;
+			}
+		}
+		.search-field {
+			input {
+				margin: 0 0 0 0.75rem;
 			}
 		}
 		.search-icon-btn {
 			padding: 0 0.25rem;
 			font-size: 1rem;
-		}
-	}
-}
-
-@media screen and (max-width: 425px) {
-	.search-input-container {
-		padding: 0;
-		.option-btn {
-			padding: 0 8px;
-		}
-		.search-input {
-			input {
-				margin: 0 0.75rem;
-			}
-		}
-	}
-}
-
-@media screen and (max-width: 375px) {
-	.search-input-container {
-		.option-btn {
-			padding: 0 8px;
-		}
-		.search-input {
-			input {
-				margin: 0 0.5rem;
-			}
-			.search-icon-btn {
-				padding: 0.2rem;
-				font-size: 1rem;
-			}
 		}
 	}
 }

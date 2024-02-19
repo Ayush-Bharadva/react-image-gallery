@@ -24,7 +24,9 @@ function SocialShareModal({ isShowing, hide, photographer }) {
 						<button
 							className="link-btn flex-row-center"
 							onClick={onCopyToClipBoard}>
-							Photo by {photographer} from Pexels
+							<p>
+								Photo by {photographer} from Pexels
+							</p>
 							<MdOutlineContentCopy />
 						</button>
 					</div>

@@ -2,36 +2,43 @@ import { useState, useCallback, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
-import { fetchCuratedPhotos } from "../../services/apiService";
+import { fetchCuratedPhotos } from "../../services/api-services";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import Gallery from "../../components/gallery/Gallery";
 import { MediaType } from "../../utils/constants";
+// import useFetchData from "../../hooks/useFetchData";
 
 function Home() {
+
+	// const { data: fetchedPhotos, hasMore, fetchData, loadMore } =
+	// 	useFetchData({
+	// 		fetchFunction: fetchCuratedPhotos, initialData: [], type: MediaType.photos
+	// 	});
+
 	const [curatedImagesInfo, setCuratedImagesInfo] = useState({
-		fetchedImages: [],
+		fetchedPhotos: [],
 		hasMore: true,
 		isLoading: false
 	});
 	const nextPageLink = useRef(null);
 
-	const { fetchedImages, hasMore, isLoading } = curatedImagesInfo;
+	const { fetchedPhotos, hasMore, isLoading } = curatedImagesInfo;
 
-	const fetchImages = useCallback(async () => {
+	const fetchPhotos = useCallback(async () => {
 		try {
 			setCuratedImagesInfo(prev => ({ ...prev, isLoading: true }));
 			const { photos, next_page } = await fetchCuratedPhotos(nextPageLink.current);
 
 			if (!nextPageLink.current) {
 				setCuratedImagesInfo({
-					fetchedImages: [...photos],
+					fetchedPhotos: [...photos],
 					isLoading: false,
 					hasMore: !!next_page
 				});
 			} else {
 				setCuratedImagesInfo(prev => ({
 					...prev,
-					fetchedImages: [...prev.fetchedImages, ...photos],
+					fetchedPhotos: [...prev.fetchedPhotos, ...photos],
 					isLoading: false,
 					hasMore: !!next_page
 				}));
@@ -44,9 +51,9 @@ function Home() {
 
 	const loadMore = useCallback(() => {
 		if (!isLoading && hasMore) {
-			fetchImages();
+			fetchPhotos();
 		}
-	}, [isLoading, hasMore, fetchImages]);
+	}, [isLoading, hasMore, fetchPhotos]);
 
 	return (
 		<div className="home-container">
@@ -62,8 +69,8 @@ function Home() {
 				hasMore={hasMore}
 				loader={<BallsLoader />}>
 				<Gallery
-					allFetchedImages={fetchedImages}
-					fetchImages={fetchImages}
+					allFetchedImages={fetchedPhotos}
+					fetchImages={fetchPhotos}
 					type={MediaType.photos}
 				/>
 			</InfiniteScroll>
