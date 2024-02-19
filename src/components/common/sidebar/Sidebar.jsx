@@ -6,6 +6,8 @@ import Logo from "../logo/Logo";
 import "./Sidebar.scss";
 import { FiUpload } from "react-icons/fi";
 import { SidebarItems } from "../../../utils/constants";
+import { FaInstagram, FaPinterest, FaTwitter, FaYoutube } from "react-icons/fa";
+import { ImFacebook2 } from "react-icons/im";
 
 function Sidebar({ isSidebarOpen, closeSidebar }) {
 	const navigate = useNavigate();
@@ -33,18 +35,41 @@ function Sidebar({ isSidebarOpen, closeSidebar }) {
 					</button>
 				</div>
 			</div>
-			<button
-				className="btn"
-				onClick={gotoHome}>
-				Home
-			</button>
-			{SidebarItems.map(item => (
+			<div className="section">
 				<button
-					key={item}
-					className="btn">
-					{item}
+					className="btn"
+					onClick={gotoHome}>
+					Home
 				</button>
-			))}
+				{SidebarItems.map(item => (
+					<button
+						key={item}
+						className="btn">
+						{item}
+					</button>
+				))}
+			</div>
+			<div className="section">
+				<button type="button" className="btn">Your Profile</button>
+				<button type="button" className="btn">Change Language</button>
+				<button type="button" className="btn">Upload</button>
+				<button type="button" className="btn">License</button>
+				<button type="button" className="btn">Settings</button>
+				<button type="button" className="btn">Logout</button>
+			</div>
+			<div className="section">
+				<button type="button" className="btn">Apps & Plugins</button>
+				<button type="button" className="btn">FAQ</button>
+				<button type="button" className="btn">About Us</button>
+				<button type="button" className="btn">Imprint & terms</button>
+			</div>
+			<div className="bottom-section">
+				<button type="button" className="btn"> <ImFacebook2 /> </button>
+				<button type="button" className="btn"> <FaTwitter /> </button>
+				<button type="button" className="btn"> <FaInstagram /> </button>
+				<button type="button" className="btn"> <FaPinterest /> </button>
+				<button type="button" className="btn"> <FaYoutube /> </button>
+			</div>
 		</div>
 	);
 }

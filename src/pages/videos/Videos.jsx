@@ -1,61 +1,30 @@
-import { useCallback, useRef, useState } from "react";
-import { fetchPopularVideos } from "../../services/api-services";
+import { useCallback } from "react";
+import { fetchPopularVideos } from "../../services/apiservices";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
 import { GoChevronDown } from "react-icons/go";
 import Gallery from "../../components/gallery/Gallery";
 import { MediaType } from "../../utils/constants";
-// import useFetchData from "../../hooks/useFetchData";
+import useFetchData from "../../hooks/useFetchData";
+
+const initialValue = [];
 
 function Videos() {
 
-	// const { data: fetchedVideos, hasMore, fetchData, loadMore } =
-	// 	useFetchData({
-	// 		fetchFunction: fetchPopularVideos, initialData: [], type: MediaType.photos
-	// 	});
-
-	const [popularVideosInfo, setPopularVideosInfo] = useState({
-		fetchedVideos: [],
-		hasMore: true,
-		isLoading: false
-	});
-	const nextPageLink = useRef(null);
-
-	const { fetchedVideos, hasMore, isLoading } = popularVideosInfo;
-
-	const fetchVideos = useCallback(async () => {
-		try {
-			setPopularVideosInfo(prev => ({ ...prev, isLoading: true }));
-			const response = await fetchPopularVideos(nextPageLink.current);
-			const { videos, next_page } = await response;
-			if (!nextPageLink.current) {
-				setPopularVideosInfo({
-					fetchedVideos: [...videos],
-					hasMore: !!next_page,
-					isLoading: false
-				});
-			} else {
-				setPopularVideosInfo(prev => ({
-					...prev,
-					fetchedVideos: [...prev.fetchedVideos, ...videos],
-					hasMore: !!next_page,
-					isLoading: false
-				}));
-			}
-			nextPageLink.current = next_page;
-		} catch (error) {
-			console.error("Error fetching videos :", error);
-		}
-	}, []);
+	const { data: fetchedVideos, isLoading, hasMore, fetchData } =
+		useFetchData({
+			fetchFunction: fetchPopularVideos, initialData: initialValue, type: MediaType.videos
+		});
 
 	const loadMore = useCallback(() => {
 		if (!isLoading && hasMore) {
-			fetchVideos();
+			fetchData();
 		}
-	}, [isLoading, hasMore, fetchVideos]);
+	}, [isLoading, hasMore, fetchData]);
 
 	return (
+
 		<div className="videos-container">
 			<div className="heading">
 				<h4>Trending Free Stock Videos</h4>
@@ -71,7 +40,7 @@ function Videos() {
 				threshold={400}>
 				<Gallery
 					allFetchedVideos={fetchedVideos}
-					fetchVideos={fetchVideos}
+					fetchVideos={fetchData}
 					type={MediaType.videos}
 				/>
 			</InfiniteScroll>

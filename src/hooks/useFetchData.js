@@ -1,6 +1,8 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
-function useFetchData({ fetchFunction, initialData, type }) {
+function useFetchData({ fetchFunction, initialData, type, query = "" }) {
+	console.log("query :", query);
+
 	const [dataInfo, setDataInfo] = useState({
 		data: initialData,
 		hasMore: true,
@@ -13,7 +15,11 @@ function useFetchData({ fetchFunction, initialData, type }) {
 	const fetchData = useCallback(async () => {
 		try {
 			setDataInfo(prev => ({ ...prev, isLoading: true }));
-			const { photos = [], videos = [], next_page } = await fetchFunction(nextPageLink.current);
+			const {
+				photos = [],
+				videos = [],
+				next_page
+			} = await fetchFunction(nextPageLink.current, query);
 			if (!nextPageLink.current) {
 				setDataInfo({
 					data: type === "photos" ? [...photos] : [...videos],
@@ -32,15 +38,31 @@ function useFetchData({ fetchFunction, initialData, type }) {
 		} catch (error) {
 			console.error("Error fetching data:", error);
 		}
-	}, [fetchFunction, type]);
+	}, [fetchFunction, type, query]);
 
-	const loadMore = useCallback(() => {
-		if (!isLoading && hasMore) {
+	useEffect(() => {
+		setDataInfo({
+			data: [],
+			hasMore: true,
+			isLoading: false
+		});
+		nextPageLink.current = null;
+	}, [query]);
+
+	useEffect(() => {
+		if (!data.length && !isLoading && hasMore) {
 			fetchData();
 		}
-	}, [isLoading, hasMore, fetchData]);
+	}, [data, isLoading, hasMore, fetchData]);
 
-	return { data, isLoading, hasMore, fetchData, loadMore };
+	return {
+		data,
+		isLoading,
+		hasMore,
+		nextPageLink,
+		setDataInfo,
+		fetchData
+	};
 }
 
 export default useFetchData;

@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 	headers: headers
 });
 
-export async function fetchSearchedImages(query, nextPageLink) {
+export async function fetchSearchedImages(nextPageLink, query) {
 	try {
 		const apiUrl = nextPageLink || `${searchPhotosUrl}${query}`;
 		const response = await axiosInstance.get(apiUrl);

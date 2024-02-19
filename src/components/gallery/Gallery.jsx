@@ -33,9 +33,7 @@ function Gallery({ allFetchedImages, allFetchedVideos, type }) {
 							animationFrameId = window.requestAnimationFrame(() => {
 								setContainerWidth(newWidth);
 							});
-							// return newWidth;
 						}
-						// return prevContainerWidth;
 					});
 					return newColumnCount;
 				}
