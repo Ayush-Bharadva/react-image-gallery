@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
@@ -21,6 +21,11 @@ function Home() {
 		}
 	}, [isLoading, hasMore, fetchData]);
 
+	useEffect(() => {
+		fetchData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
 	return (
 		<div className="home-container">
 			<div className="heading">
@@ -33,6 +38,7 @@ function Home() {
 				className="infinite-scroll-container"
 				loadMore={loadMore}
 				hasMore={hasMore}
+				initialLoad={false}
 				loader={<BallsLoader />}>
 				<Gallery
 					allFetchedImages={fetchedPhotos}

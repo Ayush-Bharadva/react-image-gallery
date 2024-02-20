@@ -3,7 +3,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 
 const curatedPhotosApiUrl = "https://api.pexels.com/v1/curated?per_page=10";
 const searchPhotosApiUrl = "https://api.pexels.com/v1/search/?query=";
-const popularVideosApiUrl = "https://api.pexels.com/videos/popular";
+const popularVideosApiUrl = "https://api.pexels.com/videos/popular?per_page=10";
 
 const headers = {
 	Authorization: apiKey

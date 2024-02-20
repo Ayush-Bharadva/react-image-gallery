@@ -8,7 +8,7 @@ import { BallsLoader } from "../../components/common/loader/Loader";
 import RelatedCategories from "../../components/common/related-categories/RelatedCategories";
 import Header from "../../components/common/header/Header";
 import useFetchData from "../../hooks/useFetchData";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 function Search() {
 
@@ -28,6 +28,13 @@ function Search() {
 			fetchData();
 		}
 	}, [isLoading, hasMore, fetchData]);
+
+	useEffect(() => {
+		if (!fetchedPhotos.length && !isLoading && hasMore) {
+			fetchData();
+		}
+	}, [fetchedPhotos, isLoading, hasMore, searchQuery, fetchData]);
+
 
 	const noMediaFound = <h1 className="not-found">No Photos found for <span className="not-found-for" > {searchQuery + '..'} </span> </h1>
 

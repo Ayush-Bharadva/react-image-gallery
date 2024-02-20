@@ -58,9 +58,9 @@ function Gallery({ allFetchedImages, allFetchedVideos, type }) {
 	}, [showMediaModal]);
 
 	useEffect(() => {
-		const [col1, col2, col3] = arrangeImagesIntoColumns(containerWidth, columnCount, allFetchedImages || allFetchedVideos);
+		const [col1, col2, col3] = arrangeImagesIntoColumns(containerWidth, columnCount, type === 'photos' ? allFetchedImages : allFetchedVideos);
 		setAllColumns(prev => ({ ...prev, column1: [...col1], column2: [...col2], column3: [...col3] }));
-	}, [allFetchedImages, allFetchedVideos, columnCount, containerWidth])
+	}, [allFetchedImages, allFetchedVideos, columnCount, containerWidth, type])
 
 	const onSelectMedia = useCallback((mediaId) => {
 		const selectedMedia = type === 'photos' ? allFetchedImages.find(image => image.id === mediaId) : allFetchedVideos.find(video => video.id === mediaId);

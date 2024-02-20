@@ -1,11 +1,14 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
-function useFetchData({ fetchFunction, initialData, type, query = "" }) {
+const initialValue = [];
+
+function useFetchData({ fetchFunction, initialData = initialValue, type, query }) {
 	const [dataInfo, setDataInfo] = useState({
 		data: initialData,
 		hasMore: true,
 		isLoading: false
 	});
+
 	const nextPageLink = useRef(null);
 
 	const { data, hasMore, isLoading } = dataInfo;
@@ -35,6 +38,8 @@ function useFetchData({ fetchFunction, initialData, type, query = "" }) {
 			nextPageLink.current = next_page;
 		} catch (error) {
 			console.error("Error fetching data:", error);
+		} finally {
+			setDataInfo(prev => ({ ...prev, isLoading: false }));
 		}
 	}, [fetchFunction, type, query]);
 
@@ -46,12 +51,6 @@ function useFetchData({ fetchFunction, initialData, type, query = "" }) {
 		});
 		nextPageLink.current = null;
 	}, [query]);
-
-	useEffect(() => {
-		if (!data.length && !isLoading && hasMore) {
-			fetchData();
-		}
-	}, [data, isLoading, hasMore, fetchData]);
 
 	return { data, isLoading, hasMore, nextPageLink, setDataInfo, fetchData };
 }

@@ -36,7 +36,12 @@ function MediaCard({ media, onSelectMedia, type }) {
   return (
     <div className="media-container" key={media.id}>
       {type === "photos" ? (
-        <img key={media.id} src={imageSrc} alt={imageAlt} onClick={() => onSelectMedia(media.id)} />
+        <img
+          key={media.id}
+          src={imageSrc}
+          alt={imageAlt}
+          onClick={() => onSelectMedia(media.id)}
+        />
       ) : (
         <video
           ref={videoRef}
