@@ -4,7 +4,7 @@ import "./MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
-import { downloadMedia } from "../../../utils/utils";
+import { downloadMedia } from "../../../utils/helper";
 
 function MediaCard({ media, onSelectMedia, type }) {
   const [isHovering, setIsHovering] = useState(false);

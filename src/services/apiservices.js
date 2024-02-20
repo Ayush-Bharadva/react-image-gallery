@@ -1,9 +1,9 @@
 import axios from "axios";
 const apiKey = import.meta.env.VITE_API_KEY;
 
-const curatedPhotosUrl = "https://api.pexels.com/v1/curated?per_page=10";
-const searchPhotosUrl = "https://api.pexels.com/v1/search/?query=";
-const popularVideosUrl = "https://api.pexels.com/videos/popular";
+const curatedPhotosApiUrl = "https://api.pexels.com/v1/curated?per_page=10";
+const searchPhotosApiUrl = "https://api.pexels.com/v1/search/?query=";
+const popularVideosApiUrl = "https://api.pexels.com/videos/popular";
 
 const headers = {
 	Authorization: apiKey
@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 
 export async function fetchSearchedImages(nextPageLink, query) {
 	try {
-		const apiUrl = nextPageLink || `${searchPhotosUrl}${query}`;
+		const apiUrl = nextPageLink || `${searchPhotosApiUrl}${query}`;
 		const response = await axiosInstance.get(apiUrl);
 		if (response.status === 200) {
 			return response.data;
@@ -26,7 +26,7 @@ export async function fetchSearchedImages(nextPageLink, query) {
 
 export async function fetchCuratedPhotos(nextPageLink) {
 	try {
-		const response = await axiosInstance.get(nextPageLink || curatedPhotosUrl);
+		const response = await axiosInstance.get(nextPageLink || curatedPhotosApiUrl);
 		if (response.status === 200) {
 			return response.data;
 		}
@@ -37,7 +37,7 @@ export async function fetchCuratedPhotos(nextPageLink) {
 
 export async function fetchPopularVideos(nextPageLink) {
 	try {
-		const response = await axiosInstance.get(nextPageLink || popularVideosUrl);
+		const response = await axiosInstance.get(nextPageLink || popularVideosApiUrl);
 		if (response.status === 200) {
 			return response.data;
 		}

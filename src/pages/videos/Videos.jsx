@@ -36,8 +36,7 @@ function Videos() {
 				className="infinite-scroll-container"
 				loadMore={loadMore}
 				hasMore={hasMore}
-				loader={<BallsLoader />}
-				threshold={400}>
+				loader={<BallsLoader />}>
 				<Gallery
 					allFetchedVideos={fetchedVideos}
 					fetchVideos={fetchData}

@@ -29,6 +29,8 @@ function Search() {
 		}
 	}, [isLoading, hasMore, fetchData]);
 
+	const noMediaFound = <h1 className="not-found">No Photos found for <span className="not-found-for" > {searchQuery + '..'} </span> </h1>
+
 	return (
 		<div className="search-images-container">
 			<Header searchQuery={searchQuery} isSearchPage />
@@ -38,14 +40,13 @@ function Search() {
 				loadMore={loadMore}
 				hasMore={hasMore}
 				loader={<BallsLoader />}
-				isInitialLoad={false}
-				threshold={400}>
+				initialLoad={false}>
 				<Gallery
 					allFetchedImages={fetchedPhotos}
 					fetchImages={fetchData}
 					type={MediaType.photos} />
 			</InfiniteScroll>
-			{!isLoading && !fetchedPhotos.length ? <h1 className="not-found">No Photos found for <span className="not-found-for" > {searchQuery + '..'} </span> </h1> : null}
+			{!isLoading && !fetchedPhotos.length ? noMediaFound : null}
 		</div>
 	);
 }

@@ -14,7 +14,7 @@ import useModal from "../../../hooks/useModal";
 import { FiDownload } from "react-icons/fi";
 import MediaDetailsModal from "./MediaDetailsModal";
 import { MediaType } from "../../../utils/constants";
-import { downloadMedia } from "../../../utils/utils";
+import { downloadMedia } from "../../../utils/helper";
 
 function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type }) {
 

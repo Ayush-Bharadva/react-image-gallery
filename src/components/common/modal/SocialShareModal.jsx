@@ -2,7 +2,7 @@ import { PropTypes } from "prop-types";
 import { RxCross1 } from "react-icons/rx";
 import Modal from "./Modal";
 import { MdOutlineContentCopy } from "react-icons/md";
-import { onCopyToClipBoard } from "../../../utils/utils";
+import { onCopyToClipBoard } from "../../../utils/helper";
 import SocialIconsMenu from "../SocialIconsMenu";
 
 function SocialShareModal({ isShowing, hide, photographer }) {

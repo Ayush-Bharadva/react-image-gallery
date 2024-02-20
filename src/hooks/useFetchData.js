@@ -1,8 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 
 function useFetchData({ fetchFunction, initialData, type, query = "" }) {
-	console.log("query :", query);
-
 	const [dataInfo, setDataInfo] = useState({
 		data: initialData,
 		hasMore: true,
@@ -55,14 +53,7 @@ function useFetchData({ fetchFunction, initialData, type, query = "" }) {
 		}
 	}, [data, isLoading, hasMore, fetchData]);
 
-	return {
-		data,
-		isLoading,
-		hasMore,
-		nextPageLink,
-		setDataInfo,
-		fetchData
-	};
+	return { data, isLoading, hasMore, nextPageLink, setDataInfo, fetchData };
 }
 
 export default useFetchData;

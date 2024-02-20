@@ -120,6 +120,11 @@ function Gallery({ allFetchedImages, allFetchedVideos, type }) {
 
 export default Gallery;
 
+Gallery.defaultProps = {
+	allFetchedImages: [],
+	allFetchedVideos: []
+}
+
 Gallery.propTypes = {
 	allFetchedImages: PropTypes.array,
 	allFetchedVideos: PropTypes.array,
