@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { PropTypes } from "prop-types";
 import "./MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
@@ -7,7 +7,6 @@ import { FiDownload } from "react-icons/fi";
 import { downloadMedia } from "../../../utils/helper";
 
 function MediaCard({ media, onSelectMedia, type }) {
-  const [isHovering, setIsHovering] = useState(false);
   const videoRef = useRef();
 
   const {
@@ -15,23 +14,13 @@ function MediaCard({ media, onSelectMedia, type }) {
     alt: imageAlt = "",
   } = media;
 
+
   const videoFile = type === "videos" ? media.video_files.at(-1) : null;
 
   const handleMediaDownload = useCallback((event) => {
     downloadMedia(imageSrc || videoFile.link, imageAlt);
     event.stopPropagation();
   }, [imageSrc, imageAlt, videoFile]);
-
-
-  useEffect(() => {
-    if (type === "videos") {
-      if (isHovering && videoRef.current) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    }
-  }, [isHovering, type]);
 
   return (
     <div className="media-container" key={media.id}>
@@ -48,8 +37,8 @@ function MediaCard({ media, onSelectMedia, type }) {
           key={media.id}
           className="video-card"
           onClick={() => onSelectMedia(media.id)}
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
+          onMouseEnter={() => videoRef.current.play()}
+          onMouseLeave={() => videoRef.current.pause()}
           playsInline
           muted>
           <source src={videoFile.link} type={videoFile.file_type} />

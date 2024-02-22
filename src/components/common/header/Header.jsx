@@ -14,7 +14,7 @@ function Header({ searchQuery, isSearchPage }) {
 
   const toggleSidebar = () => setIsOpenSidebar(prev => !prev);
 
-  const handleScroll = useCallback(function handleScroll() {
+  const handleScroll = useCallback(() => {
     const hasScrolled = window.scrollY >= 500;
     setIsScrolled(hasScrolled)
   }, []);

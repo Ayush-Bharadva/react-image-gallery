@@ -4,8 +4,17 @@ import Modal from "./Modal";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { onCopyToClipBoard } from "../../../utils/helper";
 import SocialIconsMenu from "../SocialIconsMenu";
+import toast from "react-hot-toast";
 
 function SocialShareModal({ isShowing, hide, photographer }) {
+
+	const textCopiedToaster = () => toast.success('text copied to clipboard');
+
+	const handleCopyToClipBoard = ({ target: { innerText: text } }) => {
+		onCopyToClipBoard(text);
+		textCopiedToaster();
+	}
+
 	return (
 		<Modal isShowing={isShowing}>
 			<div className="social-share-modal-container">
@@ -23,7 +32,7 @@ function SocialShareModal({ isShowing, hide, photographer }) {
 						<p>Set a link back to this photo</p>
 						<button
 							className="link-btn flex-row-center"
-							onClick={onCopyToClipBoard}>
+							onClick={handleCopyToClipBoard}>
 							<p>
 								Photo by {photographer} from Pexels
 							</p>

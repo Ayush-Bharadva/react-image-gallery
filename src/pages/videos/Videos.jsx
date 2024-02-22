@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { fetchPopularVideos } from "../../services/apiservices";
+import { fetchPopularVideos } from "../../services/fetch-services";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import InfiniteScroll from "react-infinite-scroller";
 import "./Videos.scss";
@@ -10,21 +10,20 @@ import useFetchData from "../../hooks/useFetchData";
 
 function Videos() {
 
-	const { data: fetchedVideos, isLoading, hasMore, fetchData } =
+	const { data: popularVideos, isLoading, hasMore, fetchData: retrieveData } =
 		useFetchData({
 			fetchFunction: fetchPopularVideos, initialData: [], type: MediaType.videos
 		});
 
 	const loadMore = useCallback(() => {
 		if (!isLoading && hasMore) {
-			fetchData();
+			retrieveData();
 		}
-	}, [isLoading, hasMore, fetchData]);
+	}, [isLoading, hasMore, retrieveData]);
 
 	useEffect(() => {
-		fetchData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		retrieveData();
+	}, [retrieveData]);
 
 	return (
 		<div className="videos-container">
@@ -41,8 +40,8 @@ function Videos() {
 				initialLoad={false}
 				loader={<BallsLoader />}>
 				<Gallery
-					allFetchedVideos={fetchedVideos}
-					fetchVideos={fetchData}
+					fetchedMedia={popularVideos}
+					allFetchedVideos={popularVideos}
 					type={MediaType.videos}
 				/>
 			</InfiniteScroll>

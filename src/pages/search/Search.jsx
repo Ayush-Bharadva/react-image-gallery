@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import "./Search.scss";
 import InfiniteScroll from "react-infinite-scroller";
 import Gallery from "../../components/gallery/Gallery";
-import { fetchSearchedImages } from "../../services/apiservices";
+import { fetchSearchedImages } from "../../services/fetch-services";
 import { MediaType } from "../../utils/constants";
 import { BallsLoader } from "../../components/common/loader/Loader";
 import RelatedCategories from "../../components/common/related-categories/RelatedCategories";
@@ -49,8 +49,7 @@ function Search() {
 				loader={<BallsLoader />}
 				initialLoad={false}>
 				<Gallery
-					allFetchedImages={fetchedPhotos}
-					fetchImages={fetchData}
+					fetchedMedia={fetchedPhotos}
 					type={MediaType.photos} />
 			</InfiniteScroll>
 			{!isLoading && !fetchedPhotos.length ? noMediaFound : null}

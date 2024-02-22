@@ -12,24 +12,25 @@ export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
 	const photos = [...allImages];
 	const columnWidth = containerWidth / columns;
 
-	const updatedPhotos = photos.reduce((acc, photo) => {
-		const newHeight = Math.floor((photo.height / photo.width) * columnWidth);
-		return [...acc, { ...photo, height: newHeight, width: columnWidth }];
-	}, []);
-
 	let columnsHeight = new Array(columns).fill(0);
-	const emptyArrays = Array.from({ length: columns }, () => []);
+	const emptyArrays = Array.from({ length: 3 }, () => []);
 
-	const [column1, column2, column3] = updatedPhotos.reduce((acc, photo) => {
+	const updatedPhotos = photos.reduce((acc, photo, index) => {
 		const minHeightIndex = columnsHeight.indexOf(Math.min(...columnsHeight));
+		const newHeight = Math.floor((photo.height / photo.width) * columnWidth);
 
-		acc[minHeightIndex] = [...(acc[minHeightIndex] || []), photo];
-		columnsHeight[minHeightIndex] += Math.floor(photo.height);
+		acc[minHeightIndex] = [
+			...(acc[minHeightIndex] || []),
+			{ ...photo, height: newHeight, width: columnWidth, index }
+		];
+		columnsHeight[minHeightIndex] += newHeight;
 
 		return acc;
 	}, emptyArrays);
 
-	return [column1 || [], column2 || [], column3 || []];
+	// console.log("updatedPhotos:", updatedPhotos);
+
+	return updatedPhotos;
 }
 
 export async function downloadMedia(mediaSrc, downloadName = "media") {
@@ -51,7 +52,7 @@ export async function downloadMedia(mediaSrc, downloadName = "media") {
 	}
 }
 
-export const onCopyToClipBoard = ({ target: { innerText: text } }) => {
+export const onCopyToClipBoard = text => {
 	try {
 		navigator.clipboard.writeText(text);
 	} catch (error) {

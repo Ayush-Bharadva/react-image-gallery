@@ -37,6 +37,7 @@ function useFetchData({ fetchFunction, initialData = initialValue, type, query }
 			}
 			nextPageLink.current = next_page;
 		} catch (error) {
+			setDataInfo(prev => ({ ...prev, hasMore: false }));
 			console.error("Error fetching data:", error);
 		} finally {
 			setDataInfo(prev => ({ ...prev, isLoading: false }));

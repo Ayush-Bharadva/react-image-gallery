@@ -39,7 +39,7 @@ function SearchInput({ className, searchQuery = '' }) {
 		};
 	}, []);
 
-	const onSearchFocus = isTrue => setShowDropdown(isTrue);
+	const handleSearchFocus = () => setShowDropdown(true);
 	const onChange = ({ target: { value } }) => setSearchString(value);
 
 	const clearSearchHistory = () => {
@@ -57,7 +57,6 @@ function SearchInput({ className, searchQuery = '' }) {
 
 	const handleSearchSelect = buttonText => {
 		updateSearchHistory(buttonText);
-		setSearchString("");
 		setShowDropdown(false);
 		navigate(`/search/${buttonText}`);
 	};
@@ -100,7 +99,7 @@ function SearchInput({ className, searchQuery = '' }) {
 					title={searchString}
 					value={searchString}
 					onChange={onChange}
-					onFocus={() => onSearchFocus(true)}
+					onFocus={handleSearchFocus}
 					onKeyDown={handleKeyDown}
 					autoComplete="off"
 					placeholder="Search for free photos"
