@@ -5,35 +5,29 @@ import { arrangeImagesIntoColumns, calculateColumns } from "../../utils/helper";
 import RenderColumn from "./RenderColumn";
 import MediaModal from "../common/modal/MediaModal";
 
-function Gallery({ fetchedMedia, type }) {
+function Gallery({ mediaList, type }) {
 
+	// const [columnCount, setColumnCount] = useState(1);
 	const [containerWidth, setContainerWidth] = useState(0);
-	const [columnCount, setColumnCount] = useState(1);
 	const [allColumns, setAllColumns] = useState([[], [], []])
 	const [selectedMedia, setSelectedMedia] = useState({});
 
 	const { isShowing: showMediaModal, toggle: toggleMediaModal } = useModal();
 	const galleryElement = useRef();
 
+	let columns = 1;
+
 	useEffect(() => {
 		let animationFrameId = null;
 
 		const observer = new ResizeObserver(entries => {
+
 			const newWidth = Math.floor(entries[0].contentRect.width);
-			const newColumnCount = calculateColumns(newWidth);
-			setColumnCount(prev => {
-				if (newColumnCount !== prev) {
-					setContainerWidth((prevContainerWidth) => {
-						if (prevContainerWidth !== newWidth) {
-							animationFrameId = window.requestAnimationFrame(() => {
-								setContainerWidth(newWidth);
-							});
-						}
-					});
-					return newColumnCount;
-				}
-				return prev;
-			});
+			if (containerWidth !== newWidth) {
+				animationFrameId = window.requestAnimationFrame(() => {
+					setContainerWidth(newWidth);
+				});
+			}
 		});
 		observer.observe(galleryElement.current);
 
@@ -41,7 +35,7 @@ function Gallery({ fetchedMedia, type }) {
 			observer.disconnect();
 			window.cancelAnimationFrame(animationFrameId);
 		};
-	}, []);
+	}, [containerWidth]);
 
 	useEffect(() => {
 		if (showMediaModal) {
@@ -52,35 +46,35 @@ function Gallery({ fetchedMedia, type }) {
 		};
 	}, [showMediaModal]);
 
-	useEffect(() => {
-		const [column1, column2, column3] = arrangeImagesIntoColumns(containerWidth, columnCount, fetchedMedia);
-		setAllColumns([column1, column2, column3]);
-	}, [fetchedMedia, columnCount, containerWidth])
+	columns = calculateColumns(containerWidth);
 
-	const onSelectMedia = useCallback((mediaId) => {
-		const selectedMedia = fetchedMedia.find(media => media.id === mediaId);
-		if (selectedMedia) {
-			setSelectedMedia(selectedMedia);
+	useEffect(() => {
+		// console.log('recalculating');
+		const [column1, column2, column3] = arrangeImagesIntoColumns(containerWidth, columns, mediaList);
+		setAllColumns([column1, column2, column3]);
+	}, [mediaList, columns, containerWidth])
+
+	const onSelectMedia = useCallback((media) => {
+		if (media) {
+			setSelectedMedia(media);
 			toggleMediaModal();
 		}
-	}, [fetchedMedia, setSelectedMedia, toggleMediaModal]);
+	}, [setSelectedMedia, toggleMediaModal]);
 
-	const handleMediaNavigation = useCallback((currentMediaId, direction) => {
-		const currentMediaIndex = fetchedMedia.findIndex(media => media.id === currentMediaId);
-		const newMedia = fetchedMedia.at(currentMediaIndex + direction);
+	const handleMediaNavigation = useCallback((currentMedia, direction) => {
+		const currentMediaIndex = mediaList.findIndex(media => media.id === currentMedia.id);
+		const newMedia = mediaList[currentMediaIndex + direction];
 		if (newMedia) {
 			setSelectedMedia(newMedia);
 		}
-	}, [fetchedMedia]);
-
-	// console.log('allColumns:', allColumns);
+	}, [mediaList, setSelectedMedia]);
 
 	return (
 		<>
 			<div
 				ref={galleryElement}
 				className="gallery-container">
-				{/* {
+				{
 					allColumns.map((column, index) => {
 						if (column.length > 0) {
 							return (
@@ -93,28 +87,7 @@ function Gallery({ fetchedMedia, type }) {
 							);
 						}
 					})
-				} */}
-				{!!allColumns[0].length && (
-					<RenderColumn
-						allMediaItems={allColumns[0]}
-						onMediaSelect={onSelectMedia}
-						type={type}
-					/>
-				)}
-				{!!allColumns[1].length && (
-					<RenderColumn
-						allMediaItems={allColumns[1]}
-						onMediaSelect={onSelectMedia}
-						type={type}
-					/>
-				)}
-				{!!allColumns[2].length && (
-					<RenderColumn
-						allMediaItems={allColumns[2]}
-						onMediaSelect={onSelectMedia}
-						type={type}
-					/>
-				)}
+				}
 			</div>
 			{showMediaModal && <MediaModal
 				isShowing={showMediaModal}
@@ -130,11 +103,10 @@ function Gallery({ fetchedMedia, type }) {
 export default Gallery;
 
 Gallery.defaultProps = {
-	allFetchedImages: [],
-	allFetchedVideos: []
+	mediaList: [],
 }
 
 Gallery.propTypes = {
-	fetchedMedia: PropTypes.array,
+	mediaList: PropTypes.array,
 	type: PropTypes.string
 };

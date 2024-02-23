@@ -6,10 +6,11 @@ function Layout() {
 
 	const location = useLocation();
 	const isSearchRoute = location.pathname.startsWith('/search');
+	const searchQuery = location.pathname.split("/").at(-1);
 
 	return (
 		<>
-			{!isSearchRoute && <Header />}
+			<Header searchQuery={searchQuery} isSearchPage={isSearchRoute} />
 			{!isSearchRoute && <PageNavigationLinks />}
 			<Outlet />
 		</>

@@ -41,7 +41,6 @@ function Videos() {
 				loader={<BallsLoader />}>
 				<Gallery
 					fetchedMedia={popularVideos}
-					allFetchedVideos={popularVideos}
 					type={MediaType.videos}
 				/>
 			</InfiniteScroll>

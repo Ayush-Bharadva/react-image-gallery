@@ -17,7 +17,7 @@ export async function fetchSearchedImages(nextPageLink, query) {
 			return response.data;
 		}
 	} catch (error) {
-		console.error("Service: Error fetching images", error);
+		throw new Error(error);
 	}
 }
 

@@ -4,7 +4,7 @@ import "./MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
-import { downloadMedia } from "../../../utils/helper";
+import { downloadMedia, showToast } from "../../../utils/helper";
 
 function MediaCard({ media, onSelectMedia, type }) {
   const videoRef = useRef();
@@ -13,7 +13,6 @@ function MediaCard({ media, onSelectMedia, type }) {
     src: { large: imageSrc = "" } = {},
     alt: imageAlt = "",
   } = media;
-
 
   const videoFile = type === "videos" ? media.video_files.at(-1) : null;
 
@@ -29,14 +28,14 @@ function MediaCard({ media, onSelectMedia, type }) {
           key={media.id}
           src={imageSrc}
           alt={imageAlt}
-          onClick={() => onSelectMedia(media.id)}
+          onClick={() => onSelectMedia(media)}
         />
       ) : (
         <video
           ref={videoRef}
           key={media.id}
           className="video-card"
-          onClick={() => onSelectMedia(media.id)}
+          onClick={() => onSelectMedia(media)}
           onMouseEnter={() => videoRef.current.play()}
           onMouseLeave={() => videoRef.current.pause()}
           playsInline
@@ -45,10 +44,10 @@ function MediaCard({ media, onSelectMedia, type }) {
         </video>
       )}
       <div className="icons-group">
-        <button className="bookmark-icon">
+        <button className="bookmark-icon" onClick={() => showToast('Saved')} >
           <IoBookmarksOutline />
         </button>
-        <button className="heart-icon">
+        <button className="heart-icon" onClick={() => showToast('Liked')} >
           <FaRegHeart />
         </button>
       </div>

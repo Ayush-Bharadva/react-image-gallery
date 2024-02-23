@@ -1,12 +1,13 @@
 import { useCallback, useEffect } from "react";
-import InfiniteScroll from "react-infinite-scroller";
+// import InfiniteScroll from "react-infinite-scroller";
 import { GoChevronDown } from "react-icons/go";
 import "./Home.scss";
 import { fetchCuratedPhotos } from "../../services/fetch-services";
-import { BallsLoader } from "../../components/common/loader/Loader";
-import Gallery from "../../components/gallery/Gallery";
+// import { BallsLoader } from "../../components/common/loader/Loader";
+// import Gallery from "../../components/gallery/Gallery";
 import { MediaType } from "../../utils/constants";
 import useFetchData from "../../hooks/useFetchData";
+import InfiniteScroller from "../../components/common/InfiniteScroller/InfiniteScroller";
 
 function Home() {
 
@@ -33,7 +34,8 @@ function Home() {
 					Trending <GoChevronDown />
 				</button>
 			</div>
-			<InfiniteScroll
+			<InfiniteScroller loadMore={loadMore} hasMore={hasMore} mediaList={curatedPhotos} />
+			{/* <InfiniteScroll
 				className="infinite-scroll-container"
 				loadMore={loadMore}
 				hasMore={hasMore}
@@ -43,7 +45,7 @@ function Home() {
 					fetchedMedia={curatedPhotos}
 					type={MediaType.photos}
 				/>
-			</InfiniteScroll>
+			</InfiniteScroll> */}
 		</div>
 	);
 }

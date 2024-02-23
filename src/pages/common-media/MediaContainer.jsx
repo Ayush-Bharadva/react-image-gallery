@@ -1,53 +1,44 @@
 import { PropTypes } from 'prop-types';
+import './MediaContainer.scss';
 import { GoChevronDown } from 'react-icons/go';
-import InfiniteScroll from 'react-infinite-scroller';
-import { BallsLoader } from '../../components/common/loader/Loader';
-import Gallery from '../../components/gallery/Gallery';
 import useFetchData from '../../hooks/useFetchData';
 import { useCallback, useEffect } from 'react';
 import { fetchCuratedPhotos, fetchPopularVideos } from '../../services/fetch-services';
-import "../home/Home.scss";
-import "../videos/Videos.scss";
+import InfiniteScroller from '../../components/common/InfiniteScroller/InfiniteScroller';
 
 function MediaContainer({ mediaType }) {
 
   const fetchFn = mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
 
-  // rename fetchData
-  const { data, isLoading, hasMore, fetchData } =
+  const { data, isLoading, hasMore, fetchData: fetchMedia } =
     useFetchData({
       fetchFunction: fetchFn, initialData: [], type: mediaType
     });
 
   const loadMore = useCallback(() => {
     if (!isLoading && hasMore) {
-      fetchData();
+      fetchMedia();
     }
-  }, [isLoading, hasMore, fetchData]);
+  }, [isLoading, hasMore, fetchMedia]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchMedia();
+  }, [fetchMedia]);
 
   return (
-    <div className="home-container">
+    <div className="media-container-wrapper">
       <div className="heading">
         {mediaType === "photos" ? <h4>Free Stock Photos</h4> : <h4>Trending Free Stock Videos</h4>}
         <button>
           Trending <GoChevronDown />
         </button>
       </div>
-      <InfiniteScroll
-        className="infinite-scroll-container"
+      <InfiniteScroller
         loadMore={loadMore}
         hasMore={hasMore}
-        initialLoad={false}
-        loader={<BallsLoader />}>
-        <Gallery
-          fetchedMedia={data}
-          type={mediaType}
-        />
-      </InfiniteScroll>
+        mediaList={data}
+        type={mediaType}
+      />
     </div>
   )
 }

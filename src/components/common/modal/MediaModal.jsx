@@ -1,5 +1,4 @@
 import { PropTypes } from "prop-types";
-import { RxCross1 } from "react-icons/rx";
 import Modal from "./Modal";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import avatar from "../../../assets/images/user-avatar.png";
@@ -15,6 +14,7 @@ import { FiDownload } from "react-icons/fi";
 import MediaDetailsModal from "./MediaDetailsModal";
 import { MediaType } from "../../../utils/constants";
 import { downloadMedia } from "../../../utils/helper";
+import { IoClose } from "react-icons/io5";
 
 function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type }) {
 
@@ -22,7 +22,6 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
   const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
 
   const {
-    id,
     photographer = "",
     user: { name = "" } = {},
     src: { large: imageUrl = "" } = {},
@@ -40,15 +39,15 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
       <button
         className="modal-btn modal-close-btn"
         onClick={hide}>
-        <RxCross1 />
+        <IoClose />
       </button>
       <button
-        onClick={() => handleMediaNavigate(id, -1)}
+        onClick={() => handleMediaNavigate(selectedMedia, -1)}
         className="modal-btn previous-image-btn">
         <FaAngleLeft />
       </button>
       <button
-        onClick={() => handleMediaNavigate(id, 1)}
+        onClick={() => handleMediaNavigate(selectedMedia, 1)}
         className="modal-btn next-image-btn">
         <FaAngleRight />
       </button>

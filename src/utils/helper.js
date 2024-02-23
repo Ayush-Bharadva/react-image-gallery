@@ -1,3 +1,9 @@
+import toast from "react-hot-toast";
+
+export const showToast = (message, type = "success") => {
+	toast[type](message);
+};
+
 export const calculateColumns = containerWidth => {
 	if (containerWidth < 400) {
 		return 1;
@@ -28,8 +34,6 @@ export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
 		return acc;
 	}, emptyArrays);
 
-	// console.log("updatedPhotos:", updatedPhotos);
-
 	return updatedPhotos;
 }
 
@@ -47,8 +51,9 @@ export async function downloadMedia(mediaSrc, downloadName = "media") {
 		anchor.click();
 		document.body.removeChild(anchor);
 		URL.revokeObjectURL(mediaUrl);
+		showToast("downloaded successfully");
 	} catch (error) {
-		console.error("downloading error:", error);
+		showToast("failed to download", "error");
 	}
 }
 
@@ -56,6 +61,6 @@ export const onCopyToClipBoard = text => {
 	try {
 		navigator.clipboard.writeText(text);
 	} catch (error) {
-		console.error("Error copying to clipboard:", error);
+		showToast("failed copying to clipboard", "error");
 	}
 };

@@ -65,6 +65,7 @@
 
 			.sidebar-button {
 				color: #fff;
+				display: none;
 			}
 		}
 	}
@@ -149,6 +150,9 @@ button {
 				}
 				.filled-button {
 					display: none;
+				}
+				.sidebar-button {
+					display: block;
 				}
 			}
 		}

@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from "react";
+import { showToast } from "../utils/helper";
 
 const initialValue = [];
 
@@ -21,6 +22,7 @@ function useFetchData({ fetchFunction, initialData = initialValue, type, query }
 				videos = [],
 				next_page
 			} = await fetchFunction(nextPageLink.current, query);
+
 			if (!nextPageLink.current) {
 				setDataInfo({
 					data: type === "photos" ? [...photos] : [...videos],
@@ -38,7 +40,7 @@ function useFetchData({ fetchFunction, initialData = initialValue, type, query }
 			nextPageLink.current = next_page;
 		} catch (error) {
 			setDataInfo(prev => ({ ...prev, hasMore: false }));
-			console.error("Error fetching data:", error);
+			showToast(error, "error");
 		} finally {
 			setDataInfo(prev => ({ ...prev, isLoading: false }));
 		}

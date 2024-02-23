@@ -8,13 +8,14 @@ import { GoChevronDown } from "react-icons/go";
 import { RiVideoLine } from "react-icons/ri";
 import SearchDropdown from "./SearchDropdown";
 
-function SearchInput({ className, searchQuery = '' }) {
+function SearchInput({ searchQuery }) {
 
 	const navigate = useNavigate();
 	const dropdownRef = useRef();
 
 	const [searchString, setSearchString] = useState(searchQuery);
 	const [searchHistory, setSearchHistory] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState("Photos");
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	useEffect(() => {
@@ -48,10 +49,9 @@ function SearchInput({ className, searchQuery = '' }) {
 	};
 
 	const updateSearchHistory = searchItem => {
-		const prevSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
-		if (!prevSearchHistory.includes(searchItem)) {
+		if (!searchHistory.includes(searchItem)) {
 			setSearchHistory(prev => ([searchItem, ...prev]));
-			localStorage.setItem("search-history", JSON.stringify([searchItem, ...prevSearchHistory]));
+			localStorage.setItem("search-history", JSON.stringify([searchItem, ...searchHistory]));
 		}
 	};
 
@@ -76,17 +76,21 @@ function SearchInput({ className, searchQuery = '' }) {
 		}
 	}
 
+	const handleCategorySelect = (category) => {
+		setSelectedCategory(category);
+	}
+
 	return (
 		<div
 			ref={dropdownRef}
-			className={`search-input-container ${className || ""}`}>
+			className={`search-input-container`}>
 			<button className="option-btn">
-				<HiOutlinePhotograph /> <span className="button-text" >Photos</span> <GoChevronDown />
+				<HiOutlinePhotograph /> <span className="button-text" >{selectedCategory}</span> <GoChevronDown />
 				<div className="button-options">
-					<button type="button">
+					<button type="button" onClick={() => handleCategorySelect("Photos")}>
 						<HiOutlinePhotograph /> <span>Photos</span>
 					</button>
-					<button type="button">
+					<button type="button" onClick={() => handleCategorySelect("Videos")}>
 						<RiVideoLine /> <span>Videos</span>
 					</button>
 				</div>
@@ -125,7 +129,6 @@ function SearchInput({ className, searchQuery = '' }) {
 
 SearchInput.propTypes = {
 	searchQuery: PropTypes.string,
-	className: PropTypes.string
 };
 
 export default SearchInput;
