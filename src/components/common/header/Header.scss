@@ -135,7 +135,7 @@ button {
 	cursor: pointer;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 900px) {
 	.main-header {
 		.nav-bar {
 			max-width: 900px;
@@ -158,6 +158,10 @@ button {
 		}
 	}
 }
+
+// @media screen and  {
+
+// }
 
 @media screen and (min-width: 651px) {
 	.main-header {
