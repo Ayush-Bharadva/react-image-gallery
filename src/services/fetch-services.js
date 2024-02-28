@@ -3,10 +3,10 @@ import { curatedPhotosApiUrl, popularVideosApiUrl, searchPhotosApiUrl } from "..
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const headers = {
-	Authorization: apiKey
+	Authorization: apiKey,
 };
 const axiosInstance = axios.create({
-	headers: headers
+	headers: headers,
 });
 
 export async function fetchSearchedImages(nextPageLink, query) {
