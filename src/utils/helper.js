@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
+import { ToastIcons } from "./constants";
 
-export const showToast = (message, type = "success") => {
-	toast[type](message);
+export const showToast = (message, icon, type = "success") => {
+	toast[type](message, { icon });
 };
 
 export const calculateColumns = containerWidth => {
@@ -53,7 +54,7 @@ export async function downloadMedia(mediaSrc, downloadName = "media") {
 		URL.revokeObjectURL(mediaUrl);
 		showToast("downloaded successfully");
 	} catch (error) {
-		showToast("failed to download", "error");
+		showToast("failed to download", ToastIcons.error, "error");
 	}
 }
 
@@ -61,6 +62,6 @@ export const onCopyToClipBoard = text => {
 	try {
 		navigator.clipboard.writeText(text);
 	} catch (error) {
-		showToast("failed copying to clipboard", "error");
+		showToast("failed copying to clipboard", ToastIcons.error, "error");
 	}
 };

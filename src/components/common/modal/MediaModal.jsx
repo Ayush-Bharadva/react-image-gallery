@@ -12,8 +12,8 @@ import { SiCanva } from "react-icons/si";
 import useModal from "../../../hooks/useModal";
 import { FiDownload } from "react-icons/fi";
 import MediaDetailsModal from "./MediaDetailsModal";
-import { MediaType } from "../../../utils/constants";
-import { downloadMedia } from "../../../utils/helper";
+import { MediaType, ToastIcons } from "../../../utils/constants";
+import { downloadMedia, showToast } from "../../../utils/helper";
 import { IoClose } from "react-icons/io5";
 import { useMemo } from "react";
 
@@ -82,7 +82,7 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
                 <IoBookmarksOutline className="icon" />
                 <span>Collect</span>
               </button>
-              <button className="outlined-button" >
+              <button className="outlined-button" onClick={() => showToast("Liked", ToastIcons.like)} >
                 <IoHeartOutline className="icon" />
                 <span>Like</span>
               </button>

@@ -4,8 +4,9 @@ import "../media-card/MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
-import { downloadMedia } from "../../../utils/helper";
+import { downloadMedia, showToast } from "../../../utils/helper";
 import Video from "./video/Video";
+import { ToastIcons } from "../../../utils/constants";
 
 function MediaCard({ media, onSelectMedia, type }) {
 
@@ -37,7 +38,7 @@ function MediaCard({ media, onSelectMedia, type }) {
         <button className="bookmark-icon">
           <IoBookmarksOutline />
         </button>
-        <button className="heart-icon">
+        <button className="heart-icon" onClick={() => showToast("Liked", ToastIcons.like)} >
           <FaRegHeart />
         </button>
       </div>

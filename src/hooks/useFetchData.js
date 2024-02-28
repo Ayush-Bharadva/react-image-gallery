@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { showToast } from "../utils/helper";
+import { ToastIcons } from "../utils/constants";
 
 const initialValue = [];
 
@@ -40,7 +41,7 @@ function useFetchData({ fetchFunction, initialData = initialValue, type, query }
 			nextPageLink.current = next_page;
 		} catch (error) {
 			setDataInfo(prev => ({ ...prev, hasMore: false }));
-			showToast(error, "error");
+			showToast(error, ToastIcons.error, "error");
 		} finally {
 			setDataInfo(prev => ({ ...prev, isLoading: false }));
 		}

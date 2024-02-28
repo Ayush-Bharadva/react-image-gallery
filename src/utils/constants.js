@@ -47,6 +47,11 @@ export const SidebarItems = [
 	"Pexels blog"
 ];
 
+export const ToastIcons = {
+	like: "❤️",
+	error: "❌"
+};
+
 export const MediaType = { photos: "photos", videos: "videos" };
 
 export const MediaDetails = {
