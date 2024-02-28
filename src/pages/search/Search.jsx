@@ -11,7 +11,6 @@ function Search() {
 
 	const location = useLocation();
 	const searchQuery = location.pathname.split("/").at(-1);
-	console.log('searchQuery', searchQuery.trim());
 
 	const { data: photosList, isLoading, hasMore, fetchData: fetchPhotos } =
 		useFetchData({

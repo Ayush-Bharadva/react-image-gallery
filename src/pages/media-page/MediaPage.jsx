@@ -1,12 +1,12 @@
 import { PropTypes } from 'prop-types';
-import './MediaContainer.scss';
+import './MediaPage.scss';
 import { GoChevronDown } from 'react-icons/go';
 import useFetchData from '../../hooks/useFetchData';
 import { useCallback, useEffect } from 'react';
 import { fetchCuratedPhotos, fetchPopularVideos } from '../../services/fetch-services';
 import InfiniteScroller from '../../components/common/InfiniteScroller/InfiniteScroller';
 
-function MediaContainer({ mediaType }) {
+function MediaPage({ mediaType }) {
 
   const fetchFn = mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
 
@@ -43,8 +43,8 @@ function MediaContainer({ mediaType }) {
   )
 }
 
-export default MediaContainer
+export default MediaPage
 
-MediaContainer.propTypes = {
+MediaPage.propTypes = {
   mediaType: PropTypes.string.isRequired
 }
