@@ -22,6 +22,7 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
   const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
 
   const {
+    index,
     photographer = "",
     user: { name = "" } = {},
     src: { large: imageUrl = "" } = {},
@@ -41,13 +42,13 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
         onClick={hide}>
         <IoClose />
       </button>
-      {selectedMedia.index !== 0 && <button
-        onClick={() => handleMediaNavigate(selectedMedia, -1)}
+      {index !== 0 && <button
+        onClick={() => handleMediaNavigate(index - 1)}
         className="modal-btn previous-image-btn">
         <FaAngleLeft />
       </button>}
       <button
-        onClick={() => handleMediaNavigate(selectedMedia, 1)}
+        onClick={() => handleMediaNavigate(index + 1)}
         className="modal-btn next-image-btn">
         <FaAngleRight />
       </button>

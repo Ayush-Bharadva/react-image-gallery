@@ -59,11 +59,10 @@ function Gallery({ mediaList, type }) {
 		}
 	}, [setSelectedMedia, toggleMediaModal]);
 
-	const handleMediaNavigation = useCallback((currentMedia, direction) => {
-		const currentMediaIndex = mediaList.findIndex(media => media.id === currentMedia.id);
-		const newMedia = mediaList[currentMediaIndex + direction];
+	const handleMediaNavigation = useCallback((mediaIndex) => {
+		const newMedia = mediaList[mediaIndex];
 		if (newMedia) {
-			setSelectedMedia(newMedia);
+			setSelectedMedia({ ...newMedia, index: mediaIndex });
 		}
 	}, [mediaList, setSelectedMedia]);
 
