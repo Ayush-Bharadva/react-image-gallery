@@ -9,7 +9,7 @@ function SocialShareModal({ isShowing, hide, linkInfo: { name, url } }) {
 
 	const handleCopyToClipBoard = () => {
 		onCopyToClipBoard(url);
-		showToast("text copied to clipboard");
+		showToast("link copied to clipboard");
 	}
 
 	return (

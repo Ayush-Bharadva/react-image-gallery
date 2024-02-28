@@ -4,7 +4,7 @@ import "./MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
-import { downloadMedia, showToast } from "../../../utils/helper";
+import { downloadMedia } from "../../../utils/helper";
 import Video from "../Video/Video";
 
 function MediaCard({ media, onSelectMedia, type }) {
@@ -34,10 +34,10 @@ function MediaCard({ media, onSelectMedia, type }) {
         <Video media={media} onSelectMedia={onSelectMedia} />
       )}
       <div className="icons-group">
-        <button className="bookmark-icon" onClick={() => showToast('Saved')} >
+        <button className="bookmark-icon">
           <IoBookmarksOutline />
         </button>
-        <button className="heart-icon" onClick={() => showToast('Liked')} >
+        <button className="heart-icon">
           <FaRegHeart />
         </button>
       </div>
