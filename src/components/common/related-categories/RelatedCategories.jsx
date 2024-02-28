@@ -1,6 +1,6 @@
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import './RelatedCategories.scss'
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RelatedCategoriesItems } from '../../../utils/constants';
 
@@ -8,23 +8,43 @@ function RelatedCategories() {
 
   const navigate = useNavigate();
   const categoriesRef = useRef();
+  const leftBtnRef = useRef();
+  const rightBtnRef = useRef();
 
   const fetchCategoryImages = ({ target: { value: category } }) => {
     navigate(`/search/${category}`);
   };
 
-  const scrollCategories = scrollOffset => {
-    if (categoriesRef.current) {
-      categoriesRef.current.scrollLeft += scrollOffset;
+  useEffect(() => {
+
+    const scrollLength = categoriesRef.current.scrollWidth - categoriesRef.current.clientWidth;
+
+    function checkScroll() {
+      const currentScroll = categoriesRef.current.scrollLeft;
+      if (currentScroll === 0) {
+        leftBtnRef.current.style.display = 'none';
+      } else if (currentScroll === scrollLength) {
+        rightBtnRef.current.style.display = 'none';
+      } else {
+        leftBtnRef.current.style.display = 'block';
+        rightBtnRef.current.style.display = 'block';
+      }
     }
-  };
+    categoriesRef.current.addEventListener('scroll', checkScroll);
+  }, [])
+
+  function scrollList(scrollValue) {
+    categoriesRef.current.scrollBy({
+      left: scrollValue,
+      behavior: 'smooth'
+    })
+  }
 
   return (
     <div className="related-categories-container">
-      <FaAngleLeft
-        className="move-left-icon"
-        onClick={() => scrollCategories(-250)}
-      />
+      <button className='scroll-left-btn' ref={leftBtnRef} onClick={() => scrollList(-250)}>
+        <FaAngleLeft />
+      </button>
       <div
         className="related-categories"
         ref={categoriesRef}>
@@ -37,10 +57,9 @@ function RelatedCategories() {
           </button>
         ))}
       </div>
-      <FaAngleRight
-        className="move-right-icon"
-        onClick={() => scrollCategories(250)}
-      />
+      <button className='scroll-right-btn' ref={rightBtnRef} onClick={() => scrollList(250)}>
+        <FaAngleRight />
+      </button>
     </div>
   )
 }

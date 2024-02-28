@@ -15,6 +15,7 @@ import MediaDetailsModal from "./MediaDetailsModal";
 import { MediaType } from "../../../utils/constants";
 import { downloadMedia } from "../../../utils/helper";
 import { IoClose } from "react-icons/io5";
+import { useMemo } from "react";
 
 function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type }) {
 
@@ -24,12 +25,21 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
   const {
     index,
     photographer = "",
-    user: { name = "" } = {},
+    user: { name = "", url = "" } = {},
     src: { large: imageUrl = "" } = {},
     image: videoImageUrl = "",
     video_files = [],
     alt = "",
+    url: photoUrl = "",
   } = selectedMedia;
+
+  const linkInfo = useMemo(() => {
+    if (type === "photos") {
+      return { name: photographer, url: photoUrl };
+    } else {
+      return { name, url };
+    }
+  }, [name, photoUrl, photographer, type, url]);
 
   const videoObj = video_files.at(-1);
 
@@ -140,9 +150,9 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
         hide={toggleMediaDetails}
         type={MediaType.photos} />
       <SocialShareModal
-        photographer={photographer}
         isShowing={showShareInfo}
-        hide={toggleShareInfo} />
+        hide={toggleShareInfo}
+        linkInfo={linkInfo} />
     </Modal>
   );
 }

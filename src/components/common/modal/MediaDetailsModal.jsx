@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import Modal from './Modal';
-import { RxCross1 } from 'react-icons/rx';
+import { IoClose } from "react-icons/io5";
 import { MediaDetails } from '../../../utils/constants';
 
 function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
@@ -45,7 +45,7 @@ function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
           <button
             className="close-btn"
             onClick={hide}>
-            <RxCross1 />
+            <IoClose />
           </button>
           <div className="stat-info">
             <p title="Dimensions">Dimensions</p>

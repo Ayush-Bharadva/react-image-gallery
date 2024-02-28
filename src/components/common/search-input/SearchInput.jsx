@@ -15,7 +15,7 @@ function SearchInput({ searchQuery }) {
 
 	const [searchString, setSearchString] = useState(searchQuery);
 	const [searchHistory, setSearchHistory] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState("Photos");
+	const [selectedCategory, setSelectedCategory] = useState("photos");
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	useEffect(() => {
@@ -87,11 +87,11 @@ function SearchInput({ searchQuery }) {
 			<button className="option-btn">
 				<HiOutlinePhotograph /> <span className="button-text" >{selectedCategory}</span> <GoChevronDown />
 				<div className="button-options">
-					<button type="button" onClick={() => handleCategorySelect("Photos")}>
-						<HiOutlinePhotograph /> <span>Photos</span>
+					<button type="button" onClick={() => handleCategorySelect("photos")}>
+						<HiOutlinePhotograph /> <span>photos</span>
 					</button>
-					<button type="button" onClick={() => handleCategorySelect("Videos")}>
-						<RiVideoLine /> <span>Videos</span>
+					<button type="button" onClick={() => handleCategorySelect("videos")}>
+						<RiVideoLine /> <span>videos</span>
 					</button>
 				</div>
 			</button>
@@ -106,7 +106,7 @@ function SearchInput({ searchQuery }) {
 					onFocus={handleSearchFocus}
 					onKeyDown={handleKeyDown}
 					autoComplete="off"
-					placeholder="Search for free photos"
+					placeholder={`Search for free ${selectedCategory.toLowerCase()}`}
 				/>
 				<button
 					type="button"
