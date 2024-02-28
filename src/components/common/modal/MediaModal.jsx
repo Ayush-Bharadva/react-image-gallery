@@ -41,11 +41,11 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
         onClick={hide}>
         <IoClose />
       </button>
-      <button
+      {selectedMedia.index !== 0 && <button
         onClick={() => handleMediaNavigate(selectedMedia, -1)}
         className="modal-btn previous-image-btn">
         <FaAngleLeft />
-      </button>
+      </button>}
       <button
         onClick={() => handleMediaNavigate(selectedMedia, 1)}
         className="modal-btn next-image-btn">

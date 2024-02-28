@@ -23,7 +23,7 @@ function RelatedCategories() {
     <div className="related-categories-container">
       <FaAngleLeft
         className="move-left-icon"
-        onClick={() => scrollCategories(-500)}
+        onClick={() => scrollCategories(-250)}
       />
       <div
         className="related-categories"
@@ -39,7 +39,7 @@ function RelatedCategories() {
       </div>
       <FaAngleRight
         className="move-right-icon"
-        onClick={() => scrollCategories(300)}
+        onClick={() => scrollCategories(250)}
       />
     </div>
   )

@@ -7,7 +7,7 @@ import MediaModal from "../common/modal/MediaModal";
 
 function Gallery({ mediaList, type }) {
 
-	// const [columnCount, setColumnCount] = useState(1);
+	const [columnCount, setColumnCount] = useState(1);
 	const [containerWidth, setContainerWidth] = useState(0);
 	const [allColumns, setAllColumns] = useState([[], [], []])
 	const [selectedMedia, setSelectedMedia] = useState({});
@@ -15,27 +15,28 @@ function Gallery({ mediaList, type }) {
 	const { isShowing: showMediaModal, toggle: toggleMediaModal } = useModal();
 	const galleryElement = useRef();
 
-	let columns = 1;
+	const updateColumnCount = useCallback((newColumnCount, newContainerWidth) => {
+		if (newColumnCount !== columnCount) {
+			setColumnCount(newColumnCount);
+			if (newContainerWidth !== containerWidth) {
+				setContainerWidth(newContainerWidth);
+			}
+		}
+	}, [columnCount, containerWidth]);
 
 	useEffect(() => {
-		let animationFrameId = null;
 
 		const observer = new ResizeObserver(entries => {
-
 			const newWidth = Math.floor(entries[0].contentRect.width);
-			if (containerWidth !== newWidth) {
-				animationFrameId = window.requestAnimationFrame(() => {
-					setContainerWidth(newWidth);
-				});
-			}
+			const newColumnCount = calculateColumns(newWidth);
+			updateColumnCount(newColumnCount, newWidth);
 		});
 		observer.observe(galleryElement.current);
 
 		return () => {
 			observer.disconnect();
-			window.cancelAnimationFrame(animationFrameId);
 		};
-	}, [containerWidth]);
+	}, [updateColumnCount]);
 
 	useEffect(() => {
 		if (showMediaModal) {
@@ -46,13 +47,10 @@ function Gallery({ mediaList, type }) {
 		};
 	}, [showMediaModal]);
 
-	columns = calculateColumns(containerWidth);
-
 	useEffect(() => {
-		// console.log('recalculating');
-		const [column1, column2, column3] = arrangeImagesIntoColumns(containerWidth, columns, mediaList);
+		const [column1, column2, column3] = arrangeImagesIntoColumns(containerWidth, columnCount, mediaList);
 		setAllColumns([column1, column2, column3]);
-	}, [mediaList, columns, containerWidth])
+	}, [mediaList, columnCount, containerWidth])
 
 	const onSelectMedia = useCallback((media) => {
 		if (media) {
