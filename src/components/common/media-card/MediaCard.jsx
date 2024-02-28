@@ -1,11 +1,11 @@
 import { useCallback, } from "react";
 import { PropTypes } from "prop-types";
-import "./MediaCard.scss";
+import "../media-card/MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { downloadMedia } from "../../../utils/helper";
-import Video from "../Video/Video";
+import Video from "./video/Video";
 
 function MediaCard({ media, onSelectMedia, type }) {
 

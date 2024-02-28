@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { PropTypes } from 'prop-types';
-import "../media-card/MediaCard.scss";
+import "../MediaCard.scss";
 
 function Video({ media, onSelectMedia }) {
 
