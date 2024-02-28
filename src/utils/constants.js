@@ -17,7 +17,11 @@ export const RelatedCategoriesItems = [
 	"technology",
 	"coding",
 	"programming",
-	"art"
+	"art",
+	"sky",
+	"ocean",
+	"creative",
+	"galaxy"
 ];
 
 export const TrendingTopics = [

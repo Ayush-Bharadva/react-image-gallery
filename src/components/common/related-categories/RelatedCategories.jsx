@@ -22,27 +22,26 @@ function RelatedCategories() {
     function checkScroll() {
       const currentScroll = categoriesRef.current.scrollLeft;
       if (currentScroll === 0) {
-        leftBtnRef.current.style.display = 'none';
+        leftBtnRef.current.style.display = "none";
       } else if (currentScroll === scrollLength) {
-        rightBtnRef.current.style.display = 'none';
+        rightBtnRef.current.style.display = "none";
       } else {
-        leftBtnRef.current.style.display = 'block';
-        rightBtnRef.current.style.display = 'block';
+        leftBtnRef.current.style.display = "block";
+        rightBtnRef.current.style.display = "block";
       }
     }
-    categoriesRef.current.addEventListener('scroll', checkScroll);
-  }, [])
+    categoriesRef.current.addEventListener("scroll", checkScroll);
+  }, []);
 
   function scrollList(scrollValue) {
     categoriesRef.current.scrollBy({
       left: scrollValue,
-      behavior: 'smooth'
     })
   }
 
   return (
     <div className="related-categories-container">
-      <button className='scroll-left-btn' ref={leftBtnRef} onClick={() => scrollList(-250)}>
+      <button className='scroll-left-btn' ref={leftBtnRef} onClick={() => scrollList(-200)}>
         <FaAngleLeft />
       </button>
       <div
@@ -57,7 +56,7 @@ function RelatedCategories() {
           </button>
         ))}
       </div>
-      <button className='scroll-right-btn' ref={rightBtnRef} onClick={() => scrollList(250)}>
+      <button className='scroll-right-btn' ref={rightBtnRef} onClick={() => scrollList(200)}>
         <FaAngleRight />
       </button>
     </div>
