@@ -1,13 +1,13 @@
-import { useCallback, useRef } from "react";
+import { useCallback, } from "react";
 import { PropTypes } from "prop-types";
 import "./MediaCard.scss";
 import { IoBookmarksOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FiDownload } from "react-icons/fi";
 import { downloadMedia, showToast } from "../../../utils/helper";
+import Video from "../Video/Video";
 
 function MediaCard({ media, onSelectMedia, type }) {
-  const videoRef = useRef();
 
   const {
     src: { large: imageSrc = "" } = {},
@@ -17,9 +17,9 @@ function MediaCard({ media, onSelectMedia, type }) {
   const videoFile = type === "videos" ? media.video_files.at(-1) : null;
 
   const handleMediaDownload = useCallback((event) => {
-    downloadMedia(imageSrc || videoFile.link, imageAlt);
+    downloadMedia(type === 'photos' ? imageSrc : videoFile.link, imageAlt);
     event.stopPropagation();
-  }, [imageSrc, imageAlt, videoFile]);
+  }, [imageSrc, videoFile, imageAlt, type]);
 
   return (
     <div className="media-container" key={media.id}>
@@ -31,17 +31,7 @@ function MediaCard({ media, onSelectMedia, type }) {
           onClick={() => onSelectMedia(media)}
         />
       ) : (
-        <video
-          ref={videoRef}
-          key={media.id}
-          className="video-card"
-          onClick={() => onSelectMedia(media)}
-          onMouseEnter={() => videoRef.current.play()}
-          onMouseLeave={() => videoRef.current.pause()}
-          playsInline
-          muted>
-          <source src={videoFile.link} type={videoFile.file_type} />
-        </video>
+        <Video media={media} onSelectMedia={onSelectMedia} />
       )}
       <div className="icons-group">
         <button className="bookmark-icon" onClick={() => showToast('Saved')} >
