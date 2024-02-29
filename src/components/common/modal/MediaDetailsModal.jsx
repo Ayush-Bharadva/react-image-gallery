@@ -3,7 +3,7 @@ import Modal from './Modal';
 import { IoClose } from "react-icons/io5";
 import { MediaDetails } from '../../../utils/constants';
 
-function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
+function MediaDetailsModal({ modalImageUrl, closeModal, type }) {
 
   const { title,
     statistics: { views, likes, downloads },
@@ -11,7 +11,7 @@ function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
   } = MediaDetails[type];
 
   return (
-    <Modal isShowing={isShowing}>
+    <Modal>
       <div className="media-details-modal-container">
         <div className="top-container">
           <div className="top-container-header flex-row-center">
@@ -44,7 +44,7 @@ function MediaDetailsModal({ modalImageUrl, isShowing, hide, type }) {
         <div className="bottom-container">
           <button
             className="close-btn"
-            onClick={hide}>
+            onClick={closeModal}>
             <IoClose />
           </button>
           <div className="stat-info">
@@ -103,7 +103,6 @@ export default MediaDetailsModal
 
 MediaDetailsModal.propTypes = {
   modalImageUrl: PropTypes.string,
-  hide: PropTypes.func.isRequired,
-  isShowing: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired
 };

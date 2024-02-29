@@ -3,12 +3,18 @@ import "./RelatedCategories.scss";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { RelatedCategoriesItems } from "../../../utils/constants";
+import { useState } from "react";
 
 function RelatedCategories() {
   const navigate = useNavigate();
   const categoriesRef = useRef();
-  const leftBtnRef = useRef();
-  const rightBtnRef = useRef();
+
+  const [navigateButtons, setNavigateButtons] = useState({
+    leftButton: true,
+    rightButton: true,
+  })
+
+  const { leftButton, rightButton } = navigateButtons;
 
   const fetchCategoryImages = ({ target: { value: category } }) => {
     navigate(`/search/${category}`);
@@ -20,12 +26,11 @@ function RelatedCategories() {
       const currentScroll = Math.ceil(categoriesRef.current.scrollLeft);
 
       if (currentScroll === 0) {
-        leftBtnRef.current.style.display = "none";
+        setNavigateButtons(prev => ({ ...prev, leftButton: false }));
       } else if (currentScroll >= scrollLength) {
-        rightBtnRef.current.style.display = "none";
+        setNavigateButtons(prev => ({ ...prev, rightButton: false }));
       } else {
-        leftBtnRef.current.style.display = "block";
-        rightBtnRef.current.style.display = "block";
+        setNavigateButtons({ leftButton: true, rightButton: true });
       }
     }
     categoriesRef.current.addEventListener("scroll", checkScroll);
@@ -43,19 +48,19 @@ function RelatedCategories() {
 
   return (
     <div className="related-categories-container">
-      <button className="scroll-left-btn" ref={leftBtnRef} onClick={() => scrollList(-200)}>
+      {leftButton && <button className="scroll-left-btn" onClick={() => scrollList(-200)}>
         <FaAngleLeft />
-      </button>
+      </button>}
       <div className="related-categories" ref={categoriesRef}>
         {RelatedCategoriesItems.map((category) => (
-          <button key={category} onClick={fetchCategoryImages} value={category}>
+          <button className="category-button" key={category} onClick={fetchCategoryImages} value={category}>
             {category}
           </button>
         ))}
       </div>
-      <button className="scroll-right-btn" ref={rightBtnRef} onClick={() => scrollList(200)}>
+      {rightButton && <button className="scroll-right-btn" onClick={() => scrollList(200)}>
         <FaAngleRight />
-      </button>
+      </button>}
     </div>
   );
 }

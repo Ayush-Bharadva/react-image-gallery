@@ -1,6 +1,6 @@
-export const curatedPhotosApiUrl = "https://api.pexels.com/v1/curated?per_page=10";
-export const searchPhotosApiUrl = "https://api.pexels.com/v1/search/?query=";
-export const popularVideosApiUrl = "https://api.pexels.com/videos/popular?per_page=10";
+export const CuratedPhotosApiUrl = "https://api.pexels.com/v1/curated?per_page=10";
+export const SearchPhotosApiUrl = "https://api.pexels.com/v1/search/?query=";
+export const PopularVideosApiUrl = "https://api.pexels.com/videos/popular?per_page=10";
 
 export const RelatedCategoriesItems = [
 	"people",

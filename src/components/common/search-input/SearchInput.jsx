@@ -55,24 +55,18 @@ function SearchInput({ searchQuery }) {
 		}
 	};
 
-	const handleSearchSelect = buttonText => {
-		updateSearchHistory(buttonText);
-		setShowDropdown(false);
-		navigate(`/search/${buttonText}`);
-	};
-
-	const searchImages = () => {
-		if (searchString.trim()) {
-			updateSearchHistory(searchString);
+	const handleSearch = (searchValue) => {
+		if (searchValue.trim()) {
+			updateSearchHistory(searchValue);
 			setShowDropdown(false);
-			navigate(`/search/${searchString}`);
+			navigate(`/search/${searchValue.trim()}`);
 		}
 	}
 
 	const handleKeyDown = (event) => {
 		if (event.keyCode === 13) {
 			event.preventDefault();
-			searchImages();
+			handleSearch(searchString);
 		}
 	}
 
@@ -95,8 +89,7 @@ function SearchInput({ searchQuery }) {
 					</button>
 				</div>
 			</button>
-			<form
-				className="search-field">
+			<form className="search-field">
 				<input
 					id="search"
 					type="text"
@@ -111,7 +104,7 @@ function SearchInput({ searchQuery }) {
 				<button
 					type="button"
 					className="search-icon-btn"
-					onClick={searchImages}
+					onClick={() => handleSearch(searchString)}
 				>
 					<CiSearch />
 				</button>
@@ -120,7 +113,7 @@ function SearchInput({ searchQuery }) {
 				<SearchDropdown
 					searchHistory={searchHistory}
 					clearSearchHistory={clearSearchHistory}
-					handleSelect={handleSearchSelect}
+					handleSelect={handleSearch}
 				/>
 			) : null}
 		</div>

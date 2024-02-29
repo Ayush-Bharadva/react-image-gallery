@@ -27,12 +27,18 @@ function Search() {
 	}, [isLoading, hasMore, fetchPhotos]);
 
 	useEffect(() => {
+		const controller = new AbortController();
 		if (!photosList.length && !isLoading && hasMore) {
 			fetchPhotos();
 		}
+
+		return () => {
+			controller.abort();
+		};
+
 	}, [photosList, isLoading, hasMore, searchQuery, fetchPhotos]);
 
-	const noMediaFound = <h1 className="not-found">No Photos found for <span className="not-found-for" > {searchQuery + '..'} </span> </h1>
+	const noMediaFound = <h1 className="not-found">No Results found for <span className="not-found-for" > {searchQuery + '..'} </span> </h1>
 
 	return (
 		<div className="search-images-container">

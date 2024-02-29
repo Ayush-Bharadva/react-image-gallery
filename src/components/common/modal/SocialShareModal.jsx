@@ -5,7 +5,7 @@ import { onCopyToClipBoard, showToast } from "../../../utils/helper";
 import SocialIconsMenu from "../SocialIconsMenu";
 import { IoClose } from "react-icons/io5";
 
-function SocialShareModal({ isShowing, hide, linkInfo: { name, url } }) {
+function SocialShareModal({ closeModal, linkInfo: { name, url } }) {
 
 	const handleCopyToClipBoard = () => {
 		onCopyToClipBoard(url);
@@ -13,11 +13,11 @@ function SocialShareModal({ isShowing, hide, linkInfo: { name, url } }) {
 	}
 
 	return (
-		<Modal isShowing={isShowing}>
+		<Modal>
 			<div className="social-share-modal-container">
 				<button
 					className="modal-close-btn close-modal-btn"
-					onClick={hide}>
+					onClick={closeModal}>
 					<IoClose />
 				</button>
 				<div className="social-share-modal flex-column-center">
@@ -45,7 +45,6 @@ function SocialShareModal({ isShowing, hide, linkInfo: { name, url } }) {
 export default SocialShareModal;
 
 SocialShareModal.propTypes = {
-	isShowing: PropTypes.bool,
-	hide: PropTypes.func.isRequired,
+	closeModal: PropTypes.func.isRequired,
 	linkInfo: PropTypes.object
 };

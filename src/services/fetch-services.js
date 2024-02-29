@@ -1,18 +1,21 @@
 import axios from "axios";
-import { curatedPhotosApiUrl, popularVideosApiUrl, searchPhotosApiUrl } from "../utils/constants";
+import { CuratedPhotosApiUrl, PopularVideosApiUrl, SearchPhotosApiUrl } from "../utils/constants";
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const headers = {
-	Authorization: apiKey,
+	Authorization: apiKey
 };
 const axiosInstance = axios.create({
-	headers: headers,
+	headers: headers
 });
+
+const controller = new AbortController();
+const { signal } = controller;
 
 export async function fetchSearchedImages(nextPageLink, query) {
 	try {
-		const apiUrl = nextPageLink || `${searchPhotosApiUrl}${query}`;
-		const response = await axiosInstance.get(apiUrl);
+		const apiUrl = nextPageLink || `${SearchPhotosApiUrl}${query}`;
+		const response = await axiosInstance.get(apiUrl, { signal });
 		if (response.status === 200) {
 			return response.data;
 		}
@@ -23,7 +26,7 @@ export async function fetchSearchedImages(nextPageLink, query) {
 
 export async function fetchCuratedPhotos(nextPageLink) {
 	try {
-		const response = await axiosInstance.get(nextPageLink || curatedPhotosApiUrl);
+		const response = await axiosInstance.get(nextPageLink || CuratedPhotosApiUrl);
 		if (response.status === 200) {
 			return response.data;
 		}
@@ -34,7 +37,7 @@ export async function fetchCuratedPhotos(nextPageLink) {
 
 export async function fetchPopularVideos(nextPageLink) {
 	try {
-		const response = await axiosInstance.get(nextPageLink || popularVideosApiUrl);
+		const response = await axiosInstance.get(nextPageLink || PopularVideosApiUrl);
 		if (response.status === 200) {
 			return response.data;
 		}

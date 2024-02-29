@@ -1,19 +1,23 @@
 .related-categories-container {
-	position: relative;
+	position: sticky;
+	top: 74px;
 	display: flex;
 	align-items: center;
 	width: 100%;
-	padding: 0.5rem 1rem;
+	padding: 1.5rem 1.2rem;
 	margin: 1rem 0;
 	margin-top: 80px;
-	transition: 0.5s ease-in-out;
+	transition: 0.2s ease-in-out;
+	z-index: 1;
+	background-color: white;
+	color: #333;
 
 	.scroll-left-btn,
 	.scroll-right-btn {
 		border: none;
 		background: none;
 		position: absolute;
-		top: 18px;
+		top: 43%;
 	}
 
 	.scroll-left-btn {
@@ -29,25 +33,38 @@
 		width: 100%;
 		overflow-x: scroll;
 		scroll-behavior: smooth;
-		transition: all 0.5s ease-in-out;
+		transition: all 0.2s ease-in-out;
 		white-space: nowrap;
 
-		button {
-			padding: 0.5rem 1rem;
-			margin: 0 0.5rem;
+		.category-button {
+			margin: 0 0.75rem 0 0;
+			height: 50px;
+			padding: 0 30px;
 			font-size: 0.8rem;
 			border-radius: 5px;
 			outline: none;
 			background: none;
 			border: 1px solid lightgray;
+			font-weight: 700;
 		}
-		button:hover {
+		.category-button:hover {
 			background-color: #ffc864;
 			border-color: #ffc864;
 		}
 
 		&::-webkit-scrollbar {
 			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.related-categories-container {
+		top: 55px;
+		.related-categories {
+			.category-button {
+				height: 40px;
+			}
 		}
 	}
 }

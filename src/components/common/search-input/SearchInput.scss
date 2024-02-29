@@ -22,6 +22,8 @@
 		gap: 5px;
 		border-radius: 5px;
 		border: 1px solid lightgray;
+		font-weight: 600;
+		text-transform: capitalize;
 	}
 	.option-btn:hover {
 		.button-options {
@@ -86,7 +88,7 @@
 			top: 15px;
 			font-size: 1rem;
 			color: #999;
-			font-weight: bold;
+			font-weight: 600;
 			border: none;
 			transition: all 0.3s ease;
 		}
@@ -119,6 +121,7 @@
 			justify-content: center;
 			align-items: center;
 			gap: 10px;
+			text-transform: capitalize;
 			transition: all 0.2s ease;
 		}
 
@@ -154,6 +157,8 @@
 		display: flex;
 		align-items: center;
 		gap: 3px;
+		font-weight: 600;
+		text-transform: capitalize;
 	}
 	button:hover {
 		background-color: #eee;

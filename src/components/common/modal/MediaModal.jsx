@@ -17,7 +17,7 @@ import { downloadMedia, showToast } from "../../../utils/helper";
 import { IoClose } from "react-icons/io5";
 import { useMemo } from "react";
 
-function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type }) {
+function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, mediaListLength }) {
 
   const { isShowing: showMediaDetails, toggle: toggleMediaDetails } = useModal();
   const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
@@ -44,12 +44,10 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
   const videoObj = video_files.at(-1);
 
   return (
-    <Modal
-      isShowing={isShowing}
-      hide={hide}>
+    <Modal>
       <button
         className="modal-btn modal-close-btn"
-        onClick={hide}>
+        onClick={closeModal}>
         <IoClose />
       </button>
       {index !== 0 && <button
@@ -57,11 +55,11 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
         className="modal-btn previous-image-btn">
         <FaAngleLeft />
       </button>}
-      <button
+      {(index !== mediaListLength - 1) && <button
         onClick={() => handleMediaNavigate(index + 1)}
         className="modal-btn next-image-btn">
         <FaAngleRight />
-      </button>
+      </button>}
       <div className="modal-container">
         <div className="modal-info-container">
           <div className="image-info">
@@ -144,15 +142,13 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
           </div>
         </div>
       </div>
-      <MediaDetailsModal
+      {showMediaDetails && <MediaDetailsModal
         modalImageUrl={type === "photos" ? imageUrl : videoImageUrl}
-        isShowing={showMediaDetails}
-        hide={toggleMediaDetails}
-        type={MediaType.photos} />
-      <SocialShareModal
-        isShowing={showShareInfo}
-        hide={toggleShareInfo}
-        linkInfo={linkInfo} />
+        closeModal={toggleMediaDetails}
+        type={MediaType.photos} />}
+      {showShareInfo && <SocialShareModal
+        closeModal={toggleShareInfo}
+        linkInfo={linkInfo} />}
     </Modal>
   );
 }
@@ -160,9 +156,9 @@ function MediaModal({ isShowing, hide, selectedMedia, handleMediaNavigate, type 
 export default MediaModal;
 
 MediaModal.propTypes = {
-  isShowing: PropTypes.bool.isRequired,
-  hide: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   selectedMedia: PropTypes.object,
   handleMediaNavigate: PropTypes.func.isRequired,
+  mediaListLength: PropTypes.number
 };

@@ -16,13 +16,14 @@ function Gallery({ mediaList, type }) {
 	const galleryElement = useRef();
 
 	const updateColumnCount = useCallback((newColumnCount, newContainerWidth) => {
-		if (newColumnCount !== columnCount) {
-			setColumnCount(newColumnCount);
-			if (newContainerWidth !== containerWidth) {
+		setColumnCount(prevColumnCount => {
+			if (prevColumnCount !== newColumnCount) {
 				setContainerWidth(newContainerWidth);
+				return newColumnCount;
 			}
-		}
-	}, [columnCount, containerWidth]);
+			return prevColumnCount;
+		});
+	}, []);
 
 	useEffect(() => {
 
@@ -39,17 +40,10 @@ function Gallery({ mediaList, type }) {
 	}, [updateColumnCount]);
 
 	useEffect(() => {
-		if (showMediaModal) {
-			document.body.classList.add("overflow-hidden");
+		if (mediaList.length > 0) {
+			const [column1, column2, column3] = arrangeImagesIntoColumns(containerWidth, columnCount, mediaList);
+			setAllColumns([column1, column2, column3]);
 		}
-		return () => {
-			document.body.classList.remove("overflow-hidden");
-		};
-	}, [showMediaModal]);
-
-	useEffect(() => {
-		const [column1, column2, column3] = arrangeImagesIntoColumns(containerWidth, columnCount, mediaList);
-		setAllColumns([column1, column2, column3]);
 	}, [mediaList, columnCount, containerWidth])
 
 	const onSelectMedia = useCallback((media) => {
@@ -87,11 +81,11 @@ function Gallery({ mediaList, type }) {
 				}
 			</div>
 			{showMediaModal && <MediaModal
-				isShowing={showMediaModal}
-				hide={toggleMediaModal}
+				closeModal={toggleMediaModal}
 				selectedMedia={selectedMedia}
 				handleMediaNavigate={handleMediaNavigation}
 				type={type}
+				mediaListLength={mediaList.length}
 			/>}
 		</>
 	);

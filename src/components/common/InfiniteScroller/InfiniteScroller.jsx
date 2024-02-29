@@ -2,8 +2,9 @@ import { PropTypes } from "prop-types";
 import InfiniteScroll from "react-infinite-scroller";
 import { BallsLoader } from "../loader/Loader";
 import Gallery from "../../gallery/Gallery";
+import { memo } from "react";
 
-function InfiniteScroller({ loadMore, hasMore, mediaList, type }) {
+const InfiniteScroller = memo(function InfiniteScroller({ loadMore, hasMore, mediaList, type }) {
   return (
     <InfiniteScroll
       className="infinite-scroll-container"
@@ -17,9 +18,9 @@ function InfiniteScroller({ loadMore, hasMore, mediaList, type }) {
       />
     </InfiniteScroll>
   )
-}
+});
 
-export default InfiniteScroller
+export default InfiniteScroller;
 
 InfiniteScroller.propTypes = {
   loadMore: PropTypes.func.isRequired,
