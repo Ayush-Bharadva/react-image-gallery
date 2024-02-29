@@ -6,6 +6,7 @@ import RelatedCategories from "../../components/common/related-categories/Relate
 import useFetchData from "../../hooks/useFetchData";
 import { useCallback, useEffect } from "react";
 import InfiniteScroller from "../../components/common/InfiniteScroller/InfiniteScroller";
+import { BallsLoader } from "../../components/common/loader/Loader";
 
 function Search() {
 
@@ -43,12 +44,13 @@ function Search() {
 	return (
 		<div className="search-images-container">
 			<RelatedCategories />
-			<InfiniteScroller
-				loadMore={loadMore}
-				hasMore={hasMore}
-				mediaList={photosList}
-				type={MediaType.photos}
-			/>
+			{isLoading ? <BallsLoader /> :
+				<InfiniteScroller
+					loadMore={loadMore}
+					hasMore={hasMore}
+					mediaList={photosList}
+					type={MediaType.photos}
+				/>}
 			{!isLoading && !photosList.length ? noMediaFound : null}
 		</div>
 	);
