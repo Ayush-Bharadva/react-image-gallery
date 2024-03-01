@@ -1,44 +1,42 @@
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import "./RelatedCategories.scss";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RelatedCategoriesItems } from "../../../utils/constants";
-import { useState } from "react";
 
 function RelatedCategories() {
   const navigate = useNavigate();
   const categoriesRef = useRef();
 
-  const [navigateButtons, setNavigateButtons] = useState({
+  const [scrollButtons, setScrollButtons] = useState({
     leftButton: true,
     rightButton: true,
   })
 
-  const { leftButton, rightButton } = navigateButtons;
+  const { leftButton, rightButton } = scrollButtons;
 
-  const fetchCategoryImages = ({ target: { value: category } }) => {
+  const fetchCategoryImages = (category) => {
     navigate(`/search/${category}`);
   };
 
-  useEffect(() => {
-    function checkScroll() {
-      const scrollLength = categoriesRef.current.scrollWidth - categoriesRef.current.clientWidth;
-      const currentScroll = Math.ceil(categoriesRef.current.scrollLeft);
+  const handleScroll = useCallback(() => {
+    const { scrollWidth, clientWidth, scrollLeft } = categoriesRef.current;
+    const isAtStart = scrollLeft === 0;
+    const isAtEnd = scrollLeft + clientWidth >= scrollWidth;
 
-      if (currentScroll === 0) {
-        setNavigateButtons(prev => ({ ...prev, leftButton: false }));
-      } else if (currentScroll >= scrollLength) {
-        setNavigateButtons(prev => ({ ...prev, rightButton: false }));
-      } else {
-        setNavigateButtons({ leftButton: true, rightButton: true });
-      }
-    }
-    categoriesRef.current.addEventListener("scroll", checkScroll);
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      window.removeEventListener("resize", checkScroll);
-    };
+    setScrollButtons({
+      leftButton: !isAtStart,
+      rightButton: !isAtEnd,
+    });
   }, []);
+
+  useEffect(() => {
+    const categoriesElement = categoriesRef.current;
+    categoriesElement.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      categoriesElement.removeEventListener("scroll", handleScroll);
+    }
+  }, [handleScroll]);
 
   function scrollList(toScroll) {
     categoriesRef.current.scrollBy({
@@ -53,7 +51,7 @@ function RelatedCategories() {
       </button>}
       <div className="related-categories" ref={categoriesRef}>
         {RelatedCategoriesItems.map((category) => (
-          <button className="category-button" key={category} onClick={fetchCategoryImages} value={category}>
+          <button className="category-button" key={category} onClick={() => fetchCategoryImages(category)} value={category}>
             {category}
           </button>
         ))}
