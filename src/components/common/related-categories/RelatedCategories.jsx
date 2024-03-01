@@ -21,6 +21,7 @@ function RelatedCategories() {
 
   const handleScroll = useCallback(() => {
     const { scrollWidth, clientWidth, scrollLeft } = categoriesRef.current;
+
     const isAtStart = scrollLeft === 0;
     const isAtEnd = scrollLeft + clientWidth >= scrollWidth;
 
@@ -32,11 +33,16 @@ function RelatedCategories() {
 
   useEffect(() => {
     const categoriesElement = categoriesRef.current;
-    categoriesElement.addEventListener("scroll", handleScroll, { passive: true });
+    categoriesElement.addEventListener("scroll", handleScroll);
     return () => {
       categoriesElement.removeEventListener("scroll", handleScroll);
     }
   }, [handleScroll]);
+
+  useEffect(() => {
+    handleScroll();
+  }, [handleScroll])
+
 
   function scrollList(toScroll) {
     categoriesRef.current.scrollBy({
