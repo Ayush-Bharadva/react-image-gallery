@@ -40,15 +40,15 @@ function RelatedCategories() {
     };
   }, []);
 
-  function scrollList(scrollValue) {
+  function scrollList(toScroll) {
     categoriesRef.current.scrollBy({
-      left: scrollValue,
+      left: toScroll,
     });
   }
 
   return (
     <div className="related-categories-container">
-      {leftButton && <button className="scroll-left-btn" onClick={() => scrollList(-200)}>
+      {leftButton && <button className="scroll-left-btn" onClick={() => scrollList(-categoriesRef.current.clientWidth)}>
         <FaAngleLeft />
       </button>}
       <div className="related-categories" ref={categoriesRef}>
@@ -58,7 +58,7 @@ function RelatedCategories() {
           </button>
         ))}
       </div>
-      {rightButton && <button className="scroll-right-btn" onClick={() => scrollList(200)}>
+      {rightButton && <button className="scroll-right-btn" onClick={() => scrollList(categoriesRef.current.clientWidth)}>
         <FaAngleRight />
       </button>}
     </div>
