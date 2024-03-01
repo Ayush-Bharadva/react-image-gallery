@@ -12,7 +12,9 @@ function MediaPage({ mediaType }) {
 
   const { data, isLoading, hasMore, fetchData: fetchMedia } =
     useFetchData({
-      fetchFunction: fetchFn, initialData: [], type: mediaType
+      fetchFunction: fetchFn,
+      initialData: [],
+      type: mediaType,
     });
 
   const loadMore = useCallback(() => {
@@ -22,7 +24,11 @@ function MediaPage({ mediaType }) {
   }, [isLoading, hasMore, fetchMedia]);
 
   useEffect(() => {
+    // const controller = new AbortController();
     fetchMedia();
+    // return () => {
+    //   controller.abort
+    // }
   }, [fetchMedia]);
 
   return (

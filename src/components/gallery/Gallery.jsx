@@ -70,7 +70,7 @@ function Gallery({ mediaList, type }) {
 						if (column.length > 0) {
 							return (
 								<RenderColumn
-									key={index}
+									key={`${column.length}-${index}`}
 									allMediaItems={column}
 									onMediaSelect={onSelectMedia}
 									type={type}
