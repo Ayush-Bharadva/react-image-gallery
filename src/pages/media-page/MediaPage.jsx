@@ -4,7 +4,7 @@ import { GoChevronDown } from 'react-icons/go';
 import useFetchData from '../../hooks/useFetchData';
 import { useCallback, useEffect } from 'react';
 import { fetchCuratedPhotos, fetchPopularVideos } from '../../services/fetch-services';
-import InfiniteScroller from '../../components/common/InfiniteScroller/InfiniteScroller';
+import InfiniteGallery from '../../components/common/infinite-gallery/InfiniteGallery';
 
 function MediaPage({ mediaType }) {
 
@@ -33,7 +33,7 @@ function MediaPage({ mediaType }) {
           Trending <GoChevronDown />
         </button>
       </div>
-      <InfiniteScroller
+      <InfiniteGallery
         loadMore={loadMore}
         hasMore={hasMore}
         mediaList={data}

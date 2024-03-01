@@ -5,8 +5,8 @@ import { MediaType } from "../../utils/constants";
 import RelatedCategories from "../../components/common/related-categories/RelatedCategories";
 import useFetchData from "../../hooks/useFetchData";
 import { useCallback, useEffect } from "react";
-import InfiniteScroller from "../../components/common/InfiniteScroller/InfiniteScroller";
 import { BallsLoader } from "../../components/common/loader/Loader";
+import InfiniteGallery from "../../components/common/infinite-gallery/InfiniteGallery";
 
 function Search() {
 
@@ -45,7 +45,7 @@ function Search() {
 		<div className="search-images-container">
 			<RelatedCategories />
 			{isLoading ? <BallsLoader /> :
-				<InfiniteScroller
+				<InfiniteGallery
 					loadMore={loadMore}
 					hasMore={hasMore}
 					mediaList={photosList}

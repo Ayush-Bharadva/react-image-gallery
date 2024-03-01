@@ -4,7 +4,7 @@ import { BallsLoader } from "../loader/Loader";
 import Gallery from "../../gallery/Gallery";
 import { memo } from "react";
 
-const InfiniteScroller = memo(function InfiniteScroller({ loadMore, hasMore, mediaList, type }) {
+const InfiniteGallery = memo(function InfiniteGallery({ loadMore, hasMore, mediaList, type }) {
   return (
     <InfiniteScroll
       className="infinite-scroll-container"
@@ -20,9 +20,9 @@ const InfiniteScroller = memo(function InfiniteScroller({ loadMore, hasMore, med
   )
 });
 
-export default InfiniteScroller;
+export default InfiniteGallery;
 
-InfiniteScroller.propTypes = {
+InfiniteGallery.propTypes = {
   loadMore: PropTypes.func.isRequired,
   hasMore: PropTypes.bool.isRequired,
   mediaList: PropTypes.array.isRequired,
