@@ -17,8 +17,6 @@ function Search() {
 			query: query.trim(),
 		});
 
-	console.log(photosList, isLoading, hasMore);
-
 	const loadMore = useCallback(() => {
 		if (!isLoading && hasMore) {
 			fetchPhotos();
