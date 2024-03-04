@@ -7,6 +7,7 @@ import { HiOutlinePhotograph } from "react-icons/hi";
 import { GoChevronDown } from "react-icons/go";
 import { RiVideoLine } from "react-icons/ri";
 import SearchDropdown from "./SearchDropdown";
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 const SearchInput = () => {
 
@@ -15,18 +16,13 @@ const SearchInput = () => {
 	const { query } = useParams();
 
 	const [searchString, setSearchString] = useState(query);
-	const [searchHistory, setSearchHistory] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState("photos");
 	const [showDropdown, setShowDropdown] = useState(false);
+	const [searchHistory, setSearchHistory] = useLocalStorage("search-history",[]);
 
 	useEffect(() => {
 		setSearchString(query);
 	}, [query])
-
-	useEffect(() => {
-		const currentSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
-		setSearchHistory(currentSearchHistory);
-	}, []);
 
 	useEffect(() => {
 		const handleClick = event => {
@@ -45,18 +41,20 @@ const SearchInput = () => {
 	const onChange = ({ target: { value } }) => setSearchString(value);
 
 	const clearSearchHistory = () => {
-		localStorage.setItem("search-history", JSON.stringify([]));
 		setSearchHistory([]);
 	};
 
 	const updateSearchHistory = searchItem => {
 		if (!searchHistory.includes(searchItem)) {
-			setSearchHistory(prev => ([searchItem, ...prev]));
-			localStorage.setItem("search-history", JSON.stringify([searchItem, ...searchHistory]));
+			setSearchHistory(prev => {
+				console.log(searchItem)
+				return [searchItem, ...prev];
+			});
 		}
 	};
 
 	const handleSearch = (searchValue) => {
+		console.log('hit',searchValue)
 		if (searchValue.trim()) {
 			updateSearchHistory(searchValue);
 			setShowDropdown(false);

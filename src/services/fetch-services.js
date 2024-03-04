@@ -28,8 +28,13 @@ export const fetchSearchedImages = async (nextPageLink, query) => {
 }
 
 export const fetchCuratedPhotos = async (nextPageLink) => {
+	if (controller) {
+		controller.abort(); // Cancel the previous request
+	}
+	controller = new AbortController();
+	const { signal } = controller;
 	try {
-		const response = await axiosInstance.get(nextPageLink || CuratedPhotosApiUrl);
+		const response = await axiosInstance.get(nextPageLink || CuratedPhotosApiUrl, { signal });
 		if (response.status === 200) {
 			return response.data;
 		}
@@ -39,8 +44,13 @@ export const fetchCuratedPhotos = async (nextPageLink) => {
 }
 
 export const fetchPopularVideos = async (nextPageLink) => {
+	if (controller) {
+		controller.abort(); // Cancel the previous request
+	}
+	controller = new AbortController();
+	const { signal } = controller;
 	try {
-		const response = await axiosInstance.get(nextPageLink || PopularVideosApiUrl);
+		const response = await axiosInstance.get(nextPageLink || PopularVideosApiUrl, { signal });
 		if (response.status === 200) {
 			return response.data;
 		}
