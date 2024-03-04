@@ -2,12 +2,13 @@ import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } 
 import "./styles/Global.scss";
 import "./App.scss";
 import Layout from "./components/layout/Layout";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { SpinLoader } from "./components/common/loader/Loader";
 import { Toaster } from "react-hot-toast";
 import { MediaType } from "./utils/constants";
 import MediaPage from "./pages/media-page/MediaPage";
-import Search from "./pages/search/Search";
+
+const Search = lazy(() => import("./pages/search/Search"));
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
