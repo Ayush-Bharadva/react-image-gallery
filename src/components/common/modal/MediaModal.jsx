@@ -15,7 +15,6 @@ import MediaDetailsModal from "./MediaDetailsModal";
 import { MediaType, ToastIcons } from "../../../utils/constants";
 import { downloadMedia, showToast } from "../../../utils/helper";
 import { IoClose } from "react-icons/io5";
-import { useMemo } from "react";
 
 function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, mediaListLength }) {
 
@@ -32,14 +31,6 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
     alt = "",
     url: photoUrl = "",
   } = selectedMedia;
-
-  const linkInfo = useMemo(() => {
-    if (type === "photos") {
-      return { name: photographer, url: photoUrl };
-    } else {
-      return { name, url };
-    }
-  }, [name, photoUrl, photographer, type, url]);
 
   const videoObj = video_files.at(-1);
 
@@ -148,7 +139,8 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
         type={MediaType.photos} />}
       {showShareInfo && <SocialShareModal
         closeModal={toggleShareInfo}
-        linkInfo={linkInfo} />}
+        name={type === "photos" ? photographer : name}
+        url={type === "photos" ? photoUrl : url} />}
     </Modal>
   );
 }
@@ -157,8 +149,8 @@ export default MediaModal;
 
 MediaModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
   selectedMedia: PropTypes.object,
   handleMediaNavigate: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
   mediaListLength: PropTypes.number
 };
