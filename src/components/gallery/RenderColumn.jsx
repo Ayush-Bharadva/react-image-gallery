@@ -8,8 +8,7 @@ function RenderColumn({
 }) {
 
 	return (
-		<div
-			className="column">
+		<div className="column">
 			{allMediaItems.map((media) =>
 				<MediaCard
 					key={media.id}

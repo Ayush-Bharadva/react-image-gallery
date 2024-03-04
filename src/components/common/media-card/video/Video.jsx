@@ -2,22 +2,21 @@ import { useRef } from "react";
 import { PropTypes } from 'prop-types';
 import "../MediaCard.scss";
 
-function Video({ media, onSelectMedia }) {
+function Video({ videoFile, ...props }) {
 
   const videoRef = useRef();
-  const videoFile = media.video_files.at(-1) || {};
+  const { link, file_type } = videoFile;
 
   return (
     <video
-      ref={videoRef}
-      key={media.id}
+      {...props}
       className="video-card"
-      onClick={() => onSelectMedia(media)}
+      ref={videoRef}
       onMouseEnter={() => videoRef.current.play()}
       onMouseLeave={() => videoRef.current.pause()}
       playsInline
       muted>
-      <source src={videoFile.link} type={videoFile.file_type} />
+      <source src={link} type={file_type} />
     </video>
   )
 }
@@ -25,6 +24,5 @@ function Video({ media, onSelectMedia }) {
 export default Video
 
 Video.propTypes = {
-  media: PropTypes.object.isRequired,
-  onSelectMedia: PropTypes.func.isRequired
+  videoFile: PropTypes.object.isRequired
 }

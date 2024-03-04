@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./Search.scss";
 import { fetchSearchedImages } from "../../services/fetch-services";
 import { MediaType } from "../../utils/constants";
@@ -8,17 +8,16 @@ import useFetchData from "../../hooks/useFetchData";
 import InfiniteGallery from "../../components/common/infinite-gallery/InfiniteGallery";
 
 function Search() {
+	const { query } = useParams();
 
-	const location = useLocation();
-	const searchQuery = location.pathname.split("/").at(-1);
-
-	const { data: photosList, isLoading, hasMore, controller, fetchData: fetchPhotos } =
+	const { data: photosList, isLoading, hasMore, fetchData: fetchPhotos } =
 		useFetchData({
 			fetchFunction: fetchSearchedImages,
-			initialData: [],
 			type: MediaType.photos,
-			query: searchQuery.trim(),
+			query: query.trim(),
 		});
+
+	console.log(photosList, isLoading, hasMore);
 
 	const loadMore = useCallback(() => {
 		if (!isLoading && hasMore) {
@@ -27,31 +26,24 @@ function Search() {
 	}, [isLoading, hasMore, fetchPhotos]);
 
 	useEffect(() => {
-		// const controller = new AbortController();
 		if (!photosList.length && !isLoading && hasMore) {
-			// fetchPhotos(controller);
 			fetchPhotos();
 		}
-		// return () => {
-		// 	// console.log("unmounting");
-		// 	controller.abort();
-		// };
-	}, [photosList, isLoading, hasMore, fetchPhotos, controller]);
+	}, [photosList, isLoading, hasMore, fetchPhotos]);
 
-	const noMediaFound = <h1 className="not-found">No Results found for <span className="not-found-for" > {searchQuery + '..'} </span> </h1>
+	const noMediaFound = <h1 className="not-found">No Results found for <span className="not-found-for" > {query + '..'} </span> </h1>
 
 	return (
 		<div className="search-images-container">
 			<RelatedCategories />
-			<InfiniteGallery
-				loadMore={loadMore}
-				hasMore={hasMore}
-				mediaList={photosList}
-				type={MediaType.photos}
-			/>
-			{!isLoading && !photosList.length ? noMediaFound : null}
+			{!isLoading && !hasMore && !photosList.length ? noMediaFound :
+				<InfiniteGallery
+					loadMore={loadMore}
+					hasMore={hasMore}
+					mediaList={photosList}
+					type={MediaType.photos}
+				/>}
 		</div>
 	);
 }
-
 export default Search;

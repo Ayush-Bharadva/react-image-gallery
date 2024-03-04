@@ -78,7 +78,7 @@ function SearchInput({ searchQuery }) {
 		<div
 			ref={dropdownRef}
 			className={`search-input-container`}>
-			<button className="option-btn">
+			<div className="option-btn">
 				<HiOutlinePhotograph /> <span className="button-text" >{selectedCategory}</span> <GoChevronDown />
 				<div className="button-options">
 					<button type="button" onClick={() => handleCategorySelect("photos")}>
@@ -88,7 +88,7 @@ function SearchInput({ searchQuery }) {
 						<RiVideoLine /> <span>videos</span>
 					</button>
 				</div>
-			</button>
+			</div>
 			<form className="search-field">
 				<input
 					id="search"

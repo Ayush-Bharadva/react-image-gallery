@@ -32,7 +32,7 @@ function MediaCard({ media, onSelectMedia, type }) {
           onClick={() => onSelectMedia(media)}
         />
       ) : (
-        <Video media={media} onSelectMedia={onSelectMedia} />
+        <Video key={media.id} onClick={() => onSelectMedia(media)} videoFile={videoFile} />
       )}
       <div className="icons-group">
         <button className="bookmark-icon">

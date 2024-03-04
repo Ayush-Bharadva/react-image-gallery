@@ -8,12 +8,11 @@ import InfiniteGallery from '../../components/common/infinite-gallery/InfiniteGa
 
 function MediaPage({ mediaType }) {
 
-  const fetchFn = mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
+  const mediaFetchFunction = mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
 
   const { data, isLoading, hasMore, fetchData: fetchMedia } =
     useFetchData({
-      fetchFunction: fetchFn,
-      initialData: [],
+      fetchFunction: mediaFetchFunction,
       type: mediaType,
     });
 
@@ -24,11 +23,7 @@ function MediaPage({ mediaType }) {
   }, [isLoading, hasMore, fetchMedia]);
 
   useEffect(() => {
-    // const controller = new AbortController();
     fetchMedia();
-    // return () => {
-    //   controller.abort
-    // }
   }, [fetchMedia]);
 
   return (

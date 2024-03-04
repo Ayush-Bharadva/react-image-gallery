@@ -9,8 +9,13 @@ const axiosInstance = axios.create({
 	headers: headers
 });
 
-export async function fetchSearchedImages(nextPageLink, query, signal) {
-	console.log(signal);
+let controller;
+export async function fetchSearchedImages(nextPageLink, query) {
+	if (controller) {
+		controller.abort(); // Cancel the previous request
+	}
+	controller = new AbortController();
+	const { signal } = controller;
 	try {
 		const apiUrl = nextPageLink || `${SearchPhotosApiUrl}${query}`;
 		const response = await axiosInstance.get(apiUrl, { signal });

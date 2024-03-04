@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import PageNavigationLinks from "../common/page-navigation-links/PageNavigationLinks";
 import Header from "../common/header/Header";
 
@@ -6,11 +6,11 @@ function Layout() {
 
 	const location = useLocation();
 	const isSearchRoute = location.pathname.startsWith('/search');
-	const searchQuery = location.pathname.split("/").at(-1);
+	const { query } = useParams();
 
 	return (
 		<>
-			<Header searchQuery={searchQuery} isSearchPage={isSearchRoute} />
+			<Header searchQuery={query} isSearchPage={isSearchRoute} />
 			{!isSearchRoute && <PageNavigationLinks />}
 			<Outlet />
 		</>

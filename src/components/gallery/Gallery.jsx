@@ -26,7 +26,6 @@ function Gallery({ mediaList, type }) {
 	}, []);
 
 	useEffect(() => {
-
 		const observer = new ResizeObserver(entries => {
 			const newWidth = Math.floor(entries[0].contentRect.width);
 			const newColumnCount = calculateColumns(newWidth);
