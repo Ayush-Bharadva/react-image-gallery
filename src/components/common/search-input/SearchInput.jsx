@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import "./SearchInput.scss";
 import { CiSearch } from "react-icons/ci";
@@ -8,19 +8,20 @@ import { GoChevronDown } from "react-icons/go";
 import { RiVideoLine } from "react-icons/ri";
 import SearchDropdown from "./SearchDropdown";
 
-function SearchInput({ searchQuery }) {
+const SearchInput = () => {
 
 	const navigate = useNavigate();
 	const dropdownRef = useRef();
+	const { query } = useParams();
 
-	const [searchString, setSearchString] = useState(searchQuery);
+	const [searchString, setSearchString] = useState(query);
 	const [searchHistory, setSearchHistory] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState("photos");
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	useEffect(() => {
-		setSearchString(searchQuery);
-	}, [searchQuery])
+		setSearchString(query);
+	}, [query])
 
 	useEffect(() => {
 		const currentSearchHistory = JSON.parse(localStorage.getItem("search-history")) || [];
@@ -28,9 +29,9 @@ function SearchInput({ searchQuery }) {
 	}, []);
 
 	useEffect(() => {
-		function handleClick(event) {
+		const handleClick = event => {
 			event.stopPropagation();
-			if (!dropdownRef.current || !dropdownRef.current.contains(event.target)) {
+			if (dropdownRef.current && (!dropdownRef.current || !dropdownRef.current.contains(event.target))) {
 				setShowDropdown(false);
 			}
 		}

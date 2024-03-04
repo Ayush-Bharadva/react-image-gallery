@@ -2,7 +2,8 @@ import { PropTypes } from "prop-types";
 import { IoSearch } from "react-icons/io5";
 import { TrendingTopics } from "../../../utils/constants";
 
-function SearchDropdown({ searchHistory, clearSearchHistory, handleSelect }) {
+const SearchDropdown = ({ searchHistory, clearSearchHistory, handleSelect }) => {
+
 	return (
 		<div className="search-history-dropdown">
 			<button

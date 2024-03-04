@@ -1,12 +1,7 @@
 import { PropTypes } from "prop-types";
 import MediaCard from "../common/media-card/MediaCard";
 
-function RenderColumn({
-	allMediaItems,
-	onMediaSelect,
-	type
-}) {
-
+const RenderColumn = ({ allMediaItems, onMediaSelect, mediaType }) => {
 	return (
 		<div className="column">
 			{allMediaItems.map((media) =>
@@ -14,7 +9,7 @@ function RenderColumn({
 					key={media.id}
 					media={media}
 					onSelectMedia={onMediaSelect}
-					type={type} />
+					mediaType={mediaType} />
 			)}
 		</div>
 	);
@@ -25,5 +20,5 @@ export default RenderColumn;
 RenderColumn.propTypes = {
 	allMediaItems: PropTypes.array,
 	onMediaSelect: PropTypes.func,
-	type: PropTypes.string
+	mediaType: PropTypes.string
 };

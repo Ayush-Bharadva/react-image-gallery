@@ -2,25 +2,21 @@ import { PropTypes } from 'prop-types';
 import './MediaPage.scss';
 import { GoChevronDown } from 'react-icons/go';
 import useFetchData from '../../hooks/useFetchData';
-import { useCallback, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { fetchCuratedPhotos, fetchPopularVideos } from '../../services/fetch-services';
 import InfiniteGallery from '../../components/common/infinite-gallery/InfiniteGallery';
 
-function MediaPage({ mediaType }) {
+const MediaPage = ({ mediaType }) => {
 
-  const mediaFetchFunction = mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
+  const mediaFetchFunction = useMemo(() => {
+    return mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
+  }, [mediaType]);
 
-  const { data, isLoading, hasMore, fetchData: fetchMedia } =
+  const { data, hasMore, loadMore, fetchData: fetchMedia } =
     useFetchData({
       fetchFunction: mediaFetchFunction,
       type: mediaType,
     });
-
-  const loadMore = useCallback(() => {
-    if (!isLoading && hasMore) {
-      fetchMedia();
-    }
-  }, [isLoading, hasMore, fetchMedia]);
 
   useEffect(() => {
     fetchMedia();
@@ -38,7 +34,7 @@ function MediaPage({ mediaType }) {
         loadMore={loadMore}
         hasMore={hasMore}
         mediaList={data}
-        type={mediaType}
+        mediaType={mediaType}
       />
     </div>
   )

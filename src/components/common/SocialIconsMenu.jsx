@@ -2,7 +2,7 @@ import { FaLinkedinIn, FaPinterest, FaTwitter } from "react-icons/fa";
 import { GrTumblr } from "react-icons/gr";
 import { ImFacebook2 } from "react-icons/im";
 
-function SocialIconsMenu() {
+const SocialIconsMenu = () => {
 	return (
 		<menu>
 			<li className="social-icon pinterest-icon-bg">

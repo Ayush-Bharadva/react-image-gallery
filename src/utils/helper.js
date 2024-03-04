@@ -15,7 +15,7 @@ export const calculateColumns = containerWidth => {
 	}
 };
 
-export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
+export const arrangeImagesIntoColumns = (containerWidth, columns, allImages) => {
 	const photos = [...allImages];
 	const columnWidth = containerWidth / columns;
 
@@ -38,7 +38,7 @@ export function arrangeImagesIntoColumns(containerWidth, columns, allImages) {
 	return updatedPhotos;
 }
 
-export async function downloadMedia(mediaSrc, downloadName = "media") {
+export const downloadMedia = async (mediaSrc, downloadName = "media") => {
 	try {
 		const response = await fetch(mediaSrc);
 		const blobResponse = await response.blob();

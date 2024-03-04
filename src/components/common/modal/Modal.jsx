@@ -3,7 +3,7 @@ import { PropTypes } from "prop-types";
 import "./Modal.scss";
 import { useEffect } from "react";
 
-function Modal({ isShowing, children }) {
+const Modal = ({ isShowing, children }) => {
 
 	useEffect(() => {
 		if (isShowing) {

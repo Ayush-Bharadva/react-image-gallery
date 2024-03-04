@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./PageNavigationLinks.scss";
 
-function PageNavigationLinks() {
+const PageNavigationLinks = () => {
 	return (
 		<div className="page-links-container">
 			<div className="page-links">

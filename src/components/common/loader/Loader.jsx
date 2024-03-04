@@ -1,7 +1,7 @@
 import ReactLoading from "react-loading";
 import "./Loader.scss";
 
-export function SpinLoader() {
+export const SpinLoader = () => {
 	return (
 		<ReactLoading
 			type="spin"
@@ -13,7 +13,7 @@ export function SpinLoader() {
 	);
 }
 
-export function BallsLoader() {
+export const BallsLoader = () => {
 	return (
 		<ReactLoading
 			type="balls"

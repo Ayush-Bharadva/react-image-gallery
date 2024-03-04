@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 });
 
 let controller;
-export async function fetchSearchedImages(nextPageLink, query) {
+export const fetchSearchedImages = async (nextPageLink, query) => {
 	if (controller) {
 		controller.abort(); // Cancel the previous request
 	}
@@ -27,7 +27,7 @@ export async function fetchSearchedImages(nextPageLink, query) {
 	}
 }
 
-export async function fetchCuratedPhotos(nextPageLink) {
+export const fetchCuratedPhotos = async (nextPageLink) => {
 	try {
 		const response = await axiosInstance.get(nextPageLink || CuratedPhotosApiUrl);
 		if (response.status === 200) {
@@ -38,7 +38,7 @@ export async function fetchCuratedPhotos(nextPageLink) {
 	}
 }
 
-export async function fetchPopularVideos(nextPageLink) {
+export const fetchPopularVideos = async (nextPageLink) => {
 	try {
 		const response = await axiosInstance.get(nextPageLink || PopularVideosApiUrl);
 		if (response.status === 200) {

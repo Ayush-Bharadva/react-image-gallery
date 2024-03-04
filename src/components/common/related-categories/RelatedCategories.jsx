@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { RelatedCategoriesItems } from "../../../utils/constants";
 
-function RelatedCategories() {
+const RelatedCategories = () => {
   const navigate = useNavigate();
   const categoriesRef = useRef();
 
@@ -15,54 +15,56 @@ function RelatedCategories() {
 
   const { leftButton, rightButton } = scrollButtons;
 
-  const fetchCategoryImages = (category) => {
+  const fetchCategoryImages = category => {
     navigate(`/search/${category}`);
   };
 
   const handleScroll = useCallback(() => {
-    const { scrollWidth, clientWidth, scrollLeft } = categoriesRef.current;
+    if (categoriesRef.current) {
+      const { scrollWidth, clientWidth, scrollLeft } = categoriesRef.current;
+      const isAtStart = scrollLeft === 0;
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth;
 
-    const isAtStart = scrollLeft === 0;
-    const isAtEnd = scrollLeft + clientWidth >= scrollWidth;
-
-    setScrollButtons({
-      leftButton: !isAtStart,
-      rightButton: !isAtEnd,
-    });
+      setScrollButtons({
+        leftButton: !isAtStart,
+        rightButton: !isAtEnd,
+      });
+    }
   }, []);
 
   useEffect(() => {
-    const categoriesElement = categoriesRef.current;
+    const categoriesElement = categoriesRef?.current;
+    handleScroll();
     categoriesElement.addEventListener("scroll", handleScroll);
     return () => {
       categoriesElement.removeEventListener("scroll", handleScroll);
     }
   }, [handleScroll]);
 
-  useEffect(() => {
-    handleScroll();
-  }, [handleScroll])
-
-
-  function scrollList(toScroll) {
-    categoriesRef.current.scrollBy({
-      left: toScroll,
-    });
+  const scrollList = toScroll => {
+    if (categoriesRef.current) {
+      categoriesRef.current.scrollBy({
+        left: toScroll,
+      });
+    }
   }
+
+  const scrollLeft = () => scrollList(-categoriesRef.current.clientWidth);
+  const scrollRight = () => scrollList(categoriesRef.current.clientWidth);
 
   return (
     <div className="related-categories-container">
-      {leftButton && <button className="scroll-left-btn" onClick={() => scrollList(-categoriesRef.current.clientWidth)}>
+      {leftButton && <button className="scroll-left-btn" onClick={scrollLeft}>
         <FaAngleLeft />
       </button>}
       <div className="related-categories" ref={categoriesRef}>
         {RelatedCategoriesItems.map((category) => (
-          <button className="category-button" key={category} onClick={() => fetchCategoryImages(category)} value={category}>
+          <button className="category-button" key={category} value={category} onClick={() => fetchCategoryImages(category)}>
             {category}
           </button>
         ))}
       </div>
-      {rightButton && <button className="scroll-right-btn" onClick={() => scrollList(categoriesRef.current.clientWidth)}>
+      {rightButton && <button className="scroll-right-btn" onClick={scrollRight}>
         <FaAngleRight />
       </button>}
     </div>

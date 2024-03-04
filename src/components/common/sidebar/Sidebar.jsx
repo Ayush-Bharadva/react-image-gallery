@@ -10,7 +10,7 @@ import { FaInstagram, FaPinterest, FaTwitter, FaYoutube } from "react-icons/fa";
 import { ImFacebook2 } from "react-icons/im";
 import { useEffect } from "react";
 
-function Sidebar({ isSidebarOpen, closeSidebar }) {
+const Sidebar = ({ isSidebarOpen, closeSidebar }) => {
 	const navigate = useNavigate();
 
 	const gotoHome = () => navigate("/");

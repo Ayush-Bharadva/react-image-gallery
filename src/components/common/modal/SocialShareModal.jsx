@@ -5,7 +5,7 @@ import { onCopyToClipBoard, showToast } from "../../../utils/helper";
 import SocialIconsMenu from "../SocialIconsMenu";
 import { IoClose } from "react-icons/io5";
 
-function SocialShareModal({ closeModal, name, url }) {
+const SocialShareModal = ({ closeModal, name, url }) => {
 
 	const handleCopyToClipBoard = () => {
 		onCopyToClipBoard(url);

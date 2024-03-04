@@ -5,7 +5,7 @@ import { arrangeImagesIntoColumns, calculateColumns } from "../../utils/helper";
 import RenderColumn from "./RenderColumn";
 import MediaModal from "../common/modal/MediaModal";
 
-function Gallery({ mediaList, type }) {
+const Gallery = ({ mediaList, mediaType }) => {
 
 	const [columnCount, setColumnCount] = useState(1);
 	const [containerWidth, setContainerWidth] = useState(0);
@@ -31,7 +31,9 @@ function Gallery({ mediaList, type }) {
 			const newColumnCount = calculateColumns(newWidth);
 			updateColumnCount(newColumnCount, newWidth);
 		});
-		observer.observe(galleryElement.current);
+		if (galleryElement.current) {
+			observer.observe(galleryElement.current);
+		}
 
 		return () => {
 			observer.disconnect();
@@ -61,29 +63,24 @@ function Gallery({ mediaList, type }) {
 
 	return (
 		<>
-			<div
-				ref={galleryElement}
-				className="gallery-container">
-				{
-					allColumns.map((column, index) => {
-						if (column.length > 0) {
-							return (
-								<RenderColumn
-									key={`${column.length}-${index}`}
-									allMediaItems={column}
-									onMediaSelect={onSelectMedia}
-									type={type}
-								/>
-							);
-						}
-					})
-				}
+			<div ref={galleryElement} className="gallery-container">
+				{allColumns.map((column, index) => {
+					return (
+						column.length > 0 ?
+							<RenderColumn
+								key={`${column.length}-${index}`}
+								allMediaItems={column}
+								onMediaSelect={onSelectMedia}
+								mediaType={mediaType}
+							/> : null
+					);
+				})}
 			</div>
 			{showMediaModal && <MediaModal
 				closeModal={toggleMediaModal}
 				selectedMedia={selectedMedia}
 				handleMediaNavigate={handleMediaNavigation}
-				type={type}
+				mediaType={mediaType}
 				mediaListLength={mediaList.length}
 			/>}
 		</>
@@ -98,5 +95,5 @@ Gallery.defaultProps = {
 
 Gallery.propTypes = {
 	mediaList: PropTypes.array,
-	type: PropTypes.string
+	mediaType: PropTypes.string
 };

@@ -8,31 +8,33 @@ import { downloadMedia, showToast } from "../../../utils/helper";
 import Video from "./video/Video";
 import { ToastIcons } from "../../../utils/constants";
 
-function MediaCard({ media, onSelectMedia, type }) {
+const MediaCard = ({ media, onSelectMedia, mediaType }) => {
 
   const {
     src: { large: imageSrc = "" } = {},
     alt: imageAlt = "",
   } = media;
 
-  const videoFile = type === "videos" ? media.video_files.at(-1) : null;
+  const videoFile = mediaType === "videos" ? media.video_files.at(-1) : null;
+
+  const selectMedia = () => onSelectMedia(media);
 
   const handleMediaDownload = useCallback((event) => {
-    downloadMedia(type === 'photos' ? imageSrc : videoFile.link, imageAlt);
+    downloadMedia(mediaType === 'photos' ? imageSrc : videoFile.link, imageAlt);
     event.stopPropagation();
-  }, [imageSrc, videoFile, imageAlt, type]);
+  }, [imageSrc, videoFile, imageAlt, mediaType]);
 
   return (
     <div className="media-container" key={media.id}>
-      {type === "photos" ? (
+      {mediaType === "photos" ? (
         <img
           key={media.id}
           src={imageSrc}
           alt={imageAlt}
-          onClick={() => onSelectMedia(media)}
+          onClick={selectMedia}
         />
       ) : (
-        <Video key={media.id} onClick={() => onSelectMedia(media)} videoFile={videoFile} />
+        <Video key={media.id} onClick={selectMedia} videoFile={videoFile} />
       )}
       <div className="icons-group">
         <button className="bookmark-icon">
@@ -57,5 +59,5 @@ export default MediaCard;
 MediaCard.propTypes = {
   media: PropTypes.object,
   onSelectMedia: PropTypes.func,
-  type: PropTypes.string,
+  mediaType: PropTypes.string,
 };

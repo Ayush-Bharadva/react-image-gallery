@@ -20,7 +20,7 @@ const router = createBrowserRouter(
 	)
 );
 
-function App() {
+const App = () => {
 	return (
 		<Suspense fallback={<SpinLoader />}>
 			<RouterProvider router={router} />

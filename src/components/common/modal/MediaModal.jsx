@@ -16,7 +16,7 @@ import { MediaType, ToastIcons } from "../../../utils/constants";
 import { downloadMedia, showToast } from "../../../utils/helper";
 import { IoClose } from "react-icons/io5";
 
-function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, mediaListLength }) {
+const MediaModal = ({ closeModal, selectedMedia, handleMediaNavigate, mediaType, mediaListLength }) => {
 
   const { isShowing: showMediaDetails, toggle: toggleMediaDetails } = useModal();
   const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
@@ -34,6 +34,13 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
 
   const videoObj = video_files.at(-1);
 
+  const getPreviousMedia = () => handleMediaNavigate(index - 1);
+  const getNextMedia = () => handleMediaNavigate(index + 1);
+
+  const handleMediaDownload = () => {
+    downloadMedia(mediaType === 'photos' ? imageUrl : videoObj.link, alt);
+  }
+
   return (
     <Modal>
       <button
@@ -42,12 +49,12 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
         <IoClose />
       </button>
       {index !== 0 && <button
-        onClick={() => handleMediaNavigate(index - 1)}
+        onClick={getPreviousMedia}
         className="modal-btn previous-image-btn">
         <FaAngleLeft />
       </button>}
       {(index !== mediaListLength - 1) && <button
-        onClick={() => handleMediaNavigate(index + 1)}
+        onClick={getNextMedia}
         className="modal-btn next-image-btn">
         <FaAngleRight />
       </button>}
@@ -62,7 +69,7 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
                 />
               </div>
               <div className="profile-name">
-                <p>{type === "photos" ? photographer : name}</p>
+                <p>{mediaType === "photos" ? photographer : name}</p>
                 <p>Follow | Donate</p>
               </div>
             </div>
@@ -81,14 +88,14 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
               </button>
               <button
                 className="filled-button download-btn-bg text-white"
-                onClick={() => downloadMedia(type === "photos" ? imageUrl : videoObj.link)}
+                onClick={handleMediaDownload}
               >
                 <span className="download-text">Free Download</span> <FiDownload className="icon" />
               </button>
             </div>
           </div>
 
-          {type === 'photos' ?
+          {mediaType === 'photos' ?
             <div className="image-container">
               <img
                 src={imageUrl}
@@ -106,8 +113,7 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
                   type={videoObj.file_type}
                 />
               </video>
-            </div>
-          }
+            </div>}
           <div className="more-info">
             <div className="more-image-info flex-row gap-12">
               <p className="text-center-v">
@@ -134,13 +140,13 @@ function MediaModal({ closeModal, selectedMedia, handleMediaNavigate, type, medi
         </div>
       </div>
       {showMediaDetails && <MediaDetailsModal
-        modalImageUrl={type === "photos" ? imageUrl : videoImageUrl}
+        modalImageUrl={mediaType === "photos" ? imageUrl : videoImageUrl}
         closeModal={toggleMediaDetails}
-        type={MediaType.photos} />}
+        mediaType={MediaType.photos} />}
       {showShareInfo && <SocialShareModal
         closeModal={toggleShareInfo}
-        name={type === "photos" ? photographer : name}
-        url={type === "photos" ? photoUrl : url} />}
+        name={mediaType === "photos" ? photographer : name}
+        url={mediaType === "photos" ? photoUrl : url} />}
     </Modal>
   );
 }
@@ -151,6 +157,6 @@ MediaModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   selectedMedia: PropTypes.object,
   handleMediaNavigate: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  mediaType: PropTypes.string.isRequired,
   mediaListLength: PropTypes.number
 };

@@ -3,12 +3,12 @@ import Modal from './Modal';
 import { IoClose } from "react-icons/io5";
 import { MediaDetails } from '../../../utils/constants';
 
-function MediaDetailsModal({ modalImageUrl, closeModal, type }) {
+const MediaDetailsModal = ({ modalImageUrl, closeModal, mediaType }) => {
 
   const { title,
     statistics: { views, likes, downloads },
     relatedInfo: { dimensions, aspectRatio, camera, focal, aperture, iso, shutterSpeed, takenAt, duration, fps }
-  } = MediaDetails[type];
+  } = MediaDetails[mediaType];
 
   return (
     <Modal>
@@ -55,7 +55,7 @@ function MediaDetailsModal({ modalImageUrl, closeModal, type }) {
             <p title="Aspect Ratio">Aspect Ratio</p>
             <p title={aspectRatio}>{aspectRatio}</p>
           </div>
-          {type === 'photos' ?
+          {mediaType === 'photos' ?
             <>
               <div className="stat-info">
                 <p title="Camera">Camera</p>
@@ -104,5 +104,5 @@ export default MediaDetailsModal
 MediaDetailsModal.propTypes = {
   modalImageUrl: PropTypes.string,
   closeModal: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired
+  mediaType: PropTypes.string.isRequired
 };

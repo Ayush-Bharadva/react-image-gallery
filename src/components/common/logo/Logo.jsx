@@ -3,7 +3,7 @@ import pexelsLogo from "../../../assets/images/pexels-logo.jpg";
 import "./Logo.scss";
 import { PropTypes } from "prop-types";
 
-function Logo({ textColor }) {
+const Logo = ({ textColor }) => {
 	const navigate = useNavigate();
 
 	const navigateToHome = () => {
@@ -12,19 +12,9 @@ function Logo({ textColor }) {
 	};
 
 	return (
-		<div
-			className="pexels-logo"
-			onClick={navigateToHome}>
-			<img
-				className="logo-image"
-				src={pexelsLogo}
-				alt="pexels logo"
-			/>
-			<p
-				className="logo-text"
-				style={{ color: `${textColor}` }}>
-				Pexels
-			</p>
+		<div className="pexels-logo" onClick={navigateToHome}>
+			<img className="logo-image" src={pexelsLogo} alt="pexels logo" />
+			<p className="logo-text" style={{ color: `${textColor}` }}> Pexels </p>
 		</div>
 	);
 }
