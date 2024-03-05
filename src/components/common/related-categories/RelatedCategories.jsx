@@ -35,7 +35,9 @@ const RelatedCategories = () => {
   useEffect(() => {
     const categoriesElement = categoriesRef?.current;
     handleScroll();
-    categoriesElement.addEventListener("scroll", handleScroll);
+    if (categoriesRef.current) {
+      categoriesElement.addEventListener("scroll", handleScroll);
+    }
     return () => {
       categoriesElement.removeEventListener("scroll", handleScroll);
     }

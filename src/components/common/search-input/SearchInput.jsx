@@ -18,7 +18,7 @@ const SearchInput = () => {
 	const [searchString, setSearchString] = useState(query);
 	const [selectedCategory, setSelectedCategory] = useState("photos");
 	const [showDropdown, setShowDropdown] = useState(false);
-	const [searchHistory, setSearchHistory] = useLocalStorage("search-history",[]);
+	const [searchHistory, setSearchHistory] = useLocalStorage("search-history", []);
 
 	useEffect(() => {
 		setSearchString(query);
@@ -47,18 +47,16 @@ const SearchInput = () => {
 	const updateSearchHistory = searchItem => {
 		if (!searchHistory.includes(searchItem)) {
 			setSearchHistory(prev => {
-				console.log(searchItem)
 				return [searchItem, ...prev];
 			});
 		}
 	};
 
-	const handleSearch = (searchValue) => {
-		console.log('hit',searchValue)
-		if (searchValue.trim()) {
-			updateSearchHistory(searchValue);
+	const handleSearch = () => {
+		if (searchString.trim()) {
+			updateSearchHistory(searchString);
 			setShowDropdown(false);
-			navigate(`/search/${searchValue.trim()}`);
+			navigate(`/search/${searchString.trim()}`);
 		}
 	}
 
@@ -103,7 +101,7 @@ const SearchInput = () => {
 				<button
 					type="button"
 					className="search-icon-btn"
-					onClick={() => handleSearch(searchString)}
+					onClick={handleSearch}
 				>
 					<CiSearch />
 				</button>

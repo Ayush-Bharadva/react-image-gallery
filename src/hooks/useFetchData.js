@@ -20,20 +20,20 @@ const useFetchData = ({ fetchFunction, initialData = initialValue, type, query }
 				next_page
 			} = await fetchFunction(nextPageLink.current, query);
 
-			if (!nextPageLink.current) {
-				setDataInfo({
-					data: type === "photos" ? [...photos] : [...videos],
-					isLoading: false,
-					hasMore: !!next_page
-				});
-			} else {
+			// if (!nextPageLink.current) {
+			// 	setDataInfo({
+			// 		data: type === "photos" ? [...photos] : [...videos],
+			// 		isLoading: false,
+			// 		hasMore: !!next_page
+			// 	});
+			// } else {
 				setDataInfo(prev => ({
 					...prev,
 					data: type === "photos" ? [...prev.data, ...photos] : [...prev.data, ...videos],
 					isLoading: false,
 					hasMore: !!next_page
 				}));
-			}
+			// }
 			nextPageLink.current = next_page;
 		} catch (_error) {
 			setDataInfo(prev => ({ ...prev, hasMore: false, isLoading: false }));
@@ -58,7 +58,6 @@ const useFetchData = ({ fetchFunction, initialData = initialValue, type, query }
 	}, [resetData, fetchData]);
 	
 	const loadMore = useCallback(() => {
-		console.log('isLoading', isLoading, 'hasMore', hasMore)
 		if (!isLoading && hasMore) {
 			fetchData();
 		}

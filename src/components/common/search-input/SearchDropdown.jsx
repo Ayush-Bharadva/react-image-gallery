@@ -16,13 +16,13 @@ const SearchDropdown = ({ searchHistory, clearSearchHistory, handleSelect }) => 
 				<div className="recent-search-wrapper">
 					<h2>Recent Searches</h2>
 					<div className="recent-searches">
-						{searchHistory.map((item, index) => (
+						{searchHistory.map((searchItem, index) => (
 							<button
 								key={index}
 								type="button"
 								className="recent-search-button"
-								onClick={() => handleSelect(item)}>
-								{item} <IoSearch />
+								onClick={() => handleSelect(searchItem)}>
+								{searchItem} <IoSearch />
 							</button>
 						))}
 					</div>

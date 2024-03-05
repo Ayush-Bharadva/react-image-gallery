@@ -5,8 +5,6 @@ import { useEffect } from "react";
 
 const Modal = ({ isShowing, children }) => {
 
-	console.log('isShowing', isShowing)
-
 	useEffect(() => {
 		if (isShowing) {
 			document.body.classList.add("overflow-hidden");
