@@ -1,7 +1,8 @@
+import { useMemo } from "react";
 import { PropTypes } from "prop-types";
 import Modal from "./Modal";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import avatar from "../../../assets/images/user-avatar.png";
+import profileAvatar from "../../../assets/images/user-avatar.png";
 import SocialShareModal from "./SocialShareModal";
 import { BsInfoCircle } from "react-icons/bs";
 import { CiShare1 } from "react-icons/ci";
@@ -16,29 +17,39 @@ import { MediaType, ToastIcons } from "../../../utils/constants";
 import { downloadMedia, showToast } from "../../../utils/helper";
 import { IoClose } from "react-icons/io5";
 
-const MediaModal = ({ closeModal, selectedMedia, handleMediaNavigate, mediaType, mediaListLength }) => {
+const MediaModal = ({ closeModal, selectedMedia, changeSelectedMedia, mediaType, mediaListLength }) => {
 
   const { isShowing: showMediaDetails, toggle: toggleMediaDetails } = useModal();
   const { isShowing: showShareInfo, toggle: toggleShareInfo } = useModal();
 
-  const {
-    index,
-    photographer = "",
-    user: { name = "", url = "" } = {},
-    src: { large: imageUrl = "" } = {},
-    image: videoImageUrl = "",
-    video_files = [],
-    alt = "",
-    url: photoUrl = "",
-  } = selectedMedia;
+  const mediaInfo = useMemo(() => {
+    const {
+      index,
+      src: { large: imageUrl = "" } = {},
+      alt,
+      photographer = "",
+      user: { name = "", url = "" } = {},
+      image: videoImageUrl = "",
+      url: photoUrl = "",
+      video_files = [],
+    } = selectedMedia;
 
-  const videoObj = video_files.at(-1);
+    const videoObj = video_files.at(-1);
 
-  const getPreviousMedia = () => handleMediaNavigate(index - 1);
-  const getNextMedia = () => handleMediaNavigate(index + 1);
+    if (mediaType === "photos") {
+      return { index, mediaSrc: imageUrl, altText: alt, creatorName: photographer, modalImageSrc: imageUrl, copyLinkSrc: photoUrl }
+    } else {
+      return { index, videoId: videoObj.id, mediaSrc: videoObj.link, file_type: videoObj.file_type, altText: alt, creatorName: name, modalImageSrc: videoImageUrl, copyLinkSrc: url }
+    }
+  }, [mediaType, selectedMedia]);
+
+  const { index, mediaSrc, altText, creatorName, modalImageSrc, copyLinkSrc, file_type, videoId } = mediaInfo;
+
+  const getPreviousMedia = () => changeSelectedMedia(index - 1);
+  const getNextMedia = () => changeSelectedMedia(index + 1);
 
   const handleMediaDownload = () => {
-    downloadMedia(mediaType === 'photos' ? imageUrl : videoObj.link, alt);
+    downloadMedia(mediaSrc, altText);
   }
 
   return (
@@ -64,12 +75,12 @@ const MediaModal = ({ closeModal, selectedMedia, handleMediaNavigate, mediaType,
             <div className="profile">
               <div className="profile-img">
                 <img
-                  src={avatar}
+                  src={profileAvatar}
                   alt="profile-avatar"
                 />
               </div>
               <div className="profile-name">
-                <p>{mediaType === "photos" ? photographer : name}</p>
+                <p>{creatorName}</p>
                 <p>Follow | Donate</p>
               </div>
             </div>
@@ -95,11 +106,11 @@ const MediaModal = ({ closeModal, selectedMedia, handleMediaNavigate, mediaType,
             </div>
           </div>
 
-          {mediaType === 'photos' ?
+          {mediaType === "photos" ?
             <div className="image-container">
               <img
-                src={imageUrl}
-                alt={alt}
+                src={mediaSrc}
+                alt={altText}
               />
             </div> :
             <div className="video-container">
@@ -107,10 +118,10 @@ const MediaModal = ({ closeModal, selectedMedia, handleMediaNavigate, mediaType,
                 muted
                 autoPlay
                 controls
-                key={videoObj.id}>
+                key={videoId}>
                 <source
-                  src={videoObj.link}
-                  type={videoObj.file_type}
+                  src={mediaSrc}
+                  type={file_type}
                 />
               </video>
             </div>}
@@ -140,13 +151,13 @@ const MediaModal = ({ closeModal, selectedMedia, handleMediaNavigate, mediaType,
         </div>
       </div>
       {showMediaDetails && <MediaDetailsModal
-        modalImageUrl={mediaType === "photos" ? imageUrl : videoImageUrl}
+        modalImageUrl={modalImageSrc}
         closeModal={toggleMediaDetails}
         mediaType={MediaType.photos} />}
       {showShareInfo && <SocialShareModal
         closeModal={toggleShareInfo}
-        name={mediaType === "photos" ? photographer : name}
-        url={mediaType === "photos" ? photoUrl : url} />}
+        name={creatorName}
+        url={copyLinkSrc} />}
     </Modal>
   );
 }
@@ -156,7 +167,7 @@ export default MediaModal;
 MediaModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   selectedMedia: PropTypes.object,
-  handleMediaNavigate: PropTypes.func.isRequired,
+  changeSelectedMedia: PropTypes.func.isRequired,
   mediaType: PropTypes.string.isRequired,
   mediaListLength: PropTypes.number
 };

@@ -54,6 +54,11 @@ export const ToastIcons = {
 
 export const MediaType = { photos: "photos", videos: "videos" };
 
+export const MediaPageTitles = {
+	[MediaType.photos]: "Free Stock Photos",
+	[MediaType.videos]: "Trending Free Stock Videos"
+};
+
 export const MediaDetails = {
 	[MediaType.photos]: {
 		title: "Uploaded on December 16th, 2023",

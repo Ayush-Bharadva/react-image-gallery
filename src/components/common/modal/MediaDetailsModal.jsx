@@ -16,10 +16,7 @@ const MediaDetailsModal = ({ modalImageUrl, closeModal, mediaType }) => {
         <div className="top-container">
           <div className="top-container-header flex-row-center">
             <div className="image-container">
-              <img
-                src={modalImageUrl}
-                alt=""
-              />
+              <img src={modalImageUrl} />
             </div>
             <div className="top-heading">
               <h1>Photo details</h1>

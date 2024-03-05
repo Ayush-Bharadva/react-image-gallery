@@ -10,10 +10,7 @@ import { ToastIcons } from "../../../utils/constants";
 
 const MediaCard = ({ media, onSelectMedia, mediaType }) => {
 
-  const {
-    src: { large: imageSrc = "" } = {},
-    alt: imageAlt = "",
-  } = media;
+  const { src: { large: imageSrc = "" } = {}, alt: imageAlt = "" } = media;
 
   const videoFile = mediaType === "videos" ? media.video_files.at(-1) : null;
 

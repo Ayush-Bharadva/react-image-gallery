@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { PropTypes } from "prop-types";
 import useModal from "../../hooks/useModal";
 import { arrangeImagesIntoColumns, calculateColumns } from "../../utils/helper";
@@ -25,7 +25,7 @@ const Gallery = ({ mediaList, mediaType }) => {
 		});
 	}, []);
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const observer = new ResizeObserver(entries => {
 			const newWidth = Math.floor(entries[0].contentRect.width);
 			const newColumnCount = calculateColumns(newWidth);
@@ -34,7 +34,6 @@ const Gallery = ({ mediaList, mediaType }) => {
 		if (galleryElement.current) {
 			observer.observe(galleryElement.current);
 		}
-
 		return () => {
 			observer.disconnect();
 		};
@@ -54,7 +53,7 @@ const Gallery = ({ mediaList, mediaType }) => {
 		}
 	}, [setSelectedMedia, toggleMediaModal]);
 
-	const handleMediaNavigation = useCallback((mediaIndex) => {
+	const changeSelectedMedia = useCallback((mediaIndex) => {
 		const newMedia = mediaList[mediaIndex];
 		if (newMedia) {
 			setSelectedMedia({ ...newMedia, index: mediaIndex });
@@ -69,7 +68,7 @@ const Gallery = ({ mediaList, mediaType }) => {
 						column.length > 0 ?
 							<RenderColumn
 								key={`${column.length}-${index}`}
-								allMediaItems={column}
+								mediaColumnItems={column}
 								onMediaSelect={onSelectMedia}
 								mediaType={mediaType}
 							/> : null
@@ -79,7 +78,7 @@ const Gallery = ({ mediaList, mediaType }) => {
 			{showMediaModal && <MediaModal
 				closeModal={toggleMediaModal}
 				selectedMedia={selectedMedia}
-				handleMediaNavigate={handleMediaNavigation}
+				changeSelectedMedia={changeSelectedMedia}
 				mediaType={mediaType}
 				mediaListLength={mediaList.length}
 			/>}
@@ -95,5 +94,5 @@ Gallery.defaultProps = {
 
 Gallery.propTypes = {
 	mediaList: PropTypes.array,
-	mediaType: PropTypes.string
+	mediaType: PropTypes.string.isRequired
 };

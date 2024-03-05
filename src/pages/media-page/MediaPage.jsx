@@ -2,9 +2,10 @@ import { PropTypes } from 'prop-types';
 import './MediaPage.scss';
 import { GoChevronDown } from 'react-icons/go';
 import useFetchData from '../../hooks/useFetchData';
-import { useEffect, useMemo } from 'react';
 import { fetchCuratedPhotos, fetchPopularVideos } from '../../services/fetch-services';
 import InfiniteGallery from '../../components/common/infinite-gallery/InfiniteGallery';
+import { useMemo } from 'react';
+import { MediaPageTitles } from '../../utils/constants';
 
 const MediaPage = ({ mediaType }) => {
 
@@ -12,20 +13,12 @@ const MediaPage = ({ mediaType }) => {
     return mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
   }, [mediaType]);
 
-  const { data, hasMore, loadMore, fetchData: fetchMedia } =
-    useFetchData({
-      fetchFunction: mediaFetchFunction,
-      type: mediaType,
-    });
-
-  useEffect(() => {
-    fetchMedia();
-  }, [fetchMedia]);
+  const { data, hasMore, loadMore } = useFetchData({ fetchFunction: mediaFetchFunction, type: mediaType });
 
   return (
     <div className="media-container-wrapper">
       <div className="heading">
-        {mediaType === "photos" ? <h4>Free Stock Photos</h4> : <h4>Trending Free Stock Videos</h4>}
+        <h4>{MediaPageTitles[mediaType]}</h4>
         <button>
           Trending <GoChevronDown />
         </button>

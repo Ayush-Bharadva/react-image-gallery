@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./Search.scss";
 import { fetchSearchedImages } from "../../services/fetch-services";
@@ -10,18 +9,12 @@ import InfiniteGallery from "../../components/common/infinite-gallery/InfiniteGa
 const Search = () => {
 	const { query } = useParams();
 
-	const { data: photosList, isLoading, hasMore, loadMore, fetchData: fetchPhotos } =
+	const { data: photosList, isLoading, hasMore, loadMore } =
 		useFetchData({
 			fetchFunction: fetchSearchedImages,
 			type: MediaType.photos,
 			query: query.trim(),
 		});
-
-	useEffect(() => {
-		if (!photosList.length && !isLoading && hasMore) {
-			fetchPhotos();
-		}
-	}, [photosList, isLoading, hasMore, fetchPhotos]);
 
 	const noMediaFound = <h1 className="not-found">No Results found for <span className="not-found-for" > {query + '..'} </span> </h1>
 
