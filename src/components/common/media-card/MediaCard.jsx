@@ -22,7 +22,7 @@ const MediaCard = ({ media, onSelectMedia, mediaType }) => {
   }, [imageSrc, videoFile, imageAlt, mediaType]);
 
   return (
-    <div className="media-container" key={media.id}>
+    <div className="media-container">
       {mediaType === "photos" ? (
         <img
           key={media.id}
