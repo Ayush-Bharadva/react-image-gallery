@@ -4,9 +4,9 @@ import MediaCard from "../common/media-card/MediaCard";
 const RenderColumn = ({ mediaColumnItems, onMediaSelect, mediaType }) => {
 	return (
 		<div className="column">
-			{mediaColumnItems.map((media) =>
+			{mediaColumnItems.map((media, index) =>
 				<MediaCard
-					key={media.id}
+					key={`${media.id}-${index}`}
 					media={media}
 					onSelectMedia={onMediaSelect}
 					mediaType={mediaType}

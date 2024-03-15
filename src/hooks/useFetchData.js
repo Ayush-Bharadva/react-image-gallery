@@ -19,28 +19,18 @@ const useFetchData = ({ fetchFunction, initialData = initialValue, type, query }
 				videos = [],
 				next_page
 			} = await fetchFunction(nextPageLink.current, query);
-
-			// if (!nextPageLink.current) {
-			// 	setDataInfo({
-			// 		data: type === "photos" ? [...photos] : [...videos],
-			// 		isLoading: false,
-			// 		hasMore: !!next_page
-			// 	});
-			// } else {
 				setDataInfo(prev => ({
 					...prev,
 					data: type === "photos" ? [...prev.data, ...photos] : [...prev.data, ...videos],
 					isLoading: false,
 					hasMore: !!next_page
 				}));
-			// }
 			nextPageLink.current = next_page;
 		} catch (_error) {
 			setDataInfo(prev => ({ ...prev, hasMore: false, isLoading: false }));
 		}
 	}, [fetchFunction, query, type]);
 
-	
 	const resetData = useCallback(() => {
 		setDataInfo({
 			data:[],

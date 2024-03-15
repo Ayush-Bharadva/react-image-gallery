@@ -10,7 +10,7 @@ import { MediaPageTitles } from '../../utils/constants';
 const MediaPage = ({ mediaType }) => {
 
   const mediaFetchFunction = useMemo(() => {
-    return mediaType === 'photos' ? fetchCuratedPhotos : fetchPopularVideos;
+    return mediaType === "photos" ? fetchCuratedPhotos : fetchPopularVideos;
   }, [mediaType]);
 
   const { data, hasMore, loadMore } = useFetchData({ fetchFunction: mediaFetchFunction, type: mediaType });

@@ -52,11 +52,11 @@ const SearchInput = () => {
 		}
 	};
 
-	const handleSearch = () => {
-		if (searchString.trim()) {
-			updateSearchHistory(searchString);
+	const handleSearch = (searchValue) => {
+		if (searchValue.trim()) {
+			updateSearchHistory(searchValue);
 			setShowDropdown(false);
-			navigate(`/search/${searchString.trim()}`);
+			navigate(`/search/${searchValue.trim()}`);
 		}
 	}
 

@@ -3,10 +3,10 @@
 	max-width: 100%;
 }
 
-video {
-	height: 100%;
+.video-cover-image{
 	width: 100%;
-	object-fit: contain;
+	height: 100%;
+	object-fit: cover;
 }
 
 .gallery-container {

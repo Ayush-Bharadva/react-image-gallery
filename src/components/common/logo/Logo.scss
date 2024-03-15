@@ -9,6 +9,9 @@
 
 	.logo-image {
 		border-radius: 7px;
+		height: 100%;
+		width: 100%;
+		object-fit: contain;
 	}
 	.logo-text {
 		font-size: 1.5rem;

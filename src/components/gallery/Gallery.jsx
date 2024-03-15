@@ -31,9 +31,8 @@ const Gallery = ({ mediaList, mediaType }) => {
 			const newColumnCount = calculateColumns(newWidth);
 			updateColumnCount(newColumnCount, newWidth);
 		});
-		if (galleryElement.current) {
-			observer.observe(galleryElement.current);
-		}
+
+		observer.observe(galleryElement.current);
 		return () => {
 			observer.disconnect();
 		};
@@ -93,6 +92,6 @@ Gallery.defaultProps = {
 }
 
 Gallery.propTypes = {
-	mediaList: PropTypes.array,
+	mediaList: PropTypes.array.isRequired,
 	mediaType: PropTypes.string.isRequired
 };

@@ -10,7 +10,7 @@ import { ToastIcons } from "../../../utils/constants";
 
 const MediaCard = ({ media, onSelectMedia, mediaType }) => {
 
-  const { src: { large: imageSrc = "" } = {}, alt: imageAlt = "" } = media;
+  const { src: { large: imageSrc = "" } = {}, alt: imageAlt = "", image } = media;
 
   const videoFile = mediaType === "videos" ? media.video_files.at(-1) : null;
 
@@ -25,13 +25,12 @@ const MediaCard = ({ media, onSelectMedia, mediaType }) => {
     <div className="media-container">
       {mediaType === "photos" ? (
         <img
-          key={media.id}
           src={imageSrc}
           alt={imageAlt}
           onClick={selectMedia}
         />
       ) : (
-        <Video key={media.id} onClick={selectMedia} videoFile={videoFile} />
+        <Video key={media.id} onClick={selectMedia} videoFile={videoFile} image={image} />
       )}
       <div className="icons-group">
         <button className="bookmark-icon">
