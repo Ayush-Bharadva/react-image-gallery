@@ -1,13 +1,31 @@
-import { useState } from "react";
-import "./App.css";
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from "react-router-dom";
+import "./styles/Global.scss";
+import "./App.scss";
+import Layout from "./components/layout/Layout";
+import { Suspense, lazy } from "react";
+import { SpinLoader } from "./components/common/loader/Loader";
+import { Toaster } from "react-hot-toast";
+import { MediaType } from "./utils/constants";
+import MediaPage from "./pages/media-page/MediaPage";
 
-function App() {
-	const [count, setCount] = useState(0);
+const Search = lazy(() => import("./pages/search/Search"));
 
+const router = createBrowserRouter(
+	createRoutesFromElements(
+		<Route path="/" element={<Layout />}>
+			<Route path="/" element={<MediaPage mediaType={MediaType.photos} key={MediaType.photos} />} />
+			<Route path="/videos" element={<MediaPage mediaType={MediaType.videos} key={MediaType.videos} />} />
+			<Route path="/search/:query" element={<Search />} />
+		</Route>
+	)
+);
+
+const App = () => {
 	return (
-		<>
-			<p>Image-Gallery</p>
-		</>
+		<Suspense fallback={<SpinLoader />}>
+			<RouterProvider router={router} />
+			<Toaster position="bottom-right" />
+		</Suspense>
 	);
 }
 

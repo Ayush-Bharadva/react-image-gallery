@@ -1,0 +1,27 @@
+* {
+	box-sizing: border-box;
+}
+
+.search-images-container {
+	position: relative;
+	max-width: 80vw;
+	margin: 0 auto;
+}
+
+@media screen and (max-width: 900px) {
+	.search-images-container {
+		max-width: 95vw;
+	}
+}
+
+@media screen and (max-width: 1400px) {
+	.search-images-container {
+		max-width: 90vw;
+	}
+}
+
+@media screen and (min-width: 1401px) {
+	.search-images-container {
+		max-width: 80vw;
+	}
+}

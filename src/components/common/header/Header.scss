@@ -1,0 +1,149 @@
+.fixed-nav-bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	color: #333;
+	background-color: #fff;
+
+	.text-button,
+	.sidebar-button {
+		color: #333 !important;
+	}
+}
+
+.absolute-nav-bar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	color: #fff;
+	background: none;
+}
+
+.main-header {
+	position: relative;
+	width: 100%;
+
+	.nav-bar {
+		z-index: 2;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		padding: 12px;
+		max-width: 95%;
+		margin: 0 auto;
+
+		.nav-bar-left {
+			display: flex;
+			gap: 7px;
+			flex: 1 0;
+			margin-right: 12px;
+		}
+
+		.nav-bar-right {
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			gap: 18px;
+
+			.text-button {
+				color: #fff;
+			}
+
+			.filled-button {
+				background-color: #05a081;
+				color: #fff;
+			}
+
+			.sidebar-button {
+				color: #fff;
+				display: none;
+			}
+		}
+	}
+
+	.hero-section {
+		position: relative;
+		min-height: 500px;
+		background: url("../../../assets/images/hero-image.jpeg") top right/auto 100% no-repeat;
+		z-index: 1;
+
+		.hero {
+			width: 100%;
+			max-width: 620px;
+			min-height: 500px;
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin: auto;
+			padding: 9px;
+			color: #fff;
+			position: relative;
+
+			.search-input-container {
+				flex: 0;
+			}
+
+			.heading {
+				margin-bottom: 20px;
+				font-size: 1.75rem;
+			}
+		}
+	}
+
+	.hero-section::after {
+		content: "";
+		background-color: #000;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		opacity: 0.6;
+		z-index: -1;
+	}
+}
+
+.hero-section::after {
+	content: "";
+	background-color: #000;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0.6;
+	z-index: -1;
+}
+
+button {
+	cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+	.main-header {
+		.nav-bar {
+			max-width: 900px;
+			gap: 12px;
+			.nav-bar-left {
+				flex: 1 0;
+			}
+			.nav-bar-right {
+				gap: 12px;
+				.text-button {
+					display: none;
+				}
+				.filled-button {
+					display: none;
+				}
+				.sidebar-button {
+					display: block;
+				}
+			}
+		}
+	}
+}

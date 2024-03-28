@@ -15,8 +15,10 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+.env
 .idea
 .DS_Store
+GalleryTemp.jsx
 *.suo
 *.ntvs*
 *.njsproj

@@ -1,0 +1,77 @@
+.media-container {
+	position: relative;
+	border-radius: 10px;
+	overflow: hidden;
+	height: 100%;
+	width: auto;
+	background-color: #faebd7;
+	margin: 0 0 15px 0;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+	
+	img {
+		width: 100%;
+		display: block;
+		opacity: 1;
+	}
+
+	video {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+		top: 0;
+		left: 0;
+		z-index: 1;
+		display: block;
+		opacity: 1;
+	}
+
+	.icons-group {
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: flex;
+		justify-content: flex-end;
+		z-index: 2;
+	}
+}
+
+.media-container:hover {
+	.download-icon,
+	.bookmark-icon,
+	.heart-icon {
+		display: block;
+	}
+}
+
+.download-icon {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 18px;
+	gap: 5px;
+	padding: 9px 18px;
+	background-color: #05a081;
+	color: #fff;
+	z-index: 2;
+}
+
+.download-icon,
+.bookmark-icon,
+.heart-icon {
+	font-size: 18px;
+	border-radius: 8px;
+	border: none;
+	margin: 7px 7px 7px 0;
+	padding: 8px;
+	display: none;
+}
+
+.heart-icon,
+.bookmark-icon {
+	background: #eee;
+}
